@@ -59,12 +59,13 @@
               >English</span
             >
           </div>
-          <div
-            class="selecte_3 hidden flex justify-center gap-2.5"
-            v-for="Class in classes"
-            :key="Class"
-          >
-            <span>{{ Class }}</span>
+          <div class="selecte_3 hidden flex justify-center gap-2.5">
+            <span
+              v-for="Class in classes"
+              :key="Class"
+              class="border-gray-300 border rounded flex justify-center items-center w-1/4 p-10 cursor-pointer hover_color_border"
+              >{{ Class }}</span
+            >
           </div>
         </div>
         <div class="btn">
