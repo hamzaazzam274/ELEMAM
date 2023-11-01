@@ -1,9 +1,23 @@
 import { createStore } from "vuex";
 
 export default createStore({
-  state: {},
+  state: {
+    type: "",
+    lang: "",
+    class: "",
+  },
   getters: {},
-  mutations: {},
+  mutations: {
+    updateType(state, payload) {
+      state.type = payload;
+    },
+    updateLang(state, payload) {
+      state.lang = payload;
+    },
+    updateClass(state, payload) {
+      state.class = payload;
+    },
+  },
   actions: {},
   modules: {},
 });

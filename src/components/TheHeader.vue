@@ -1,13 +1,15 @@
 <template>
   <div class="Header border-b border-gray-300">
     <div class="container flex justify-between items-center gap-2.5">
-      <div class="logo flex items-center gap-2.5">
-        <img
-          src="../assets/elemam_logo.png"
-          alt="أكاديمية الإمام القانونية"
-          class="h-24"
-        />
-        <span>أكاديمية الإمام القانونية</span>
+      <div class="logo">
+        <router-link to="/" class="flex items-center gap-2.5">
+          <img
+            src="../assets/elemam_logo.png"
+            alt="أكاديمية الإمام القانونية"
+            class="h-24"
+          />
+          <span>أكاديمية الإمام القانونية</span>
+        </router-link>
       </div>
       <div class="left flex items-center gap-2.5 flex-wrap">
         <font-awesome-icon :icon="['fas', 'magnifying-glass']" />

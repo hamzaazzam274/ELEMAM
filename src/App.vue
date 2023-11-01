@@ -1,6 +1,18 @@
 <template>
+  <TheHeader />
   <router-view />
+  <ContactUs />
 </template>
+<script>
+import TheHeader from "@/components/TheHeader.vue";
+import ContactUs from "@/components/ContactUs.vue";
+export default {
+  components: {
+    TheHeader,
+    ContactUs,
+  },
+};
+</script>
 <style lang="scss">
 :root {
   --main-color: #075e55;
