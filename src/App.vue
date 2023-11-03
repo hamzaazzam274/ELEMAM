@@ -14,8 +14,14 @@ export default {
 };
 </script>
 <style lang="scss">
+#app {
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+}
 :root {
   --main-color: #075e55;
+}
+* {
+  direction: rtl;
 }
 body {
   direction: rtl;
@@ -26,6 +32,9 @@ body {
 }
 svg {
   cursor: pointer;
+}
+a {
+  color: #000 !important;
 }
 .mcolor {
   color: var(--main-color);
@@ -40,14 +49,56 @@ svg {
   font-size: 24px;
   font-weight: bold;
 }
+.main_popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  opacity: 0.5;
+  z-index: 2;
+}
 .hover_color:hover {
-  background: var(--main-color);
+  background: var(--main-color) !important;
   color: #fff;
   transition: 0.3s;
 }
 .hover_color_border:hover {
-  border-color: var(--main-color);
+  border-color: var(--main-color) !important;
   transition: 0.3s;
+}
+.breadcrumb-item + .breadcrumb-item::before {
+  float: right !important;
+  padding-left: var(--mdb-breadcrumb-item-padding-x);
+}
+.form-floating > .form-control ~ label {
+  opacity: 1 !important;
+  transform: scale(1) translateY(0) translateX(0) !important;
+}
+.form-floating > .form-control:focus ~ label,
+.form-floating > .form-control:not(:placeholder-shown) ~ label,
+.form-floating > .form-control-plaintext ~ label,
+.form-floating > .form-select ~ label {
+  opacity: 0.65 !important;
+  transform: scale(0.85) translateY(-0.5rem) translateX(17%) !important;
+}
+.form-control:focus {
+  border-color: transparent !important;
+  box-shadow: inset 0px 0px 0px 1px var(--main-color) !important;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.long {
+  width: 100%;
 }
 @media (min-width: 1200px) {
 }
