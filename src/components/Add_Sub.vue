@@ -155,8 +155,11 @@ export default {
       this.Season = event.target.value;
     },
     async Add_Data() {
+      let sentence = this.Type;
+      let words = sentence.split(" ");
+      let firstWord = words[0];
       const docRef = await addDoc(
-        collection(db, `${this.Type} - ${this.Lang} - ${this.Class}`),
+        collection(db, `كورسات - ${firstWord} - ${this.Lang} - ${this.Class}`),
         {
           sub_name: document.getElementById("Sub").value,
           Season: this.Season,

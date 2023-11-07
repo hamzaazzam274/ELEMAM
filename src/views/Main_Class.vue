@@ -108,13 +108,14 @@
           <div class="test shadow p-2.5">
             <div class="title_test flex items-center justify-between mb-2.5">
               <span>الإختبارات</span>
-              <span>(<span>20</span> ) اختبار</span>
             </div>
-            <div
-              class="button bg-[--main-color] text-white p-2.5 rounded cursor-pointer text-center"
+
+            <router-link
+              to="/Main_Testing"
+              class="button bg-[--main-color] text-white p-2.5 rounded cursor-pointer text-center w-100"
             >
               أختبر نفسك
-            </div>
+            </router-link>
           </div>
         </div>
       </div>
@@ -143,6 +144,7 @@ import AddSub from "../components/Add_Sub.vue";
 import EditSub from "../components/Edit_Sub.vue";
 export default {
   name: "Main_Class",
+  emits: ["getData"],
   data() {
     return {
       AllData: [],
@@ -166,9 +168,19 @@ export default {
     }, 100);
     setTimeout(() => {
       this.GetId();
-    }, 1000);
+      this.AddSubToStore();
+    }, 2000);
   },
   methods: {
+    AddSubToStore() {
+      let link = document.querySelectorAll(".box .test a");
+      let Sub_Name = this.AllData;
+      for (let i = 0; i < link.length; i++) {
+        link[i].onclick = () => {
+          this.$store.commit("updateSub", Sub_Name[i].sub_name);
+        };
+      }
+    },
     GetId() {
       let svg = document.querySelectorAll(".box .header > svg");
       let id = this.Ids;
@@ -186,18 +198,21 @@ export default {
       this.ShowEdit = !this.ShowEdit;
     },
     async getdata() {
-      this.showDownloadIcon = true; // عرض أيقونة التحميل
+      this.showDownloadIcon = true;
       this.AllData = [];
-      console.log(`${this.Type} - ${this.Lang} - ${this.Class}`);
+      let sentence = this.Type;
+      let words = sentence.split(" ");
+      let firstWord = words[0];
       const querySnapshot = await getDocs(
-        collection(db, `${this.Type} - ${this.Lang} - ${this.Class}`)
+        collection(db, `كورسات - ${firstWord} - ${this.Lang} - ${this.Class}`)
       );
       querySnapshot.forEach((doc) => {
         this.AllData.push(doc.data());
         this.Ids.push(doc.id);
       });
-      this.showDownloadIcon = false; // إخفاء أيقونة التحميل
+      this.showDownloadIcon = false;
       console.log(this.Ids);
+      this.AddSubToStore();
     },
   },
   setup() {
@@ -215,6 +230,9 @@ export default {
     },
     Class() {
       return this.$store.state.class;
+    },
+    Sub() {
+      return this.$store.state.Sub;
     },
   },
 };
