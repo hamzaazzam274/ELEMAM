@@ -4,8 +4,9 @@
     <div
       class="container rounded p-2.5 bg-white fixed -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 overflow-auto h-4/5 z-10"
     >
-      <div class="head text-left mb-2.5">
-        <font-awesome-icon :icon="['fas', 'xmark']" @click="CloseAddTest" />
+      <div class="head text-left flex justify-between mb-2.5">
+        <span>أضف أسئلة</span
+        ><font-awesome-icon :icon="['fas', 'xmark']" @click="CloseAddTest" />
       </div>
       <div class="body flex flex-col gap-2.5">
         <div class="feat border p-2 5 rounded">
@@ -18,13 +19,14 @@
               rows="5"
               placeholder="السؤال"
               class="resize-none border p-2.5"
-            ></textarea
-            ><input
+            ></textarea>
+            <input
               type="text"
               id="RightAnswer"
               placeholder="الإجابة الصحيحة"
               class="border p-2.5"
-            /><textarea
+            />
+            <textarea
               name="qu2"
               id="qu2"
               cols="10"
@@ -32,8 +34,8 @@
               placeholder="تكملة السؤال"
               class="resize-none border p-2.5"
               value="؟"
-            ></textarea
-            ><input
+            ></textarea>
+            <input
               type="text"
               id="WrongAnswer1"
               placeholder="إجابة خاطئة - 1"
@@ -50,7 +52,7 @@
       <div class="button text-left mt-5">
         <span
           class="bg-[--main-color] text-white p-2.5 rounded cursor-pointer"
-          @click="AddNewQu"
+          @click="AddData"
           >تم</span
         >
       </div>
@@ -117,11 +119,18 @@ export default {
     CloseAddTest() {
       this.$emit("close");
     },
-    async AddNewQu(testIndex) {
+    async AddData() {
       let sentence = this.Type;
       let words = sentence.split(" ");
       let firstWord = words[0];
       const collectionPath = `اختبارات - ${firstWord} - ${this.Lang} - ${this.Class}`;
+      const timeInput = document.getElementById("Time");
+
+      if (!timeInput) {
+        console.error("Time input element not found");
+        return;
+      }
+
       const docRef = doc(db, collectionPath, this.Sub);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
@@ -129,24 +138,42 @@ export default {
         if (!docData.test) {
           docData.test = [];
         }
+        const allQuIndex = Object.keys(docData.test).length;
         const allQuCount = Object.keys(
-          docData.test[testIndex]?.AllQu || {}
+          docData.test[allQuIndex]?.AllQu || {}
         ).length;
         const newData = {
-          qu1: document.getElementById("qu1").value,
-          RightAnswer: document.getElementById("RightAnswer").value,
-          qu2: document.getElementById("qu2").value,
-          WrongeAnswer1: document.getElementById("WrongAnswer1").value,
-          WrongeAnswer2: document.getElementById("WrongAnswer2").value,
+          ...docData.test[allQuIndex]?.AllQu,
+          [allQuCount]: {
+            qu1: document.getElementById("qu1").value,
+            RightAnswer: document.getElementById("RightAnswer").value,
+            qu2: document.getElementById("qu2").value,
+            WrongeAnswer1: document.getElementById("WrongAnswer1").value,
+            WrongeAnswer2: document.getElementById("WrongAnswer2").value,
+          },
         };
-        docData.test[testIndex].AllQu = {
-          ...docData.test[testIndex]?.AllQu,
-          [allQuCount]: newData,
-        };
+        docData.test.AllQu.push(newData);
         await setDoc(docRef, docData);
       } else {
-        console.error("Document does not exist");
+        await setDoc(docRef, {
+          test: [
+            {
+              AllQu: {
+                [0]: {
+                  qu1: document.getElementById("qu1").value,
+                  RightAnswer: document.getElementById("RightAnswer").value,
+                  qu2: document.getElementById("qu2").value,
+                  WrongeAnswer1: document.getElementById("WrongAnswer1").value,
+                  WrongeAnswer2: document.getElementById("WrongAnswer2").value,
+                },
+              },
+            },
+          ],
+        });
       }
+
+      this.CloseAddTest();
+      this.GetData();
     },
   },
 };

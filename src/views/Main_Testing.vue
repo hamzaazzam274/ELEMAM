@@ -25,11 +25,11 @@
             <MDBBreadcrumbItem active>{{ Sub }}</MDBBreadcrumbItem>
           </MDBBreadcrumb>
         </nav>
-        <span class="bg-[#eee] p-2.5 rounded cursor-pointer">
-          <font-awesome-icon
-            :icon="['fas', 'plus']"
-            @click="CloseAndOpenAddTest"
-          />
+        <span
+          class="bg-[#eee] p-2.5 rounded cursor-pointer flex items-center gap-2.5"
+          @click="CloseAndOpenAddTest"
+        >
+          <font-awesome-icon :icon="['fas', 'plus']" />
           <span>اضف اختبار</span>
         </span>
         <!-- @click="CloseAndOpenAddSub" -->
@@ -50,18 +50,27 @@
           <div class="number">اختبار رقم ({{ index + 1 }})</div>
           <h3>{{ test.Type }}</h3>
           <p>{{ test.Time }}</p>
-          <div class="btn">أختبر نفسك</div>
-          <div class="popup">
-            <div class="header">
-              <font-awesome-icon :icon="['fas', 'xmark']" />
+          <div class="btn" @click="ToggelPopop">أختبر نفسك</div>
+          <div
+            class="popup bg-[#eee] rounded p-2.5 bg-white fixed -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 overflow-auto h-4/5 z-10 w-100 h-100"
+            v-if="ShowPopup"
+          >
+            <div class="header flex justify-between">
               <span>اختبار رقم ({{ index + 1 }})</span>
+              <font-awesome-icon
+                :icon="['fas', 'xmark']"
+                @click="ToggelPopop"
+              />
             </div>
-            <font-awesome-icon
-              :icon="['fas', 'plus']"
+            <div
               @click="CloseAndOpenAddQu"
-            />
+              class="bg-white p-2.5 mr-auto ml-2.5 w-fit"
+            >
+              <span>أضف سؤال</span>
+              <font-awesome-icon :icon="['fas', 'plus']" />
+            </div>
 
-            <div class="body bg-[#eee] p=2.5">
+            <div class="body">
               <div class="box" v-for="Qu in AllQu[index].AllQu" :key="Qu">
                 <div class="qu">
                   {{ Qu.qu1 }}
@@ -107,6 +116,7 @@ export default {
       MsgEmpty: "",
       ShowMsg: null,
       ShowLoding: true,
+      ShowPopup: null,
       AllTest: [],
       AllQu: [],
     };
@@ -132,6 +142,9 @@ export default {
     AddQu,
   },
   methods: {
+    ToggelPopop() {
+      this.ShowPopup = !this.ShowPopup;
+    },
     async GetData() {
       console.log("getData");
       let sentence = this.Type;
