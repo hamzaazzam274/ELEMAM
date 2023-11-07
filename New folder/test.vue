@@ -1,3 +1,3 @@
 <template>
-  <div>hello Salem</div>
+  <div>hello Mo Salem</div>
 </template>
