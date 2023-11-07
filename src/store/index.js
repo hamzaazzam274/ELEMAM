@@ -5,6 +5,7 @@ export default createStore({
     type: "",
     lang: "",
     class: "",
+    Sub: "",
   },
   getters: {},
   mutations: {
@@ -16,6 +17,9 @@ export default createStore({
     },
     updateClass(state, payload) {
       state.class = payload;
+    },
+    updateSub(state, payload) {
+      state.Sub = payload;
     },
   },
   actions: {},
