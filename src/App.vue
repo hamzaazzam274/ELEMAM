@@ -25,6 +25,7 @@ export default {
 }
 body {
   direction: rtl;
+  background: red;
 }
 .container {
   width: 90% !important;
