@@ -7,7 +7,7 @@
       <div
         class="header flex justify-between border-b border-[#eee] mb-2.5 p-2.5 rounded"
       >
-        <span>اختبار رقم (1)</span>
+        <span>اختبار رقم ({{ TestIndex + 1 }})</span>
         <font-awesome-icon
           :icon="['fas', 'xmark']"
           class="bg-[red] rounded text-white py-1 px-2.5"

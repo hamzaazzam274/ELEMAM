@@ -2,7 +2,7 @@
   <div class="Add_Test">
     <div class="main_Overlay" @click="CloseAddTest"></div>
     <div
-      class="container rounded p-2.5 bg-white fixed -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 overflow-auto h-4/5 z-10"
+      class="container rounded p-2.5 bg-white fixed -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 overflow-auto h-auto z-10"
     >
       <div class="head text-left flex justify-between mb-2.5">
         <span>أضف اختبار</span
@@ -41,45 +41,6 @@
             >
               <font-awesome-icon :icon="['fas', 'coins']" /> <span>مدفوع</span>
             </div>
-          </div>
-        </div>
-        <div class="feat border p-2 5 rounded">
-          <div>الأسئلة</div>
-          <div class="form flex flex-col gap-2.5">
-            <textarea
-              name="qu1"
-              id="qu1"
-              cols="10"
-              rows="5"
-              placeholder="السؤال"
-              class="resize-none border p-2.5"
-            ></textarea>
-            <input
-              type="text"
-              id="RightAnswer"
-              placeholder="الإجابة الصحيحة"
-              class="border p-2.5"
-            />
-            <textarea
-              name="qu2"
-              id="qu2"
-              cols="10"
-              rows="3"
-              placeholder="تكملة السؤال"
-              class="resize-none border p-2.5"
-              value="؟"
-            ></textarea>
-            <input
-              type="text"
-              id="WrongAnswer1"
-              placeholder="إجابة خاطئة - 1"
-              class="border p-2.5"
-            /><input
-              type="text"
-              id="WrongAnswer2"
-              placeholder="إجابة خاطئة - 2"
-              class="border p-2.5"
-            />
           </div>
         </div>
       </div>
@@ -155,7 +116,7 @@ export default {
         return;
       }
 
-      const docRef = doc(db, collectionPath, this.Sub);
+      const docRef = doc(db, collectionPath, localStorage.getItem("updateSub"));
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         const docData = docSnap.data();
@@ -171,16 +132,7 @@ export default {
             document.getElementById("Time1").value
           }`,
           Type: document.querySelector(".type .active span").innerHTML,
-          AllQu: {
-            ...docData.test[allQuIndex]?.AllQu,
-            [allQuCount]: {
-              qu1: document.getElementById("qu1").value,
-              RightAnswer: document.getElementById("RightAnswer").value,
-              qu2: document.getElementById("qu2").value,
-              WrongeAnswer1: document.getElementById("WrongAnswer1").value,
-              WrongeAnswer2: document.getElementById("WrongAnswer2").value,
-            },
-          },
+          AllQu: {},
         };
         console.log(allQuCount);
         docData.test.push(newData);
@@ -191,15 +143,7 @@ export default {
             {
               Time: timeInput.value,
               Type: document.querySelector(".type .active span").innerHTML,
-              AllQu: {
-                [0]: {
-                  qu1: document.getElementById("qu1").value,
-                  RightAnswer: document.getElementById("RightAnswer").value,
-                  qu2: document.getElementById("qu2").value,
-                  WrongeAnswer1: document.getElementById("WrongAnswer1").value,
-                  WrongeAnswer2: document.getElementById("WrongAnswer2").value,
-                },
-              },
+              AllQu: {},
             },
           ],
         });

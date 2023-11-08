@@ -217,8 +217,6 @@ export default {
         arr.push(docSnap.data());
         this.AllTest = arr[0].test;
         this.AllQu = arr[0].test;
-        console.log(this.arr);
-        console.log(this.AllQu[0].AllQu);
       } else {
         this.MsgEmpty = `لا توجد إختبارات متاحة الآن لمادة ${this.Sub}`;
         this.ShowMsg = true;
