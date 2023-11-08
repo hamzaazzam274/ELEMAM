@@ -1,6 +1,6 @@
 <template>
   <div class="Add_Test">
-    <div class="main_popup" @click="CloseAddTest"></div>
+    <div class="main_Overlay" @click="CloseAddTest"></div>
     <div
       class="container rounded p-2.5 bg-white fixed -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 overflow-auto h-4/5 z-10"
     >
@@ -119,20 +119,7 @@ export default {
   mounted() {
     this.ClassActive();
   },
-  computed: {
-    Type() {
-      return this.$store.state.type;
-    },
-    Lang() {
-      return this.$store.state.lang;
-    },
-    Class() {
-      return this.$store.state.class;
-    },
-    Sub() {
-      return this.$store.state.Sub;
-    },
-  },
+
   methods: {
     GetData() {
       this.$emit("GetData");
@@ -154,10 +141,13 @@ export default {
       this.$emit("close");
     },
     async AddData() {
-      let sentence = this.Type;
+      let sentence = localStorage.getItem("updateType");
+
       let words = sentence.split(" ");
       let firstWord = words[0];
-      const collectionPath = `اختبارات - ${firstWord} - ${this.Lang} - ${this.Class}`;
+      const collectionPath = `اختبارات - ${firstWord} - ${localStorage.getItem(
+        "updateLang"
+      )} - ${localStorage.getItem("updateClass")}`;
       const timeInput = document.getElementById("Time");
 
       if (!timeInput) {
@@ -192,6 +182,7 @@ export default {
             },
           },
         };
+        console.log(allQuCount);
         docData.test.push(newData);
         await setDoc(docRef, docData);
       } else {

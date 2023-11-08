@@ -6,7 +6,7 @@
     class="m-auto"
   />
   <div class="Edit_Sub">
-    <div class="main_popup" @click="Close"></div>
+    <div class="main_Overlay" @click="Close"></div>
     <div
       class="container bg-white fixed z-10 rounded p-2.5 -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2"
     >
@@ -185,7 +185,9 @@ export default {
       await setDoc(
         doc(
           db,
-          `${this.Type} - ${this.Lang} - ${this.Class}`,
+          `${localStorage.getItem("updateType")} - ${localStorage.getItem(
+            "updateLang"
+          )} - ${localStorage.getItem("updateClass")}`,
           `${this.Main_Id}`
         ),
         {
@@ -205,11 +207,17 @@ export default {
     async getdata() {
       this.showDownloadIcon = true;
       // this.AllData = [];
-      console.log(`${this.Type} - ${this.Lang} - ${this.Class}`);
+      console.log(
+        `${localStorage.getItem("updateType")} - ${localStorage.getItem(
+          "updateLang"
+        )} - ${localStorage.getItem("updateClass")}`
+      );
 
       const docRef = doc(
         db,
-        `${this.Type} - ${this.Lang} - ${this.Class}`,
+        `${localStorage.getItem("updateType")} - ${localStorage.getItem(
+          "updateLang"
+        )} - ${localStorage.getItem("updateClass")}`,
         `${this.Main_Id}`
       );
       try {
@@ -229,17 +237,6 @@ export default {
     },
     GetData() {
       this.$emit("GetData");
-    },
-  },
-  computed: {
-    Type() {
-      return this.$store.state.type;
-    },
-    Lang() {
-      return this.$store.state.lang;
-    },
-    Class() {
-      return this.$store.state.class;
     },
   },
 };

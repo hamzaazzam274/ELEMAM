@@ -50,7 +50,7 @@ a {
   font-size: 24px;
   font-weight: bold;
 }
-.main_popup {
+.main_Overlay {
   position: fixed;
   top: 0;
   left: 0;

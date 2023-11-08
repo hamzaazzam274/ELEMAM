@@ -154,9 +154,9 @@ export default {
           this.class = e.innerHTML;
           console.log(e.innerHTML);
           console.log(this.class);
-          this.$store.commit("updateType", this.type);
-          this.$store.commit("updateLang", this.lang);
-          this.$store.commit("updateClass", this.class);
+          localStorage.setItem("updateType", this.type);
+          localStorage.setItem("updateLang", this.lang);
+          localStorage.setItem("updateClass", this.class);
           numbers.forEach((e) => e.classList.add("opacity-50"));
           numbers[0].classList.remove("opacity-50");
           content.forEach((e) => e.classList.add("hidden"));

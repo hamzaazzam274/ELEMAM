@@ -153,6 +153,9 @@ export default {
       Ids: [],
       MainId: "",
       showDownloadIcon: null,
+      Type: "",
+      Lang: "",
+      Class: "",
     };
   },
   props: ["Main_Id"],
@@ -163,6 +166,7 @@ export default {
     EditSub,
   },
   mounted() {
+    this.getvalues();
     setTimeout(() => {
       this.getdata();
     }, 100);
@@ -172,12 +176,17 @@ export default {
     }, 2000);
   },
   methods: {
+    getvalues() {
+      this.Type = localStorage.getItem("updateType");
+      this.Lang = localStorage.getItem("updateLang");
+      this.Class = localStorage.getItem("updateClass");
+    },
     AddSubToStore() {
       let link = document.querySelectorAll(".box .test a");
       let Sub_Name = this.AllData;
       for (let i = 0; i < link.length; i++) {
         link[i].onclick = () => {
-          this.$store.commit("updateSub", Sub_Name[i].sub_name);
+          localStorage.setItem("updateSub", Sub_Name[i].sub_name);
         };
       }
     },
@@ -200,18 +209,22 @@ export default {
     async getdata() {
       this.showDownloadIcon = true;
       this.AllData = [];
-      let sentence = this.Type;
+      let sentence = localStorage.getItem("updateType");
       let words = sentence.split(" ");
       let firstWord = words[0];
       const querySnapshot = await getDocs(
-        collection(db, `كورسات - ${firstWord} - ${this.Lang} - ${this.Class}`)
+        collection(
+          db,
+          `كورسات - ${firstWord} - ${localStorage.getItem(
+            "updateLang"
+          )} - ${localStorage.getItem("updateClass")}`
+        )
       );
       querySnapshot.forEach((doc) => {
         this.AllData.push(doc.data());
         this.Ids.push(doc.id);
       });
       this.showDownloadIcon = false;
-      console.log(this.Ids);
       this.AddSubToStore();
     },
   },
@@ -220,20 +233,6 @@ export default {
     return {
       activeItem,
     };
-  },
-  computed: {
-    Type() {
-      return this.$store.state.type;
-    },
-    Lang() {
-      return this.$store.state.lang;
-    },
-    Class() {
-      return this.$store.state.class;
-    },
-    Sub() {
-      return this.$store.state.Sub;
-    },
   },
 };
 </script>

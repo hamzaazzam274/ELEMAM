@@ -7,6 +7,7 @@
         v-if="ShowAddTest"
       />
       <AddQu @Close="CloseAndOpenAddQu" @GetData="GetData" v-if="ShowAddQu" />
+      <ShowTest @Close="Close" v-if="ShowTest" :TestIndex="this.TestIndex" />
       <nav
         aria-label="breadcrumb"
         class="flex items-center justify-between mb-2.5"
@@ -47,16 +48,22 @@
           v-for="(test, index) in AllTest"
           :key="index"
         >
-          <div class="number">اختبار رقم ({{ index + 1 }})</div>
+          <div class="number">
+            اختبار رقم (<span>{{ index + 1 }}</span
+            >)
+          </div>
           <h3>{{ test.Type }}</h3>
           <p>{{ test.Time }}</p>
-          <div class="btn" @click="ToggelPopop">أختبر نفسك</div>
+          <div class="btn" @click="Close">أختبر نفسك</div>
           <div
             class="popup bg-[#eee] rounded p-2.5 bg-white fixed -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 overflow-auto h-4/5 z-10 w-100 h-100"
             v-if="ShowPopup"
           >
             <div class="header flex justify-between">
-              <span>اختبار رقم ({{ index + 1 }})</span>
+              <span
+                >اختبار رقم (<span>{{ index + 1 }}</span
+                >)</span
+              >
               <font-awesome-icon
                 :icon="['fas', 'xmark']"
                 @click="ToggelPopop"
@@ -66,14 +73,39 @@
               @click="CloseAndOpenAddQu"
               class="bg-white p-2.5 mr-auto ml-2.5 w-fit"
             >
-              <span>أضف سؤال</span>
               <font-awesome-icon :icon="['fas', 'plus']" />
+              <span>أضف سؤال</span>
             </div>
 
             <div class="body">
-              <div class="box" v-for="Qu in AllQu[index].AllQu" :key="Qu">
-                <div class="qu">
-                  {{ Qu.qu1 }}
+              <div
+                class="box border p-2.5 my-2.5 w-100"
+                v-for="Qu in AllQu[index].AllQu"
+                :key="Qu"
+              >
+                <div class="my-2.5">
+                  <span class="qu text-lg">
+                    {{ Qu.qu1 }}
+                  </span>
+                  ....
+                  <span class="qu text-lg"> {{ Qu.qu2 }} ؟ </span>
+                </div>
+                <div class="answer flex justify-between">
+                  <div
+                    class="bg-[#eee] p-2.5 cursor-pointer rounded w-32 text-center"
+                  >
+                    {{ Qu.RightAnswer }}
+                  </div>
+                  <div
+                    class="bg-[#eee] p-2.5 cursor-pointer rounded w-32 text-center"
+                  >
+                    {{ Qu.WrongeAnswer1 }}
+                  </div>
+                  <div
+                    class="bg-[#eee] p-2.5 cursor-pointer rounded w-32 text-center"
+                  >
+                    {{ Qu.WrongeAnswer2 }}
+                  </div>
                 </div>
               </div>
             </div>
@@ -87,6 +119,7 @@
 import { MDBBreadcrumb, MDBBreadcrumbItem } from "mdb-vue-ui-kit";
 import AddTest from "../components/Add_Test.vue";
 import AddQu from "../components/Add_Qu.vue";
+import ShowTest from "../components/ShowTest.vue";
 
 import { getDoc, getFirestore, doc } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
@@ -105,6 +138,7 @@ export default {
   name: "Main_Testing",
   emits: ["GetData"],
   mounted() {
+    this.getvalues();
     setTimeout(() => {
       this.GetData();
     }, 1000);
@@ -117,44 +151,67 @@ export default {
       ShowMsg: null,
       ShowLoding: true,
       ShowPopup: null,
+      ShowTest: null,
       AllTest: [],
       AllQu: [],
+      TestIndex: "",
+      Type: "",
+      Lang: "",
+      Class: "",
+      Sub: "",
     };
-  },
-  computed: {
-    Type() {
-      return this.$store.state.type;
-    },
-    Lang() {
-      return this.$store.state.lang;
-    },
-    Class() {
-      return this.$store.state.class;
-    },
-    Sub() {
-      return this.$store.state.Sub;
-    },
   },
   components: {
     MDBBreadcrumb,
     MDBBreadcrumbItem,
     AddTest,
     AddQu,
+    ShowTest,
   },
   methods: {
+    getvalues() {
+      setTimeout(() => {
+        this.Type = localStorage.getItem("updateType");
+        this.Lang = localStorage.getItem("updateLang");
+        this.Class = localStorage.getItem("updateClass");
+        this.Sub = localStorage.getItem("updateSub");
+      }, 10);
+    },
+    exportTestIndex() {
+      let btn = document.querySelectorAll(".box .btn");
+      for (let i = 0; i < btn.length; i++) {
+        btn[i].onclick = () => {
+          console.log(
+            +btn[i].parentElement.children[0].children[0].innerHTML - 1
+          );
+          this.TestIndex =
+            +btn[i].parentElement.children[0].children[0].innerHTML - 1;
+        };
+      }
+      console.log(btn);
+    },
+    Close() {
+      this.ShowTest = !this.ShowTest;
+    },
     ToggelPopop() {
       this.ShowPopup = !this.ShowPopup;
     },
     async GetData() {
       console.log("getData");
-      let sentence = this.Type;
+      let sentence = localStorage.getItem("updateType");
       let words = sentence.split(" ");
       let firstWord = words[0];
-      const collectionPath = `اختبارات - ${firstWord} - ${this.Lang} - ${this.Class}`;
+      const collectionPath = `اختبارات - ${firstWord} - ${localStorage.getItem(
+        "updateLang"
+      )} - ${localStorage.getItem("updateClass")}`;
 
       const docRef = doc(db, collectionPath, this.Sub);
       const docSnap = await getDoc(docRef);
       this.ShowLoding = false;
+      setTimeout(() => {
+        this.exportTestIndex();
+      }, 10);
+
       if (docSnap.exists()) {
         let arr = [];
         arr.push(docSnap.data());

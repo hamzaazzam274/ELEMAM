@@ -1,6 +1,6 @@
 <template>
   <div class="Add_Sub">
-    <div class="main_popup" @click="Close"></div>
+    <div class="main_Overlay" @click="Close"></div>
     <div
       class="container bg-white fixed z-10 rounded p-2.5 -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2"
     >
@@ -138,28 +138,24 @@ export default {
       Season: "",
     };
   },
-  computed: {
-    Type() {
-      return this.$store.state.type;
-    },
-    Lang() {
-      return this.$store.state.lang;
-    },
-    Class() {
-      return this.$store.state.class;
-    },
-  },
+
   methods: {
     SelectFunction(event) {
       console.log(event.target.value);
       this.Season = event.target.value;
     },
     async Add_Data() {
-      let sentence = this.Type;
+      let sentence = localStorage.getItem("updateType");
       let words = sentence.split(" ");
       let firstWord = words[0];
+
       const docRef = await addDoc(
-        collection(db, `كورسات - ${firstWord} - ${this.Lang} - ${this.Class}`),
+        collection(
+          db,
+          `كورسات - ${firstWord} - ${localStorage.getItem(
+            "updateLang"
+          )} - ${localStorage.getItem("updateClass")}`
+        ),
         {
           sub_name: document.getElementById("Sub").value,
           Season: this.Season,

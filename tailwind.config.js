@@ -10,6 +10,12 @@ module.exports = {
         32: "32%",
         23: "23%",
       },
+      borderWidth: {
+        1: "1px",
+      },
+      minWidth: {
+        32: "32%",
+      },
     },
   },
   variants: {
