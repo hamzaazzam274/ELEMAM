@@ -35,7 +35,7 @@
                   name="qu1"
                   id="qu1"
                   cols="10"
-                  rows="5"
+                  rows="4"
                   placeholder="السؤال"
                   class="resize-none border p-2.5"
                   v-model="qu1"
@@ -51,7 +51,7 @@
                   name="qu2"
                   id="qu2"
                   cols="10"
-                  rows="3"
+                  rows="2"
                   placeholder="تكملة السؤال"
                   class="resize-none border p-2.5"
                   v-model="qu2"
@@ -72,22 +72,17 @@
               </div>
             </div>
           </div>
-          <div class="button text-left mt-5">
-            <span
-              class="bg-[--main-color] text-white p-2.5 rounded cursor-pointer"
-              @click="AddData"
-              >تم</span
-            >
+          <div
+            class="Add_Qu flex items-center gap-2.5 mr-auto w-fit p-2 text-[--main-color] border-[--main-color] border-1 rounded cursor-pointer mt-2.5"
+            @click="AddData"
+          >
+            <font-awesome-icon :icon="['fas', 'plus']" />
+            <span>اضف سؤال</span>
           </div>
         </div>
       </div>
+      <div class="counter text-left p-2.5">عدد الأسئلة ({{ Qu.length }})</div>
       <div class="body mt-2.5">
-        <div
-          class="Add_Qu flex items-center gap-2.5 mr-auto w-fit p-2 text-[--main-color] border-[--main-color] border-1 rounded cursor-pointer"
-        >
-          <font-awesome-icon :icon="['fas', 'plus']" />
-          <span>اضف سؤال</span>
-        </div>
         <img
           src="../assets/animation_lolk2w1w_small.gif"
           alt=""
@@ -198,7 +193,7 @@ export default {
     },
     CleanData() {
       this.qu1 = "";
-      this.qu2 = "";
+      this.qu2 = "؟";
       this.RightAnswer = "";
       this.WrongAnswer1 = "";
       this.WrongAnswer2 = "";
