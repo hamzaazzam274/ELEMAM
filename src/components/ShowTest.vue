@@ -128,10 +128,23 @@
           </div>
         </div>
       </div>
+      <div v-if="ErrorActive" class="text-[red] bold text-center my-2.5">
+        أجب علي جميع الأسئلة
+      </div>
       <div
         class="ShowDegree bg-[--main-color] text-white text-center cursor-pointer p-2.5 rounded"
+        @click="ShowResult"
       >
         النتيجة
+      </div>
+      <div class="ShowResult" v-if="MyResult">
+        <div>نتيجتك => {{ result }} / {{ Allresult }}</div>
+        <div>نسبتك المؤية : {{ percent }} %</div>
+        <div>تقديرك : {{ appreciation }}</div>
+        <div class="flex gap-2.5 items-center">
+          <div class="bg-[red] w-2.5 h-2.5"></div>
+          <div>الإجابة الصحيحة</div>
+        </div>
       </div>
     </div>
   </div>
@@ -164,7 +177,6 @@ export default {
   mounted() {
     this.ShowImg = true;
     setTimeout(() => {
-      console.log("this.TestIndex", this.TestIndex);
       this.GetData();
     }, 10);
   },
@@ -178,14 +190,60 @@ export default {
       WrongAnswer1: "",
       WrongAnswer2: "",
       ShowImg: null,
+      ErrorActive: null,
+      result: 0,
+      Allresult: "",
+      appreciation: "",
+      percent: "",
+      MyResult: null,
     };
   },
   methods: {
+    Random() {},
+    ShowResult() {
+      let AnswerDad = document.querySelectorAll(".Answer");
+      let AllAnswer = document.querySelectorAll(".Answer > div");
+      let active = document.querySelectorAll(".Answer > .active");
+      if (active.length !== this.Qu.length || active.length === 0) {
+        this.ErrorActive = true;
+        this.MyResult = false;
+      } else {
+        this.MyResult = true;
+        this.ErrorActive = false;
+        AllAnswer.forEach((e) => {
+          e.classList.add("pointer-events-none");
+        });
+        for (let i = 0; i < active.length; i++) {
+          this.Allresult = active.length;
+          for (let j = 0; j < 3; j++) {
+            if (AnswerDad[i].children[j].innerHTML === this.Qu[i].RightAnswer) {
+              AnswerDad[i].children[j].style.background = "red";
+            }
+          }
+          if (active[i].innerHTML === this.Qu[i].RightAnswer) {
+            this.result += 1;
+            this.percent = (this.result / this.Allresult) * 100;
+            if (this.percent >= 90 && this.percent <= 100) {
+              this.appreciation = "إمتياز";
+            } else if (this.percent >= 80 && this.percent <= 89) {
+              this.appreciation = "جيد جدا";
+            } else if (this.percent >= 70 && this.percent <= 79) {
+              this.appreciation = "جيد";
+            } else if (this.percent >= 50 && this.percent <= 69) {
+              this.appreciation = "مقبول";
+            } else if (this.percent >= 25 && this.percent <= 49) {
+              this.appreciation = "ضعيف";
+            } else if (this.percent >= 0 && this.percent <= 24) {
+              this.appreciation = "ضعيف جدا";
+            }
+          }
+        }
+      }
+    },
     ClickActive() {
-      // let Answer = document.querySelectorAll(".Answer > div");
       let AnswerDad = document.querySelectorAll(".Answer");
       AnswerDad.forEach(() => {
-        for (let i = 0; i < 2; i++) {
+        for (let i = 0; i < AnswerDad.length; i++) {
           document
             .querySelectorAll(".Answer")
             [i].querySelectorAll("div")
@@ -198,10 +256,6 @@ export default {
                     e.classList.remove("active");
                   });
                 e.classList.add("active");
-                console.log(this.Qu[0]);
-                // for (let j = 0; j < this.Qu.lenght; j++) {
-                //   console.log(this.Qu[j].RightAnswer);
-                // }
               };
             });
         }
@@ -249,56 +303,72 @@ export default {
       }, 10);
     },
     async AddData() {
-      console.log("AddData");
-      let sentence = localStorage.getItem("updateType");
+      if (
+        document.getElementById("qu1").value !== "" &&
+        document.getElementById("RightAnswer").value !== "" &&
+        document.getElementById("qu2").value !== "" &&
+        document.getElementById("WrongAnswer1").value !== "" &&
+        document.getElementById("WrongAnswer2").value !== ""
+      ) {
+        let sentence = localStorage.getItem("updateType");
 
-      let words = sentence.split(" ");
-      let firstWord = words[0];
-      const collectionPath = `اختبارات - ${firstWord} - ${localStorage.getItem(
-        "updateLang"
-      )} - ${localStorage.getItem("updateClass")}`;
-      const docRef = doc(db, collectionPath, localStorage.getItem("updateSub"));
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        const docData = docSnap.data();
-        if (!docData.test) {
-          docData.test = [];
-        }
-        const index = this.TestIndex;
-        const newData = {
-          qu1: document.getElementById("qu1").value,
-          RightAnswer: document.getElementById("RightAnswer").value,
-          qu2: document.getElementById("qu2").value,
-          WrongeAnswer1: document.getElementById("WrongAnswer1").value,
-          WrongeAnswer2: document.getElementById("WrongAnswer2").value,
-        };
+        let words = sentence.split(" ");
+        let firstWord = words[0];
+        const collectionPath = `اختبارات - ${firstWord} - ${localStorage.getItem(
+          "updateLang"
+        )} - ${localStorage.getItem("updateClass")}`;
+        const docRef = doc(
+          db,
+          collectionPath,
+          localStorage.getItem("updateSub")
+        );
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const docData = docSnap.data();
+          if (!docData.test) {
+            docData.test = [];
+          }
+          const index = this.TestIndex;
+          const newData = {
+            qu1: document.getElementById("qu1").value,
+            RightAnswer: document.getElementById("RightAnswer").value,
+            qu2: document.getElementById("qu2").value,
+            WrongeAnswer1: document.getElementById("WrongAnswer1").value,
+            WrongeAnswer2: document.getElementById("WrongAnswer2").value,
+          };
 
-        if (Array.isArray(docData.test[index].AllQu)) {
-          docData.test[index].AllQu.push(newData);
+          if (Array.isArray(docData.test[index].AllQu)) {
+            docData.test[index].AllQu.push(newData);
+          } else {
+            docData.test[index].AllQu = [newData];
+          }
+          this.Qu = docData.test[index].AllQu;
+          console.log(this.Qu);
+          await setDoc(docRef, docData);
         } else {
-          docData.test[index].AllQu = [newData];
-        }
-        this.Qu = docData.test[index].AllQu;
-        console.log(this.Qu);
-        await setDoc(docRef, docData);
-      } else {
-        await setDoc(docRef, {
-          test: [
-            {
-              AllQu: {
-                [0]: {
-                  qu1: document.getElementById("qu1").value,
-                  RightAnswer: document.getElementById("RightAnswer").value,
-                  qu2: document.getElementById("qu2").value,
-                  WrongeAnswer1: document.getElementById("WrongAnswer1").value,
-                  WrongeAnswer2: document.getElementById("WrongAnswer2").value,
+          await setDoc(docRef, {
+            test: [
+              {
+                AllQu: {
+                  [0]: {
+                    qu1: document.getElementById("qu1").value,
+                    RightAnswer: document.getElementById("RightAnswer").value,
+                    qu2: document.getElementById("qu2").value,
+                    WrongeAnswer1:
+                      document.getElementById("WrongAnswer1").value,
+                    WrongeAnswer2:
+                      document.getElementById("WrongAnswer2").value,
+                  },
                 },
               },
-            },
-          ],
-        });
+            ],
+          });
+        }
+        this.CleanData();
       }
-      this.CleanData();
+      setTimeout(() => {
+        this.ClickActive();
+      }, 10);
     },
     OpenCheck() {
       this.ShowCheck = true;
