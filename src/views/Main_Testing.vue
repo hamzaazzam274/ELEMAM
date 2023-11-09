@@ -170,6 +170,7 @@ export default {
     ShowTest,
   },
   methods: {
+    CheckOfTime() {},
     getvalues() {
       setTimeout(() => {
         this.Type = localStorage.getItem("updateType");

@@ -25,7 +25,14 @@
           <span class="btn" @click="CloseCheck">لا</span>
         </div>
       </div>
-      <div class="form">
+      <div
+        class="Add_Qu flex items-center gap-2.5 mr-auto w-fit p-2 text-[--main-color] border-[--main-color] border-1 rounded cursor-pointer mt-2.5"
+        @click="ShowForm = !ShowForm"
+      >
+        <font-awesome-icon :icon="['fas', 'plus']" />
+        <span>اضف سؤال</span>
+      </div>
+      <div class="form" v-if="ShowForm">
         <div class="rounded p-2.5">
           <div class="body flex flex-col gap-2.5">
             <div class="feat border p-2 5 rounded">
@@ -76,8 +83,7 @@
             class="Add_Qu flex items-center gap-2.5 mr-auto w-fit p-2 text-[--main-color] border-[--main-color] border-1 rounded cursor-pointer mt-2.5"
             @click="AddData"
           >
-            <font-awesome-icon :icon="['fas', 'plus']" />
-            <span>اضف سؤال</span>
+            تم
           </div>
         </div>
       </div>
@@ -155,8 +161,8 @@ import {
   getFirestore,
   setDoc,
   doc,
-  updateDoc,
-  deleteField,
+  // updateDoc,
+  // deleteField,
 } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 const firebaseConfig = {
@@ -196,6 +202,7 @@ export default {
       appreciation: "",
       percent: "",
       MyResult: null,
+      ShowForm: null,
     };
   },
   methods: {
