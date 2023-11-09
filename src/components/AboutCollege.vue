@@ -1,7 +1,7 @@
 <template>
   <div class="AboutCollege">
     <div class="container">
-      <div class="main_title">نبذة عن كلية الشريعة و القانون</div>
+      <div class="main_title"><h1>the last test عشان انا زهقت</h1></div>
       <div>
         - Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic
         aspernatur excepturi quisquam sed. Maiores magni perspiciatis ullam
