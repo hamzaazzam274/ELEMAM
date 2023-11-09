@@ -35,7 +35,7 @@
         </span>
         <!-- @click="CloseAndOpenAddSub" -->
       </nav>
-      <div class="data flex flex-col gap-2.5">
+      <div class="data flex flex-col gap-2.5" style="min-height: 56.7vh">
         <img
           src="../assets/animation_lolk2w1w_small.gif"
           alt="animation"

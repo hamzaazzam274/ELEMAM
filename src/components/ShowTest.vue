@@ -128,6 +128,11 @@
           </div>
         </div>
       </div>
+      <div
+        class="ShowDegree bg-[--main-color] text-white text-center cursor-pointer p-2.5 rounded"
+      >
+        النتيجة
+      </div>
     </div>
   </div>
 </template>
@@ -176,6 +181,19 @@ export default {
     };
   },
   methods: {
+    ClickActive() {
+      let Answer = document.querySelectorAll(".Answer > div");
+      // let AnswerDad = document.querySelectorAll(".Answer");
+
+      Answer.forEach((e) => {
+        e.onclick = () => {
+          Answer.forEach((ele) => {
+            ele.classList.remove("active");
+          });
+          e.classList.add("active");
+        };
+      });
+    },
     async DeleteQu() {
       let sentence = localStorage.getItem("updateType");
 
@@ -213,7 +231,9 @@ export default {
       const index = this.TestIndex;
       this.Qu = docData.test[index].AllQu;
       this.ShowImg = false;
-      console.log(this.Qu);
+      setTimeout(() => {
+        this.ClickActive();
+      }, 10);
     },
     async AddData() {
       console.log("AddData");
