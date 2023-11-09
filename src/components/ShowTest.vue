@@ -182,16 +182,29 @@ export default {
   },
   methods: {
     ClickActive() {
-      let Answer = document.querySelectorAll(".Answer > div");
-      // let AnswerDad = document.querySelectorAll(".Answer");
-
-      Answer.forEach((e) => {
-        e.onclick = () => {
-          Answer.forEach((ele) => {
-            ele.classList.remove("active");
-          });
-          e.classList.add("active");
-        };
+      // let Answer = document.querySelectorAll(".Answer > div");
+      let AnswerDad = document.querySelectorAll(".Answer");
+      AnswerDad.forEach(() => {
+        for (let i = 0; i < 2; i++) {
+          document
+            .querySelectorAll(".Answer")
+            [i].querySelectorAll("div")
+            .forEach((e) => {
+              e.onclick = () => {
+                document
+                  .querySelectorAll(".Answer")
+                  [i].querySelectorAll("div")
+                  .forEach((e) => {
+                    e.classList.remove("active");
+                  });
+                e.classList.add("active");
+                console.log(this.Qu[0]);
+                // for (let j = 0; j < this.Qu.lenght; j++) {
+                //   console.log(this.Qu[j].RightAnswer);
+                // }
+              };
+            });
+        }
       });
     },
     async DeleteQu() {
@@ -302,6 +315,10 @@ export default {
 <style lang="scss" scoped>
 .Check {
   animation: Check 0.3s 1;
+}
+.active {
+  background: var(--main-color);
+  color: #fff;
 }
 @keyframes Check {
   0% {
