@@ -199,7 +199,6 @@ export default {
     };
   },
   methods: {
-    Random() {},
     ShowResult() {
       let AnswerDad = document.querySelectorAll(".Answer");
       let AllAnswer = document.querySelectorAll(".Answer > div");
@@ -248,6 +247,7 @@ export default {
             .querySelectorAll(".Answer")
             [i].querySelectorAll("div")
             .forEach((e) => {
+              e.style.order = -Math.floor(Math.random() * 4);
               e.onclick = () => {
                 document
                   .querySelectorAll(".Answer")
