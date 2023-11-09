@@ -26,15 +26,16 @@
             <MDBBreadcrumbItem active>{{ Sub }}</MDBBreadcrumbItem>
           </MDBBreadcrumb>
         </nav>
-        <span
+        <div
           class="bg-[#eee] p-2.5 rounded cursor-pointer flex items-center gap-2.5"
           @click="CloseAndOpenAddTest"
         >
           <font-awesome-icon :icon="['fas', 'plus']" />
           <span>اضف اختبار</span>
-        </span>
+        </div>
         <!-- @click="CloseAndOpenAddSub" -->
       </nav>
+      <div>({{ AllTest.length }}) اختبار</div>
       <div class="data flex flex-col gap-2.5" style="min-height: 56.7vh">
         <img
           src="../assets/animation_lolk2w1w_small.gif"

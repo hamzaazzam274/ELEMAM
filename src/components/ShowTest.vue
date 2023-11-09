@@ -262,19 +262,18 @@ export default {
       });
     },
     async DeleteQu() {
-      let sentence = localStorage.getItem("updateType");
-
-      let words = sentence.split(" ");
-      let firstWord = words[0];
-      const collectionPath = `اختبارات - ${firstWord} - ${localStorage.getItem(
-        "updateLang"
-      )} - ${localStorage.getItem("updateClass")}`;
-      const docRef = doc(db, collectionPath, localStorage.getItem("updateSub"));
-      // const index = this.TestIndex;
-      console.log(docRef);
-      await updateDoc(docRef, {
-        test: deleteField(),
-      });
+      // let sentence = localStorage.getItem("updateType");
+      // let words = sentence.split(" ");
+      // let firstWord = words[0];
+      // const collectionPath = `اختبارات - ${firstWord} - ${localStorage.getItem(
+      //   "updateLang"
+      // )} - ${localStorage.getItem("updateClass")}`;
+      // const docRef = doc(db, collectionPath, localStorage.getItem("updateSub"));
+      // // const index = this.TestIndex;
+      // console.log(docRef);
+      // await updateDoc(docRef, {
+      //   test: deleteField(),
+      // });
     },
     CleanData() {
       this.qu1 = "";
