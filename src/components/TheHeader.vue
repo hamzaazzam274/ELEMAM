@@ -1,5 +1,4 @@
 <template>
-<<<<<<< HEAD
   <div class="Header border-b border-gray-300">
     <div class="container flex justify-between items-center gap-2.5">
       <div class="logo">
@@ -99,7 +98,6 @@
   </div>
   <SignIn @close_1="close_1" v-if="close_1_State" />
   <TheRegister @close_2="close_2" v-if="close_2_State" />
-=======
   <nav>
     <div class="navigation">
       <ul>
@@ -149,14 +147,12 @@
     <h1 class="name-logo">أكادمية الامام</h1>
     <img class="brand-logo" src="../assets/elemam_logo.png" alt="elemam" />
   </nav>
->>>>>>> f5e3c3461ecd505a541f7bae8a902a7911069ffd
 </template>
 <script>
 import SignIn from "./SignIn.vue";
 import TheRegister from "./TheRegister.vue";
 export default {
   name: "TheHeader",
-<<<<<<< HEAD
   data() {
     return {
       UserState: null,
@@ -233,21 +229,19 @@ export default {
     ShowLinks() {
       document.querySelector(".all_links").classList.toggle("hidden");
     },
-=======
-  mounted() {
-    const list = document.querySelectorAll(".list");
+    mounted() {
+      const list = document.querySelectorAll(".list");
 
-    function activeLink() {
-      list.forEach((item) => item.classList.remove("active"));
-      this.classList.add("active");
-    }
-    list.forEach((item) => item.addEventListener("click", activeLink));
->>>>>>> f5e3c3461ecd505a541f7bae8a902a7911069ffd
+      function activeLink() {
+        list.forEach((item) => item.classList.remove("active"));
+        this.classList.add("active");
+      }
+      list.forEach((item) => item.addEventListener("click", activeLink));
+    },
   },
 };
 </script>
 <style lang="scss" scoped>
-@import url("https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900");
 * {
   margin: 0;
   padding: 0;
