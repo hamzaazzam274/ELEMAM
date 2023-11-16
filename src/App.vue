@@ -37,6 +37,9 @@ svg {
 a {
   color: #000 !important;
 }
+p {
+  margin: 0 !important;
+}
 .mcolor {
   color: var(--main-color);
 }
@@ -54,11 +57,11 @@ a {
   position: fixed;
   top: 0;
   left: 0;
+  background: rgba(51, 51, 51, 0.429);
   width: 100%;
   height: 100%;
-  background: #000;
-  opacity: 0.5;
-  z-index: 2;
+  z-index: 3;
+  filter: blur(1px);
 }
 .hover_color:hover {
   background: var(--main-color) !important;
@@ -82,7 +85,7 @@ a {
 .form-floating > .form-control-plaintext ~ label,
 .form-floating > .form-select ~ label {
   opacity: 0.65 !important;
-  transform: scale(0.85) translateY(-0.5rem) translateX(17%) !important;
+  transform: scale(0.85) translateY(-0.5rem) translateX(18%) !important;
 }
 .form-control:focus {
   border-color: transparent !important;

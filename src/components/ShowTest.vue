@@ -228,7 +228,7 @@ export default {
           }
           if (active[i].innerHTML === this.Qu[i].RightAnswer) {
             this.result += 1;
-            this.percent = (this.result / this.Allresult) * 100;
+            this.percent = ((this.result / this.Allresult) * 100).toFixed(0);
             if (this.percent >= 90 && this.percent <= 100) {
               this.appreciation = "إمتياز";
             } else if (this.percent >= 80 && this.percent <= 89) {
@@ -306,7 +306,7 @@ export default {
       this.ShowImg = false;
       setTimeout(() => {
         this.ClickActive();
-      }, 10);
+      }, 100);
     },
     async AddData() {
       if (
@@ -374,7 +374,7 @@ export default {
       }
       setTimeout(() => {
         this.ClickActive();
-      }, 10);
+      }, 100);
     },
     OpenCheck() {
       this.ShowCheck = true;

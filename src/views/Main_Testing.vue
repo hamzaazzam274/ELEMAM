@@ -15,14 +15,14 @@
         <nav aria-label="breadcrumb">
           <MDBBreadcrumb>
             <MDBBreadcrumbItem
-              ><a href="#"> {{ Type }}</a></MDBBreadcrumbItem
+              ><router-link to="/">{{ Type }}</router-link></MDBBreadcrumbItem
             >
-            <MDBBreadcrumbItem
-              ><a href="#">{{ Lang }}</a></MDBBreadcrumbItem
+            <MDBBreadcrumbItem>
+              <router-link to="/">{{ Lang }}</router-link></MDBBreadcrumbItem
             >
-            <MDBBreadcrumbItem
-              ><a href="#">{{ Class }}</a></MDBBreadcrumbItem
-            >
+            <MDBBreadcrumbItem>
+              <router-link to="/Main_Class">{{ Class }}</router-link>
+            </MDBBreadcrumbItem>
             <MDBBreadcrumbItem active>{{ Sub }}</MDBBreadcrumbItem>
           </MDBBreadcrumb>
         </nav>
@@ -54,63 +54,15 @@
             >)
           </div>
           <h3>{{ test.Type }}</h3>
-          <p>{{ test.Time }}</p>
-          <div class="btn" @click="Close">أختبر نفسك</div>
-          <div
-            class="popup bg-[#eee] rounded p-2.5 bg-white fixed -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 overflow-auto h-4/5 z-10 w-100 h-100"
-            v-if="ShowPopup"
-          >
-            <div class="header flex justify-between">
-              <span
-                >اختبار رقم (<span>{{ index + 1 }}</span
-                >)</span
-              >
-              <font-awesome-icon
-                :icon="['fas', 'xmark']"
-                @click="ToggelPopop"
-              />
-            </div>
-            <div
-              @click="CloseAndOpenAddQu"
-              class="bg-white p-2.5 mr-auto ml-2.5 w-fit"
-            >
-              <font-awesome-icon :icon="['fas', 'plus']" />
-              <span>أضف سؤال</span>
-            </div>
-
-            <div class="body">
-              <div
-                class="box border p-2.5 my-2.5 w-100"
-                v-for="Qu in AllQu[index].AllQu"
-                :key="Qu"
-              >
-                <div class="my-2.5">
-                  <span class="qu text-lg">
-                    {{ Qu.qu1 }}
-                  </span>
-                  ....
-                  <span class="qu text-lg"> {{ Qu.qu2 }} ؟ </span>
-                </div>
-                <div class="answer flex justify-between">
-                  <div
-                    class="bg-[#eee] p-2.5 cursor-pointer rounded w-32 text-center"
-                  >
-                    {{ Qu.RightAnswer }}
-                  </div>
-                  <div
-                    class="bg-[#eee] p-2.5 cursor-pointer rounded w-32 text-center"
-                  >
-                    {{ Qu.WrongeAnswer1 }}
-                  </div>
-                  <div
-                    class="bg-[#eee] p-2.5 cursor-pointer rounded w-32 text-center"
-                  >
-                    {{ Qu.WrongeAnswer2 }}
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div class="flex gap-2.5 items-center">
+            <font-awesome-icon :icon="['fas', 'clock']" />
+            <p class="Time">{{ test.Time }}</p>
           </div>
+          <div class="flex gap-2.5 items-center">
+            <font-awesome-icon :icon="['fas', 'calendar-days']" />
+            <p class="Date">{{ test.Date }}</p>
+          </div>
+          <div class="btn" @click="Close">أختبر نفسك</div>
         </div>
       </div>
     </div>
@@ -170,14 +122,26 @@ export default {
     ShowTest,
   },
   methods: {
-    CheckOfTime() {},
+    compareTime() {
+      let userTime = document.getElementById("userTime").value;
+      let currentTime = new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+
+      if (userTime === currentTime) {
+        console.log("The user input matches the current time.");
+      } else {
+        console.log("The user input does not match the current time.");
+      }
+    },
     getvalues() {
       setTimeout(() => {
         this.Type = localStorage.getItem("updateType");
         this.Lang = localStorage.getItem("updateLang");
         this.Class = localStorage.getItem("updateClass");
         this.Sub = localStorage.getItem("updateSub");
-      }, 10);
+      }, 100);
     },
     exportTestIndex() {
       let btn = document.querySelectorAll(".box .btn");
@@ -219,6 +183,7 @@ export default {
         arr.push(docSnap.data());
         this.AllTest = arr[0].test;
         this.AllQu = arr[0].test;
+        this.ShowMsg = false;
       } else {
         this.MsgEmpty = `لا توجد إختبارات متاحة الآن لمادة ${this.Sub}`;
         this.ShowMsg = true;

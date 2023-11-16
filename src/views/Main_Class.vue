@@ -16,21 +16,27 @@
         <nav aria-label="breadcrumb">
           <MDBBreadcrumb>
             <MDBBreadcrumbItem
-              ><a href="#"> {{ Type }}</a></MDBBreadcrumbItem
+              ><router-link to="/">{{ Type }}</router-link></MDBBreadcrumbItem
             >
             <MDBBreadcrumbItem
-              ><a href="#">{{ Lang }}</a></MDBBreadcrumbItem
+              ><router-link to="/">{{ Lang }}</router-link></MDBBreadcrumbItem
             >
             <MDBBreadcrumbItem active>{{ Class }}</MDBBreadcrumbItem>
           </MDBBreadcrumb>
         </nav>
-        <font-awesome-icon
-          :icon="['fas', 'plus']"
+        <div
           @click="CloseAndOpenAddSub"
-        />
+          class="flex items-center gap-2.5 bg-[#eee] p-2.5 rounded cursor-pointer"
+        >
+          <span>أضف مادة</span>
+          <font-awesome-icon :icon="['fas', 'plus']" />
+        </div>
       </nav>
 
-      <div class="body flex gap-2.5 items-center flex-wrap">
+      <div
+        class="body flex gap-2.5 items-center flex-wrap"
+        style="min-height: 58vh"
+      >
         <img
           src="../assets/animation_loia37xm_small.gif"
           alt=""
@@ -166,7 +172,9 @@ export default {
     EditSub,
   },
   mounted() {
-    this.getvalues();
+    setTimeout(() => {
+      this.getvalues();
+    }, 10);
     setTimeout(() => {
       this.getdata();
     }, 100);
