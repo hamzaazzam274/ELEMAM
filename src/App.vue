@@ -24,7 +24,7 @@ export default {
   direction: rtl;
 }
 body {
-  direction: ltr;
+  direction: rtl;
   background: #fff;
 }
 .container {
