@@ -88,11 +88,11 @@ export default {
     State() {
       const urlParams = new URLSearchParams(window.location.search);
 
-      const orderId = urlParams.get("order");
+      // const orderId = urlParams.get("order");
       const successStatus = urlParams.get("success");
-      const amountCents = urlParams.get("amount_cents");
+      // const amountCents = urlParams.get("amount_cents");
       const hmac = urlParams.get("hmac");
-      const id = urlParams.get("id");
+      // const id = urlParams.get("id");
 
       const amount_cents = urlParams.get("amount_cents");
       const created_at = urlParams.get("created_at");
@@ -130,11 +130,11 @@ export default {
         console.log("Error Hmac");
       }
       // استخدام هذه المعلومات كما تحتاج
-      console.log("Order ID:", orderId);
-      console.log("Success Status:", successStatus);
-      console.log("Amount (cents):", amountCents);
-      console.log("HMAC:", hmac);
-      console.log("id:", id);
+      // console.log("Order ID:", orderId);
+      // console.log("Success Status:", successStatus);
+      // console.log("Amount (cents):", amountCents);
+      // console.log("HMAC:", hmac);
+      // console.log("id:", id);
       if (successStatus === "true") {
         // الدفع ناجح
         console.log("Payment successful!");
