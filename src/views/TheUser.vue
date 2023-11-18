@@ -92,9 +92,6 @@ export default {
     State() {
       const urlParams = new URLSearchParams(window.location.search);
 
-      // استخراج البيانات من روابط الاستعلام
-      const hmac = urlParams.get("hmac");
-
       // جمع البيانات المطلوبة لحساب الهاش
       const dataKeys = [
         "amount_cents",
@@ -127,39 +124,22 @@ export default {
         CryptoJS.enc.Hex
       );
 
-      console.log("Hmac =>", hmac);
+      console.log("Hmac =>", urlParams.get("hmac"));
       console.log("Test =>", test);
       console.log("hashedData =>", hashedData);
 
       // قارن بين الهاش المتوقع والهاش الفعلي
-      if (hmac === hashedData) {
+      if (urlParams.get("hmac") === hashedData) {
         console.log("ok Hmac");
       } else {
         console.log("Error Hmac");
       }
 
       // استخدام هذه المعلومات كما تحتاج
-      // يمكنك أيضا تنفيذ الخطوات نفسها لحساب HMAC لأي نوع آخر من الاستجابات
-      // مثال إضافي لحساب HMAC لنوع TRANSACTION_PROCESSED_CALLBACK
-      if (urlParams.get("type") === "TRANSACTION_PROCESSED_CALLBACK") {
-        const processedDataKeys = [
-          "amount_cents",
-          "created_at",
-          "currency",
-          "error_occured",
-          // ... المزيد من المفاتيح حسب الحاجة
-        ];
-
-        const processedTest = processedDataKeys
-          .map((key) => urlParams.get(key))
-          .join("");
-
-        const processedHMAC = CryptoJS.HmacSHA512(
-          processedTest,
-          secretKey
-        ).toString(CryptoJS.enc.Hex);
-
-        console.log("Processed HMAC =>", processedHMAC);
+      if (urlParams.get("success") === "true") {
+        console.log("Payment successful!");
+      } else {
+        console.log("Payment failed!");
       }
 
       // إضافة المزيد من الاستجابات حسب الحاجة
