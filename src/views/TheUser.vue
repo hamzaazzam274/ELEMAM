@@ -84,6 +84,7 @@ export default {
     };
   },
   methods: {
+    Hmac() {},
     State() {
       const urlParams = new URLSearchParams(window.location.search);
 
@@ -93,6 +94,51 @@ export default {
       const hmac = urlParams.get("hmac");
       const id = urlParams.get("id");
 
+      const amount_cents = urlParams.get("amount_cents");
+      const created_at = urlParams.get("created_at");
+      const currency = urlParams.get("currency");
+      const error_occured = urlParams.get("error_occured");
+      const has_parent_transaction = urlParams.get("has_parent_transaction");
+      const obj_id = urlParams.get("obj.id");
+      const integration_id = urlParams.get("integration_id");
+      const is_3d_secure = urlParams.get("is_3d_secure");
+      const is_auth = urlParams.get("is_auth");
+      const is_capture = urlParams.get("is_capture");
+      const is_refunded = urlParams.get("is_refunded");
+      const is_standalone_payment = urlParams.get("is_standalone_payment");
+      const is_voided = urlParams.get("is_voided");
+      const order_id = urlParams.get("order.id");
+      const owner = urlParams.get("owner");
+      const pending = urlParams.get("pending");
+      const source_data_pan = urlParams.get("source_data.pan");
+      const source_data_sub_type = urlParams.get("source_data.sub_type");
+      const source_data_type = urlParams.get("source_data.type");
+      const success = urlParams.get("success");
+      let test = `
+${amount_cents}
+${created_at}
+${currency}
+${error_occured}
+${has_parent_transaction}
+${obj_id}
+${integration_id}
+${is_3d_secure}
+${is_auth}
+${is_capture}
+${is_refunded}
+${is_standalone_payment}
+${is_voided}
+${order_id}
+${owner}
+${pending}
+${source_data_pan}
+${source_data_sub_type}
+${source_data_type}
+${success}
+      `;
+      if (hmac === test) {
+        console.log("ok");
+      }
       // استخدام هذه المعلومات كما تحتاج
       console.log("Order ID:", orderId);
       console.log("Success Status:", successStatus);
