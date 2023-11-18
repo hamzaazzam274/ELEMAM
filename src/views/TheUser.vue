@@ -129,10 +129,11 @@ export default {
       const secretKey = "DFDAACE2D9EF9DA02CAB73EFA36945DF";
       const data = test; // قم بتعيين القيمة التي ترغب في تجربتها
 
-      const hashedData = CryptoJS.HmacSHA256(data, secretKey).toString(
+      const hashedData = CryptoJS.HmacSHA512(data, secretKey).toString(
         CryptoJS.enc.Hex
       );
 
+      console.log(hashedData);
       // console.log(hashedData);
 
       console.log("Hmac =>", hmac);
