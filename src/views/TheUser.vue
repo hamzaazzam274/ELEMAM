@@ -92,66 +92,54 @@ export default {
     State() {
       const urlParams = new URLSearchParams(window.location.search);
 
-      // const orderId = urlParams.get("order");
+      // استخراج البيانات من روابط الاستعلام
       const successStatus = urlParams.get("success");
-      // const amountCents = urlParams.get("amount_cents");
       const hmac = urlParams.get("hmac");
-      // const id = urlParams.get("id");
 
-      const amount_cents = urlParams.get("amount_cents");
-      const created_at = urlParams.get("created_at");
-      const currency = urlParams.get("currency");
-      const error_occured = urlParams.get("error_occured");
-      const has_parent_transaction = urlParams.get("has_parent_transaction");
-      const obj_id = urlParams.get("obj.id");
-      const integration_id = urlParams.get("integration_id");
-      const is_3d_secure = urlParams.get("is_3d_secure");
-      const is_auth = urlParams.get("is_auth");
-      const is_capture = urlParams.get("is_capture");
-      const is_refunded = urlParams.get("is_refunded");
-      const is_standalone_payment = urlParams.get("is_standalone_payment");
-      const is_voided = urlParams.get("is_voided");
-      const order_id = urlParams.get("order.id");
-      const owner = urlParams.get("owner");
-      const pending = urlParams.get("pending");
-      const source_data_pan = urlParams.get("source_data.pan");
-      const source_data_sub_type = urlParams.get("source_data.sub_type");
-      const source_data_type = urlParams.get("source_data.type");
-      const success = urlParams.get("success");
-      const test = `${amount_cents}${created_at}${currency}${error_occured}${has_parent_transaction}${obj_id}${integration_id}${is_3d_secure}${is_auth}${is_capture}${is_refunded}${is_standalone_payment}${is_voided}${order_id}${owner}${pending}${source_data_pan}${source_data_sub_type}${source_data_type}${success}
-      `;
-      // const hashed = hash_hmac(
-      //   "SHA512",
-      //   test,
-      //   "DFDAACE2D9EF9DA02CAB73EFA36945DF"
-      // );
+      // جمع البيانات المطلوبة لحساب الهاش
+      const dataKeys = [
+        "amount_cents",
+        "created_at",
+        "currency",
+        "error_occured",
+        "has_parent_transaction",
+        "obj.id",
+        "integration_id",
+        "is_3d_secure",
+        "is_auth",
+        "is_capture",
+        "is_refunded",
+        "is_standalone_payment",
+        "is_voided",
+        "order.id",
+        "owner",
+        "pending",
+        "source_data.pan",
+        "source_data.sub_type",
+        "source_data.type",
+        "success",
+      ];
 
+      const test = dataKeys.map((key) => urlParams.get(key)).join("");
+
+      // حساب الهاش باستخدام crypto-js
       const secretKey = "DFDAACE2D9EF9DA02CAB73EFA36945DF";
-      const data = test; // قم بتعيين القيمة التي ترغب في تجربتها
-
-      const hashedData = CryptoJS.HmacSHA512(data, secretKey).toString(
+      const hashedData = CryptoJS.HmacSHA512(test, secretKey).toString(
         CryptoJS.enc.Hex
       );
-
-      console.log(hashedData);
-
-      console.log(hashedData);
 
       console.log("Hmac =>", hmac);
       console.log("Test =>", test);
       console.log("hashedData =>", hashedData);
-      // console.log("hashedData =>", hashedData);
+
+      // قارن بين الهاش المتوقع والهاش الفعلي
       if (hmac === hashedData) {
         console.log("ok Hmac");
       } else {
         console.log("Error Hmac");
       }
+
       // استخدام هذه المعلومات كما تحتاج
-      // console.log("Order ID:", orderId);
-      // console.log("Success Status:", successStatus);
-      // console.log("Amount (cents):", amountCents);
-      // console.log("HMAC:", hmac);
-      // console.log("id:", id);
       if (successStatus === "true") {
         // الدفع ناجح
         console.log("Payment successful!");
