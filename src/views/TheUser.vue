@@ -133,14 +133,13 @@ export default {
         CryptoJS.enc.Hex
       );
 
-      console.log(hashedData);
-
       // console.log(hashedData);
 
       console.log("Hmac =>", hmac);
       console.log("Test =>", test);
+      console.log("hashedData =>", hashedData);
       // console.log("hashedData =>", hashedData);
-      if (hmac === test) {
+      if (hmac === hashedData) {
         console.log("ok Hmac");
       } else {
         console.log("Error Hmac");
