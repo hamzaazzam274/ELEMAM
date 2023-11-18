@@ -221,6 +221,7 @@ export default {
     AddSub,
   },
   mounted() {
+    this.State();
     setTimeout(() => {
       this.getvalues();
     }, 10);
@@ -229,6 +230,27 @@ export default {
     }, 100);
   },
   methods: {
+    State() {
+      const urlParams = new URLSearchParams(window.location.search);
+
+      const orderId = urlParams.get("order");
+      const successStatus = urlParams.get("success");
+      const amountCents = urlParams.get("amount_cents");
+      const hmac = urlParams.get("hmac");
+
+      // استخدام هذه المعلومات كما تحتاج
+      console.log("Order ID:", orderId);
+      console.log("Success Status:", successStatus);
+      console.log("Amount (cents):", amountCents);
+      console.log("HMAC:", hmac);
+      if (successStatus === "true") {
+        // الدفع ناجح
+        console.log("Payment successful!");
+      } else {
+        // الدفع فاشل
+        console.log("Payment failed!");
+      }
+    },
     async pay1() {
       const API =
         "ZXlKaGJHY2lPaUpJVXpVeE1pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SmpiR0Z6Y3lJNklrMWxjbU5vWVc1MElpd2ljSEp2Wm1sc1pWOXdheUk2T1RRd056UXdMQ0p1WVcxbElqb2lhVzVwZEdsaGJDSjkucmtzSHVZcWN0MHZUMDJjOUdlY3JNZ0JlT196UjRiMkEyWVN2S2I3ZWhXcC1sN0k5MTR4S1B3bjhFV2VUWTd5SGJSOTV5MGxMdFNhbW91cl9IWmJqQlE=";
