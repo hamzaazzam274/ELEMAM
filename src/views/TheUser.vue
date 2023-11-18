@@ -39,6 +39,7 @@
         class="All_Courses bg-[#eee] w-48 text-center p-2.5 cursor-pointer rounded"
       >
         كورساتي
+        <!-- FawryPay Checkout Button -->
       </div>
     </div>
   </div>

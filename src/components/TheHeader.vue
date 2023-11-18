@@ -59,7 +59,6 @@
             <div class="user" v-if="state">
               <div>أهلا {{ thetype }} {{ UserName }}</div>
               <div class="email">{{ useremail }}</div>
-              <div class="add" @click="close_modal_2">تغيير كلمة السر</div>
               <div class="add" @click="close_modal_3">
                 <router-link to="/TheUser"> حسابي </router-link>
               </div>

@@ -46,6 +46,7 @@ p {
 .bcolor {
   background: var(--main-color);
 }
+
 .main_title {
   color: var(--main-color);
   text-align: center;
@@ -100,6 +101,9 @@ input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+input:focus {
+  outline: none !important;
 }
 .long {
   width: 100%;
