@@ -68,6 +68,7 @@ export default {
   name: "TheUser",
   mounted() {
     this.GetData();
+    this.State();
   },
   data() {
     return {
@@ -83,6 +84,29 @@ export default {
     };
   },
   methods: {
+    State() {
+      const urlParams = new URLSearchParams(window.location.search);
+
+      const orderId = urlParams.get("order");
+      const successStatus = urlParams.get("success");
+      const amountCents = urlParams.get("amount_cents");
+      const hmac = urlParams.get("hmac");
+      const id = urlParams.get("id");
+
+      // استخدام هذه المعلومات كما تحتاج
+      console.log("Order ID:", orderId);
+      console.log("Success Status:", successStatus);
+      console.log("Amount (cents):", amountCents);
+      console.log("HMAC:", hmac);
+      console.log("id:", id);
+      if (successStatus === "true") {
+        // الدفع ناجح
+        console.log("Payment successful!");
+      } else {
+        // الدفع فاشل
+        console.log("Payment failed!");
+      }
+    },
     async GetData() {
       console.log(typeof localStorage.getItem("userphone"));
       const q = query(

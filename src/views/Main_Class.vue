@@ -69,7 +69,7 @@
             <div class="book flex flex-col gap-2.5">
               <a
                 :href="Data.BookLink"
-                class="border-1 border-[--main-color] flex items-center justify-center gap-2.5 p-2.5 rounded"
+                class="border-1 border-[--main-color] flex items-center justify-center gap-2.5 p-2.5 rounded hover-0"
               >
                 <font-awesome-icon
                   :icon="['fas', 'book']"
@@ -98,7 +98,7 @@
               <div class="video flex flex-col gap-2.5">
                 <a
                   :href="Data.FreeCourse_Video"
-                  class="border-1 border-[--main-color] flex items-center justify-center gap-2.5 p-2.5 rounded"
+                  class="border-1 border-[--main-color] flex items-center justify-center gap-2.5 p-2.5 rounded hover-0"
                 >
                   <font-awesome-icon
                     :icon="['fab', 'youtube']"
@@ -116,7 +116,7 @@
               <div class="pdf1 flex flex-col gap-2.5">
                 <a
                   :href="Data.FreeCourse_Pdf_1"
-                  class="border-1 border-[--main-color] flex items-center justify-center gap-2.5 p-2.5 rounded"
+                  class="border-1 border-[--main-color] flex items-center justify-center gap-2.5 p-2.5 rounded hover-0"
                 >
                   <font-awesome-icon
                     :icon="['fas', 'book-open-reader']"
@@ -134,7 +134,7 @@
               <div class="pdf2 flex flex-col gap-2.5">
                 <a
                   :href="Data.FreeCourse_Pdf_2"
-                  class="border-1 border-[--main-color] flex items-center justify-center gap-2.5 p-2.5 rounded"
+                  class="border-1 border-[--main-color] flex items-center justify-center gap-2.5 p-2.5 rounded hover-0"
                 >
                   <font-awesome-icon
                     :icon="['fas', 'clipboard-question']"
@@ -150,21 +150,171 @@
                 />
               </div>
               <div
-                class="pay cursor-pointer w-100 border text-center p-2.5"
+                class="pay cursor-pointer w-100 border text-center p-2.5 hover-0"
                 @click="pay1"
               >
                 شراء
               </div>
             </div>
-            <!-- <div class="test shadow p-2.5">
-            <router-link
-              to="/Main_Testing"
-              class="button bg-[--main-color] text-white p-2.5 rounded cursor-pointer text-center w-100"
+            <div
+              class="Cash_course flex flex-col gap-2.5 border-1 border-[--main-color] p-2.5 my-2.5 rounded"
             >
-              الإختبارات
-            </router-link>
-          </div> -->
+              <div class="title flex gap-1 items-center">
+                <font-awesome-icon
+                  :icon="['fas', 'coins']"
+                  class="text-[--main-color]"
+                />
+
+                <div class="text-lg">الكورس المدفوع</div>
+              </div>
+              <div class="video bg-[#fafafa] p-2.5 rounded box">
+                <div class="flex justify-between">
+                  <div class="title text-xl BillName">الفيديوهات</div>
+                  <div class="price text-sm">
+                    <input
+                      type="number"
+                      class="w-10 p-1 rounded input5 pointer-events-none text-center ml-1"
+                      v-if="Admin"
+                      :value="Data.CachCourse_Video"
+                    />
+                    <span v-else>{{ Data.CachCourse_Video }}</span>
+                    <span>جنية مصري</span>
+                  </div>
+                </div>
+                <div class="w-100 text-left mt-2">
+                  <span
+                    class="px-2.5 py-1 border-1 border-[--main-color] cursor-pointer rounded hover-0 pay"
+                    >شراء</span
+                  >
+                </div>
+              </div>
+              <div class="pdf1 bg-[#fafafa] p-2.5 rounded box">
+                <div class="flex justify-between">
+                  <div class="title text-xl BillName">المذكرات</div>
+                  <div class="price text-sm">
+                    <input
+                      type="number"
+                      class="w-10 p-1 rounded input6 pointer-events-none text-center ml-1"
+                      v-if="Admin"
+                      :value="Data.CachCourse_PdfPrice_1"
+                    />
+                    <span v-else>{{ Data.CachCourse_PdfPrice_1 }}</span>
+                    <span>جنية مصري</span>
+                  </div>
+                </div>
+                <div class="w-100 text-left mt-2">
+                  <span
+                    class="px-2.5 py-1 border-1 border-[--main-color] cursor-pointer rounded hover-0 pay"
+                    >شراء</span
+                  >
+                </div>
+              </div>
+              <div class="pdf2 bg-[#fafafa] p-2.5 rounded box">
+                <div class="flex justify-between">
+                  <div class="title text-xl BillName">بنك الأسئلة</div>
+                  <div class="price text-sm">
+                    <input
+                      type="number"
+                      class="w-10 p-1 rounded input7 pointer-events-none text-center ml-1"
+                      v-if="Admin"
+                      :value="Data.CachCourse_PdfPrice_2"
+                    />
+                    <span v-else>{{ Data.CachCourse_PdfPrice_2 }}</span>
+                    <span>جنية مصري</span>
+                  </div>
+                </div>
+                <div class="w-100 text-left mt-2">
+                  <span
+                    class="px-2.5 py-1 border-1 border-[--main-color] cursor-pointer rounded hover-0 pay"
+                    >شراء</span
+                  >
+                </div>
+              </div>
+              <div class="AllCourse bg-[#fafafa] p-2.5 rounded box">
+                <div class="flex justify-between">
+                  <div class="title text-xl BillName">الكورس كامل</div>
+                  <div class="line-through">
+                    <span class="ml-1">{{
+                      +Data.CachCourse_Video +
+                      +Data.CachCourse_PdfPrice_1 +
+                      +Data.CachCourse_PdfPrice_2
+                    }}</span>
+                    <span>جنية مصري</span>
+                  </div>
+                </div>
+                <div class="price text-sm text-left">
+                  <input
+                    type="number"
+                    class="w-10 p-1 rounded input8 pointer-events-none text-center ml-1"
+                    v-if="Admin"
+                    :value="Data.AllCourse"
+                  />
+                  <span v-else>{{ Data.AllCourse }}</span>
+                  <span>جنية مصري</span>
+                </div>
+                <div class="w-100 flex justify-between items-center mt-2">
+                  <span>
+                    خصم :
+                    <span> 10 % </span>
+                  </span>
+                  <span
+                    class="px-2.5 py-1 border-1 border-[--main-color] cursor-pointer rounded hover-0 pay"
+                    >شراء</span
+                  >
+                </div>
+              </div>
+              <div class="test shadow p-2.5">
+                <router-link
+                  to="/Main_Testing"
+                  class="button bg-[--main-color] text-white p-2.5 rounded cursor-pointer text-center w-100"
+                >
+                  الإختبارات
+                </router-link>
+              </div>
+            </div>
           </div>
+        </div>
+      </div>
+      <div class="main_Overlay" v-if="Close"></div>
+      <div
+        class="popup rounded p-2.5 bg-white fixed -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 overflow-auto h-1/2 z-20 w-1/2"
+        v-if="Close"
+      >
+        <div class="header flex justify-between items-center">
+          <span>فاتورة</span>
+          <font-awesome-icon :icon="['fas', 'xmark']" @click="Close = false" />
+        </div>
+        <div class="body">
+          <div class="flex items-center gap-2.5">
+            <div class="w-24 text-center">الدراسة</div>
+            <span>:</span>
+            <strong>{{ BillType }}</strong>
+          </div>
+          <div class="flex items-center gap-2.5">
+            <div class="w-24 text-center">القسم</div>
+            <span>:</span>
+            <strong>{{ BillLang }}</strong>
+          </div>
+          <div class="flex items-center gap-2.5">
+            <div class="w-24 text-center">الفرقة</div>
+            <span>:</span>
+            <strong>{{ BillClass }}</strong>
+          </div>
+          <div class="flex items-center gap-2.5">
+            <div class="w-24 text-center">الصنف</div>
+            <span>:</span>
+            <strong>{{ BillName }}</strong>
+          </div>
+          <div class="flex items-center gap-2.5">
+            <div class="w-24 text-center">السعر</div>
+            <span>:</span>
+            <strong>{{ BillPrice }} <span>جنية مصري</span></strong>
+          </div>
+        </div>
+        <div
+          class="pay bg-[--main-color] p-2.5 cursor-pointer text-white text-center mt-2.5"
+        >
+          أدفع
         </div>
       </div>
     </div>
@@ -212,6 +362,17 @@ export default {
       Edit1: "",
       Admin: true,
       num: "",
+      CachCourse_Video: 0,
+      CachCourse_PdfPrice_1: 0,
+      CachCourse_PdfPrice_2: 0,
+      AllCourse: "",
+      Close: null,
+      BillVedio: "",
+      BillName: "",
+      BillPrice: "",
+      BillType: "",
+      BillClass: "",
+      BillLang: "",
     };
   },
   props: ["Main_Id"],
@@ -221,7 +382,6 @@ export default {
     AddSub,
   },
   mounted() {
-    this.State();
     setTimeout(() => {
       this.getvalues();
     }, 10);
@@ -230,27 +390,46 @@ export default {
     }, 100);
   },
   methods: {
-    State() {
-      const urlParams = new URLSearchParams(window.location.search);
-
-      const orderId = urlParams.get("order");
-      const successStatus = urlParams.get("success");
-      const amountCents = urlParams.get("amount_cents");
-      const hmac = urlParams.get("hmac");
-
-      // استخدام هذه المعلومات كما تحتاج
-      console.log("Order ID:", orderId);
-      console.log("Success Status:", successStatus);
-      console.log("Amount (cents):", amountCents);
-      console.log("HMAC:", hmac);
-      if (successStatus === "true") {
-        // الدفع ناجح
-        console.log("Payment successful!");
-      } else {
-        // الدفع فاشل
-        console.log("Payment failed!");
-      }
+    CloseFunction() {
+      setTimeout(() => {
+        let boxes = document.querySelectorAll(".box .Cash_course");
+        for (let i = 0; i < boxes.length; i++) {
+          boxes[i].querySelectorAll(".box .pay")[0].onclick = () => {
+            this.BillPrice = this.AllData[i].CachCourse_Video;
+            this.BillName = "الفيديوهات";
+            this.BillType = localStorage.getItem("updateType");
+            this.BillLang = localStorage.getItem("updateLang");
+            this.BillClass = localStorage.getItem("updateClass");
+            this.Close = true;
+          };
+          boxes[i].querySelectorAll(".box .pay")[1].onclick = () => {
+            this.BillPrice = this.AllData[i].CachCourse_PdfPrice_1;
+            this.BillName = "المذكرات";
+            this.BillType = localStorage.getItem("updateType");
+            this.BillLang = localStorage.getItem("updateLang");
+            this.BillClass = localStorage.getItem("updateClass");
+            this.Close = true;
+          };
+          boxes[i].querySelectorAll(".box .pay")[2].onclick = () => {
+            this.BillPrice = this.AllData[i].CachCourse_PdfPrice_2;
+            this.BillName = "بنك الأسئلة";
+            this.BillType = localStorage.getItem("updateType");
+            this.BillLang = localStorage.getItem("updateLang");
+            this.BillClass = localStorage.getItem("updateClass");
+            this.Close = true;
+          };
+          boxes[i].querySelectorAll(".box .pay")[3].onclick = () => {
+            this.BillPrice = this.AllData[i].AllCourse;
+            this.BillName = "الكورس كامل";
+            this.BillType = localStorage.getItem("updateType");
+            this.BillLang = localStorage.getItem("updateLang");
+            this.BillClass = localStorage.getItem("updateClass");
+            this.Close = true;
+          };
+        }
+      }, 1000);
     },
+
     async pay1() {
       const API =
         "ZXlKaGJHY2lPaUpJVXpVeE1pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SmpiR0Z6Y3lJNklrMWxjbU5vWVc1MElpd2ljSEp2Wm1sc1pWOXdheUk2T1RRd056UXdMQ0p1WVcxbElqb2lhVzVwZEdsaGJDSjkucmtzSHVZcWN0MHZUMDJjOUdlY3JNZ0JlT196UjRiMkEyWVN2S2I3ZWhXcC1sN0k5MTR4S1B3bjhFV2VUWTd5SGJSOTV5MGxMdFNhbW91cl9IWmJqQlE=";
@@ -337,6 +516,10 @@ export default {
       let input2 = document.querySelectorAll(".box  input.input2");
       let input3 = document.querySelectorAll(".box  input.input3");
       let input4 = document.querySelectorAll(".box  input.input4");
+      let input5 = document.querySelectorAll(".box  input.input5");
+      let input6 = document.querySelectorAll(".box  input.input6");
+      let input7 = document.querySelectorAll(".box  input.input7");
+      let input8 = document.querySelectorAll(".box  input.input8");
       let sentence = localStorage.getItem("updateType");
       let words = sentence.split(" ");
       let firstWord = words[0];
@@ -352,6 +535,10 @@ export default {
         FreeCourse_Video: input2[this.num].value,
         FreeCourse_Pdf_1: input3[this.num].value,
         FreeCourse_Pdf_2: input4[this.num].value,
+        CachCourse_Video: input5[this.num].value,
+        CachCourse_PdfPrice_1: input6[this.num].value,
+        CachCourse_PdfPrice_2: input7[this.num].value,
+        AllCourse: input8[this.num].value,
       });
       this.getdata();
     },
@@ -425,6 +612,7 @@ export default {
       setTimeout(() => {
         this.EditFunction();
         this.AddSubToStore();
+        this.CloseFunction();
       }, 100);
     },
   },
@@ -442,14 +630,16 @@ export default {
 .border-[--main-color] {
   border: 1px solid var(--main-color) !important;
 }
-.book a {
+
+.hover-0 {
   transition: 0.3s;
 }
-.book a:hover {
+.hover-0:hover {
   background: var(--main-color);
+  color: #fff;
 }
-.book a:hover svg,
-.book a:hover span {
+.hover-0:hover svg,
+.hover-0:hover span {
   color: #fff;
 }
 @media (min-width: 1200px) {

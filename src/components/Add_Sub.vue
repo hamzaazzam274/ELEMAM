@@ -88,6 +88,10 @@ export default {
           FreeCourse_Video: "",
           FreeCourse_Pdf_1: "",
           FreeCourse_Pdf_2: "",
+          CachCourse_Video: 0,
+          CachCourse_PdfPrice_1: 0,
+          CachCourse_PdfPrice_2: 0,
+          AllCourse: 0,
         }
       );
       console.log("Document written with ID: ", docRef.id);
