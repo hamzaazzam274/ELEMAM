@@ -134,7 +134,6 @@ export default {
       );
 
       console.log(hashedData);
-      // console.log(hashedData);
 
       console.log("Hmac =>", hmac);
       console.log("Test =>", test);
