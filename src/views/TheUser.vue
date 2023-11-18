@@ -114,7 +114,7 @@ export default {
       const source_data_sub_type = urlParams.get("source_data.sub_type");
       const source_data_type = urlParams.get("source_data.type");
       const success = urlParams.get("success");
-      let test = `
+      const test = `
 ${amount_cents}
 ${created_at}
 ${currency}
@@ -140,6 +140,8 @@ ${success}
         console.log("ok Hmac");
       } else {
         console.log("Error Hmac");
+        console.log("Hmac =>", hmac);
+        console.log("Test =>", test);
       }
       // استخدام هذه المعلومات كما تحتاج
       console.log("Order ID:", orderId);
