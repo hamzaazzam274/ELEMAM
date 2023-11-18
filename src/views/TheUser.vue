@@ -64,6 +64,10 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+// import crypto from "crypto-js";
+import CryptoJS from "crypto-js";
+// الآن يمكنك استخدام 'crypto' في هذا الملف بشكل طبيعي
+
 export default {
   name: "TheUser",
   mounted() {
@@ -122,17 +126,20 @@ export default {
       //   "DFDAACE2D9EF9DA02CAB73EFA36945DF"
       // );
 
-      const crypto = require("crypto");
+      const secretKey = "DFDAACE2D9EF9DA02CAB73EFA36945DF";
+      const data = test; // قم بتعيين القيمة التي ترغب في تجربتها
 
-      const secretKey = DFDAACE2D9EF9DA02CAB73EFA36945DF;
-      const data = test;
+      const hashedData = CryptoJS.HmacSHA256(data, secretKey).toString(
+        CryptoJS.enc.Hex
+      );
 
-      const hashed = crypto.createHmac("sha256", secretKey);
-      const hashedData = hashed.update(data).digest("hex");
+      console.log(hashedData);
+
+      // console.log(hashedData);
 
       console.log("Hmac =>", hmac);
       console.log("Test =>", test);
-      console.log("hashed =>", hashed);
+      // console.log("hashedData =>", hashedData);
       if (hmac === test) {
         console.log("ok Hmac");
       } else {
