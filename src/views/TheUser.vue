@@ -93,7 +93,6 @@ export default {
       const urlParams = new URLSearchParams(window.location.search);
 
       // استخراج البيانات من روابط الاستعلام
-      const successStatus = urlParams.get("success");
       const hmac = urlParams.get("hmac");
 
       // جمع البيانات المطلوبة لحساب الهاش
@@ -140,13 +139,30 @@ export default {
       }
 
       // استخدام هذه المعلومات كما تحتاج
-      if (successStatus === "true") {
-        // الدفع ناجح
-        console.log("Payment successful!");
-      } else {
-        // الدفع فاشل
-        console.log("Payment failed!");
+      // يمكنك أيضا تنفيذ الخطوات نفسها لحساب HMAC لأي نوع آخر من الاستجابات
+      // مثال إضافي لحساب HMAC لنوع TRANSACTION_PROCESSED_CALLBACK
+      if (urlParams.get("type") === "TRANSACTION_PROCESSED_CALLBACK") {
+        const processedDataKeys = [
+          "amount_cents",
+          "created_at",
+          "currency",
+          "error_occured",
+          // ... المزيد من المفاتيح حسب الحاجة
+        ];
+
+        const processedTest = processedDataKeys
+          .map((key) => urlParams.get(key))
+          .join("");
+
+        const processedHMAC = CryptoJS.HmacSHA512(
+          processedTest,
+          secretKey
+        ).toString(CryptoJS.enc.Hex);
+
+        console.log("Processed HMAC =>", processedHMAC);
       }
+
+      // إضافة المزيد من الاستجابات حسب الحاجة
     },
     async GetData() {
       console.log(typeof localStorage.getItem("userphone"));
