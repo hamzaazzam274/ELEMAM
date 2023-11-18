@@ -116,11 +116,20 @@ export default {
       const success = urlParams.get("success");
       const test = `${amount_cents}${created_at}${currency}${error_occured}${has_parent_transaction}${obj_id}${integration_id}${is_3d_secure}${is_auth}${is_capture}${is_refunded}${is_standalone_payment}${is_voided}${order_id}${owner}${pending}${source_data_pan}${source_data_sub_type}${source_data_type}${success}
       `;
-      const hashed = hash_hmac(
-        "SHA512",
-        test,
-        "DFDAACE2D9EF9DA02CAB73EFA36945DF"
-      );
+      // const hashed = hash_hmac(
+      //   "SHA512",
+      //   test,
+      //   "DFDAACE2D9EF9DA02CAB73EFA36945DF"
+      // );
+
+      const crypto = require("crypto");
+
+      const secretKey = DFDAACE2D9EF9DA02CAB73EFA36945DF;
+      const data = test;
+
+      const hashed = crypto.createHmac("sha256", secretKey);
+      const hashedData = hashed.update(data).digest("hex");
+
       console.log("Hmac =>", hmac);
       console.log("Test =>", test);
       console.log("hashed =>", hashed);
