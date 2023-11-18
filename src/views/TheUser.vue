@@ -114,34 +114,20 @@ export default {
       const source_data_sub_type = urlParams.get("source_data.sub_type");
       const source_data_type = urlParams.get("source_data.type");
       const success = urlParams.get("success");
-      const test = `
-${amount_cents}
-${created_at}
-${currency}
-${error_occured}
-${has_parent_transaction}
-${obj_id}
-${integration_id}
-${is_3d_secure}
-${is_auth}
-${is_capture}
-${is_refunded}
-${is_standalone_payment}
-${is_voided}
-${order_id}
-${owner}
-${pending}
-${source_data_pan}
-${source_data_sub_type}
-${source_data_type}
-${success}
+      const test = `${amount_cents}${created_at}${currency}${error_occured}${has_parent_transaction}${obj_id}${integration_id}${is_3d_secure}${is_auth}${is_capture}${is_refunded}${is_standalone_payment}${is_voided}${order_id}${owner}${pending}${source_data_pan}${source_data_sub_type}${source_data_type}${success}
       `;
+      const hashed = hash_hmac(
+        "SHA512",
+        test,
+        "DFDAACE2D9EF9DA02CAB73EFA36945DF"
+      );
+      console.log("Hmac =>", hmac);
+      console.log("Test =>", test);
+      console.log("hashed =>", hashed);
       if (hmac === test) {
         console.log("ok Hmac");
       } else {
         console.log("Error Hmac");
-        console.log("Hmac =>", hmac);
-        console.log("Test =>", test);
       }
       // استخدام هذه المعلومات كما تحتاج
       console.log("Order ID:", orderId);
