@@ -137,7 +137,9 @@ ${source_data_type}
 ${success}
       `;
       if (hmac === test) {
-        console.log("ok");
+        console.log("ok Hmac");
+      } else {
+        console.log("Error Hmac");
       }
       // استخدام هذه المعلومات كما تحتاج
       console.log("Order ID:", orderId);
