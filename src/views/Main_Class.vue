@@ -451,8 +451,18 @@ export default {
         delivery_needed: "false",
         amount_cents: `${this.BillPrice}00`,
         currency: "EGP",
-        merchant_order_id: 5,
-        items: [],
+        merchant_order_id: Date.now(),
+        integration_id: 4352564,
+        lock_order_when_paid: "false",
+        order_description: "Product description goes here", // وصف المنتج - قم بتحديثه
+        order_items: [
+          {
+            name: this.BillName, // اسم المنتج - قم بتحديثه
+            BillType: this.BillType,
+            BillLang: this.BillLang,
+            BillClass: this.BillClass,
+          },
+        ],
       };
       let request = await fetch(
         "https://accept.paymob.com/api/ecommerce/orders",
@@ -464,7 +474,8 @@ export default {
       );
       let response = await request.json();
       let id = response.id;
-      console.log(response);
+      console.log("Data =>", Data.billing_data);
+      console.log("response", response);
       console.log(token);
       this.pay3(token, id);
     },
@@ -513,7 +524,8 @@ export default {
       );
       let response = await request.json();
       let TheToken = response.token;
-      console.log(response.token);
+      console.log("Data:", Data);
+      console.log("Full Response:", response);
       this.CardPayment(TheToken);
     },
     CardPayment(token) {
