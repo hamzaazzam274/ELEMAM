@@ -151,7 +151,6 @@
               </div>
               <div
                 class="pay cursor-pointer w-100 border text-center p-2.5 hover-0"
-                @click="pay1"
               >
                 شراء
               </div>
@@ -313,6 +312,7 @@
         </div>
         <div
           class="pay bg-[--main-color] p-2.5 cursor-pointer text-white text-center mt-2.5"
+          @click="pay1"
         >
           أدفع
         </div>
@@ -449,7 +449,7 @@ export default {
       let Data = {
         auth_token: token,
         delivery_needed: "false",
-        amount_cents: "100",
+        amount_cents: `${this.BillPrice}00`,
         currency: "EGP",
         merchant_order_id: 5,
         items: [],
@@ -471,27 +471,37 @@ export default {
     async pay3(token, id) {
       let Data = {
         auth_token: token,
-        amount_cents: "100",
+        amount_cents: `${this.BillPrice}00`,
         expiration: 3600,
         order_id: id,
         billing_data: {
           apartment: "803",
-          email: "claudette09@exa.com",
+          first_name: localStorage.getItem("username_1"),
+          middle_name: localStorage.getItem("username_2"), // الاسم الثلاثي - قم بتحديثه
+          last_name: localStorage.getItem("username_3"),
+          email: localStorage.getItem("useremail"), // البريد الإلكتروني - قم بتحديثه
+          phone_number: localStorage.getItem("userphone"),
           floor: "42",
-          first_name: "Clifford",
           street: "Ethan Land",
           building: "8028",
-          phone_number: "+86(8)9135210487",
           shipping_method: "PKG",
           postal_code: "01898",
           city: "Jaskolskiburgh",
           country: "CR",
-          last_name: "Nicolas",
           state: "Utah",
         },
         currency: "EGP",
         integration_id: 4352564,
         lock_order_when_paid: "false",
+        order_description: "Product description goes here", // وصف المنتج - قم بتحديثه
+        order_items: [
+          {
+            name: this.BillName, // اسم المنتج - قم بتحديثه
+            BillType: this.BillType,
+            BillLang: this.BillLang,
+            BillClass: this.BillClass,
+          },
+        ],
       };
       let request = await fetch(
         "https://accept.paymob.com/api/acceptance/payment_keys",

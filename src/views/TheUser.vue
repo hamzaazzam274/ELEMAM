@@ -114,6 +114,7 @@ export default {
         "source_data.sub_type",
         "source_data.type",
         "success",
+        "order_items",
       ];
 
       const test = dataKeys.map((key) => urlParams.get(key)).join("");
