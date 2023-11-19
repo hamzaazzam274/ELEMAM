@@ -145,7 +145,7 @@ export default {
       );
 
       console.log("Hmac =>", urlParams.get("hmac"));
-      console.log("Test =>", test);
+      console.log("Test =>", test.order_items[0].name);
       console.log("hashedData =>", hashedData);
 
       // قارن بين الهاش المتوقع والهاش الفعلي
