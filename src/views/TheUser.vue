@@ -136,9 +136,7 @@ export default {
         "order_items[0].BillClass",
       ];
 
-      const test = dataKeys.map((key) => {
-        urlParams.get(key);
-      });
+      const test = dataKeys.map((key) => urlParams.get(key));
 
       // حساب الهاش باستخدام crypto-js
       const secretKey = "DFDAACE2D9EF9DA02CAB73EFA36945DF";
