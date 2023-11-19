@@ -541,7 +541,7 @@ export default {
       console.log("Data:", Data);
       console.log("Full Response:", response);
       let userid = localStorage.getItem("userid");
-
+      console.log(userid);
       // تحديث الحقل باستخدام `updateDoc`
       const documentRef = doc(db, "الطلاب", userid);
       // احصل على المستند الحالي
@@ -561,7 +561,6 @@ export default {
         BillPrice: `${this.BillPrice}00`,
         SubName: this.SubName,
       };
-
       // إضافة الكائن الجديد إلى القيمة الحالية للحقل
       currentFieldValue.push(newObject);
 
