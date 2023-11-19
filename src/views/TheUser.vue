@@ -136,7 +136,7 @@ export default {
         "order_items[0].BillClass",
       ];
 
-      const test = dataKeys.map((key) => urlParams.get(key)).join(" ");
+      const test = dataKeys.map((key) => urlParams.get(key));
 
       // حساب الهاش باستخدام crypto-js
       const secretKey = "DFDAACE2D9EF9DA02CAB73EFA36945DF";
@@ -145,7 +145,7 @@ export default {
       );
 
       console.log("Hmac =>", urlParams.get("hmac"));
-      console.log("Test =>", test.order_items[0].name);
+      console.log("Test =>", test);
       console.log("hashedData =>", hashedData);
 
       // قارن بين الهاش المتوقع والهاش الفعلي
