@@ -537,7 +537,6 @@ export default {
         }
       );
       let response = await request.json();
-      let TheToken = response.token;
       console.log("Data:", Data);
       console.log("Full Response:", response);
       let userid = localStorage.getItem("userid");
@@ -569,7 +568,8 @@ export default {
         [fieldName]: currentFieldValue,
       });
 
-      this.CardPayment(TheToken);
+      // let TheToken = response.token;
+      // this.CardPayment(TheToken);
     },
     CardPayment(token) {
       let iframURL = `https://accept.paymob.com/api/acceptance/iframes/802769?payment_token=${token}`;
