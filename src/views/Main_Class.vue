@@ -38,7 +38,7 @@
             class="m-auto"
           />
           <div
-            class="box w-48 border-1 p-2.5 rounded relative"
+            class="main_box w-48 border-1 p-2.5 rounded relative"
             v-for="(Data, index) in AllData"
             :key="Data"
           >
@@ -309,6 +309,11 @@
             <span>:</span>
             <strong>{{ BillPrice }} <span>جنية مصري</span></strong>
           </div>
+          <div class="flex items-center gap-2.5">
+            <div class="w-24 text-center">المادة</div>
+            <span>:</span>
+            <strong>{{ SubName }}</strong>
+          </div>
         </div>
         <div
           class="pay bg-[--main-color] p-2.5 cursor-pointer text-white text-center mt-2.5"
@@ -331,6 +336,7 @@ import {
   getFirestore,
   updateDoc,
   doc,
+  getDoc,
 } from "firebase/firestore";
 
 import { initializeApp } from "firebase/app";
@@ -373,6 +379,7 @@ export default {
       BillType: "",
       BillClass: "",
       BillLang: "",
+      SubName: "",
     };
   },
   props: ["Main_Id"],
@@ -392,9 +399,12 @@ export default {
   methods: {
     CloseFunction() {
       setTimeout(() => {
-        let boxes = document.querySelectorAll(".box .Cash_course");
+        let boxes = document.querySelectorAll(".main_box .Cash_course");
+        let title = document.querySelectorAll(".main_box > .header .title ");
+
         for (let i = 0; i < boxes.length; i++) {
-          boxes[i].querySelectorAll(".box .pay")[0].onclick = () => {
+          boxes[i].querySelectorAll(".main_box .pay")[0].onclick = () => {
+            this.SubName = title[i].innerHTML;
             this.BillPrice = this.AllData[i].CachCourse_Video;
             this.BillName = "الفيديوهات";
             this.BillType = localStorage.getItem("updateType");
@@ -402,7 +412,8 @@ export default {
             this.BillClass = localStorage.getItem("updateClass");
             this.Close = true;
           };
-          boxes[i].querySelectorAll(".box .pay")[1].onclick = () => {
+          boxes[i].querySelectorAll(".main_box .pay")[1].onclick = () => {
+            this.SubName = title[i].innerHTML;
             this.BillPrice = this.AllData[i].CachCourse_PdfPrice_1;
             this.BillName = "المذكرات";
             this.BillType = localStorage.getItem("updateType");
@@ -410,7 +421,8 @@ export default {
             this.BillClass = localStorage.getItem("updateClass");
             this.Close = true;
           };
-          boxes[i].querySelectorAll(".box .pay")[2].onclick = () => {
+          boxes[i].querySelectorAll(".main_box .pay")[2].onclick = () => {
+            this.SubName = title[i].innerHTML;
             this.BillPrice = this.AllData[i].CachCourse_PdfPrice_2;
             this.BillName = "بنك الأسئلة";
             this.BillType = localStorage.getItem("updateType");
@@ -418,7 +430,8 @@ export default {
             this.BillClass = localStorage.getItem("updateClass");
             this.Close = true;
           };
-          boxes[i].querySelectorAll(".box .pay")[3].onclick = () => {
+          boxes[i].querySelectorAll(".main_box .pay")[3].onclick = () => {
+            this.SubName = title[i].innerHTML;
             this.BillPrice = this.AllData[i].AllCourse;
             this.BillName = "الكورس كامل";
             this.BillType = localStorage.getItem("updateType");
@@ -511,6 +524,7 @@ export default {
             BillType: this.BillType,
             BillLang: this.BillLang,
             BillClass: this.BillClass,
+            success: false,
           },
         ],
       };
@@ -526,6 +540,36 @@ export default {
       let TheToken = response.token;
       console.log("Data:", Data);
       console.log("Full Response:", response);
+      let userid = localStorage.getItem("userid");
+
+      // تحديث الحقل باستخدام `updateDoc`
+      const documentRef = doc(db, "الطلاب", userid);
+      // احصل على المستند الحالي
+      const documentSnapshot = await getDoc(documentRef);
+      const fieldName = "pay";
+      const currentFieldValue = documentSnapshot.data()[fieldName];
+      setTimeout(() => {
+        console.log(documentSnapshot.data());
+      }, 1000);
+
+      // قم بإعداد الكائن الجديد
+      let newObject = {
+        name: this.BillName,
+        BillType: this.BillType,
+        BillLang: this.BillLang,
+        BillClass: this.BillClass,
+        BillPrice: `${this.BillPrice}00`,
+        SubName: this.SubName,
+      };
+
+      // إضافة الكائن الجديد إلى القيمة الحالية للحقل
+      currentFieldValue.push(newObject);
+
+      // تحديث المستند بالقيمة الجديدة
+      await updateDoc(documentRef, {
+        [fieldName]: currentFieldValue,
+      });
+
       this.CardPayment(TheToken);
     },
     CardPayment(token) {
@@ -534,14 +578,14 @@ export default {
     },
 
     async Updata() {
-      let input1 = document.querySelectorAll(".box  input.input1");
-      let input2 = document.querySelectorAll(".box  input.input2");
-      let input3 = document.querySelectorAll(".box  input.input3");
-      let input4 = document.querySelectorAll(".box  input.input4");
-      let input5 = document.querySelectorAll(".box  input.input5");
-      let input6 = document.querySelectorAll(".box  input.input6");
-      let input7 = document.querySelectorAll(".box  input.input7");
-      let input8 = document.querySelectorAll(".box  input.input8");
+      let input1 = document.querySelectorAll(".main_box  input.input1");
+      let input2 = document.querySelectorAll(".main_box  input.input2");
+      let input3 = document.querySelectorAll(".main_box  input.input3");
+      let input4 = document.querySelectorAll(".main_box  input.input4");
+      let input5 = document.querySelectorAll(".main_box  input.input5");
+      let input6 = document.querySelectorAll(".main_box  input.input6");
+      let input7 = document.querySelectorAll(".main_box  input.input7");
+      let input8 = document.querySelectorAll(".main_box  input.input8");
       let sentence = localStorage.getItem("updateType");
       let words = sentence.split(" ");
       let firstWord = words[0];
@@ -565,12 +609,13 @@ export default {
       this.getdata();
     },
     EditFunction() {
-      let box = document.querySelectorAll(".box");
-      let svg = document.querySelectorAll(".box > svg");
-      let span = document.querySelectorAll(".box > span");
-      let inputs = document.querySelectorAll(".box  input");
+      let box = document.querySelectorAll(".main_box");
+      let svg = document.querySelectorAll(".main_box > svg");
+      let span = document.querySelectorAll(".main_box > span");
+      let inputs = document.querySelectorAll(".main_box  input");
       for (let i = 0; i < svg.length; i++) {
         svg[i].onclick = async () => {
+          console.log(svg[i]);
           this.num = i;
           box.forEach((e) => {
             e.classList.remove("border-[--main-color]");
@@ -583,6 +628,7 @@ export default {
             e.classList.add("pointer-events-none");
           });
           box[i].classList.add("border-[--main-color]");
+          console.log(box[i]);
           box[i].querySelectorAll("input").forEach((e) => {
             e.classList.remove("pointer-events-none");
           });
@@ -635,7 +681,7 @@ export default {
         this.EditFunction();
         this.AddSubToStore();
         this.CloseFunction();
-      }, 100);
+      }, 1000);
     },
   },
   setup() {

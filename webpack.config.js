@@ -1,17 +1,10 @@
-const webpack = require("webpack");
+const path = require("path");
 
 module.exports = {
-  // ... محتوى إعدادات webpack الخاصة بك ...
-
+  // ... other configurations
   resolve: {
     fallback: {
       crypto: require.resolve("crypto-browserify"),
     },
   },
-
-  plugins: [
-    new webpack.ProvidePlugin({
-      process: "process/browser",
-    }),
-  ],
 };

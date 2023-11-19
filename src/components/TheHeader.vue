@@ -156,8 +156,7 @@ export default {
     UserStateFunction() {
       console.log("UserStateFunction");
       this.state = null;
-      this.thetype =
-        localStorage.getItem("type") === "بنين" ? "بك يا" : "بيكي يا";
+      this.thetype = localStorage.getItem("type") === "بنين" ? "بك " : "بيكي ";
       this.UserName = `${localStorage.getItem("username_1")} 
         ${localStorage.getItem("username_2")} 
         ${localStorage.getItem("username_3")}`;

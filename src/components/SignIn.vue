@@ -103,7 +103,7 @@ export default {
       try {
         const q = query(
           collection(db, "الطلاب"),
-          where("phone", "==", 0 + this.number)
+          where("phone", "==", `0${this.number}`)
         );
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {

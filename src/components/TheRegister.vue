@@ -144,7 +144,7 @@
           </div>
           <div class="border p-2.5 mb-3">
             <h5>اختر فرقتك الدراسية</h5>
-            <div class="box p-2.5 rounded">
+            <div class="box register p-2.5 rounded">
               <div class="number flex justify-center gap-10 mb-5">
                 <div class="feat relative">
                   <span
@@ -388,36 +388,48 @@ export default {
   },
   methods: {
     select() {
-      let numbers = document.querySelectorAll(".number .feat > div");
-      let content = document.querySelectorAll(".content > div");
-      document.querySelectorAll(".selecte_1 span")[0].onclick = () => {
-        this.type = document.querySelectorAll(".selecte_1 span")[0].innerHTML;
-        numbers.forEach((e) => e.classList.add("opacity-50"));
-        numbers[1].classList.remove("opacity-50");
-        content.forEach((e) => e.classList.add("hidden"));
-        content[1].classList.remove("hidden");
-        document
-          .querySelectorAll(".selecte_2 span")[1]
-          .classList.remove("hidden");
-        document
-          .querySelectorAll(".selecte_3 > div")[2]
-          .classList.remove("hidden");
-        document
-          .querySelectorAll(".selecte_3 > div")[3]
-          .classList.remove("hidden");
-      };
-      document.querySelectorAll(".selecte_1 span")[1].onclick = () => {
-        this.type = document.querySelectorAll(".selecte_1 span")[1].innerHTML;
-        numbers.forEach((e) => e.classList.add("opacity-50"));
-        numbers[1].classList.remove("opacity-50");
-        content.forEach((e) => e.classList.add("hidden"));
-        content[1].classList.remove("hidden");
-        document.querySelectorAll(".selecte_2 span")[1].classList.add("hidden");
-        document.querySelectorAll(".selecte_3> div")[2].classList.add("hidden");
-        document.querySelectorAll(".selecte_3> div")[3].classList.add("hidden");
-      };
+      let numbers = document.querySelectorAll(".register .number .feat > div");
+      let content = document.querySelectorAll(".register .content > div");
+      document.querySelectorAll(".register .selecte_1 span")[0].onclick =
+        () => {
+          this.type = document.querySelectorAll(
+            ".register .selecte_1 span"
+          )[0].innerHTML;
+          numbers.forEach((e) => e.classList.add("opacity-50"));
+          numbers[1].classList.remove("opacity-50");
+          content.forEach((e) => e.classList.add("hidden"));
+          content[1].classList.remove("hidden");
+          document
+            .querySelectorAll(".register .selecte_2 span")[1]
+            .classList.remove("hidden");
+          document
+            .querySelectorAll(".register .selecte_3 > div")[2]
+            .classList.remove("hidden");
+          document
+            .querySelectorAll(".register .selecte_3 > div")[3]
+            .classList.remove("hidden");
+        };
+      document.querySelectorAll(".register .selecte_1 span")[1].onclick =
+        () => {
+          this.type = document.querySelectorAll(
+            ".register .selecte_1 span"
+          )[1].innerHTML;
+          numbers.forEach((e) => e.classList.add("opacity-50"));
+          numbers[1].classList.remove("opacity-50");
+          content.forEach((e) => e.classList.add("hidden"));
+          content[1].classList.remove("hidden");
+          document
+            .querySelectorAll(".register .selecte_2 span")[1]
+            .classList.add("hidden");
+          document
+            .querySelectorAll(".register .selecte_3> div")[2]
+            .classList.add("hidden");
+          document
+            .querySelectorAll(".register .selecte_3> div")[3]
+            .classList.add("hidden");
+        };
 
-      document.querySelectorAll(".selecte_2 span").forEach((e) => {
+      document.querySelectorAll(".register .selecte_2 span").forEach((e) => {
         e.onclick = () => {
           this.lang = e.innerHTML;
           numbers.forEach((e) => e.classList.add("opacity-50"));
@@ -425,31 +437,33 @@ export default {
           content.forEach((e) => e.classList.add("hidden"));
           content[2].classList.remove("hidden");
         };
-        document.querySelector(".selecte_2 .button > div").onclick = () => {
-          numbers.forEach((e) => e.classList.add("opacity-50"));
-          numbers[0].classList.remove("opacity-50");
-          content.forEach((e) => e.classList.add("hidden"));
-          content[0].classList.remove("hidden");
-        };
+        document.querySelector(".register .selecte_2 .button > div").onclick =
+          () => {
+            numbers.forEach((e) => e.classList.add("opacity-50"));
+            numbers[0].classList.remove("opacity-50");
+            content.forEach((e) => e.classList.add("hidden"));
+            content[0].classList.remove("hidden");
+          };
       });
-      document.querySelectorAll(".selecte_3 > div").forEach((e) => {
+      document.querySelectorAll(".register .selecte_3 > div").forEach((e) => {
         e.onclick = () => {
           this.class = e.innerHTML;
-          localStorage.setItem("updateType", this.type);
-          localStorage.setItem("updateLang", this.lang);
-          localStorage.setItem("updateClass", this.class);
+          localStorage.setItem("type", this.type);
+          localStorage.setItem("Lang", this.lang);
+          localStorage.setItem("Class", this.class);
           numbers.forEach((e) => e.classList.add("opacity-50"));
           numbers[0].classList.remove("opacity-50");
           content.forEach((e) => e.classList.add("hidden"));
           content[0].classList.remove("hidden");
           this.value = true;
         };
-        document.querySelector(".selecte_3 .button > div").onclick = () => {
-          numbers.forEach((e) => e.classList.add("opacity-50"));
-          numbers[1].classList.remove("opacity-50");
-          content.forEach((e) => e.classList.add("hidden"));
-          content[1].classList.remove("hidden");
-        };
+        document.querySelector(".register .selecte_3 .button > div").onclick =
+          () => {
+            numbers.forEach((e) => e.classList.add("opacity-50"));
+            numbers[1].classList.remove("opacity-50");
+            content.forEach((e) => e.classList.add("hidden"));
+            content[1].classList.remove("hidden");
+          };
       });
     },
     close_2() {
@@ -470,17 +484,28 @@ export default {
       let Samephone;
       let AllData;
       let SameData;
+      let SameData1;
       const q = query(
         collection(db, "الطلاب"),
-        where("phone", "==", 0 + +this.user.phone),
+        where("phone", "==", this.user.phone)
+      );
+      const q1 = query(
+        collection(db, "الطلاب"),
         where("email", "==", this.user.email)
       );
       const querySnapshot = await getDocs(q);
+      const querySnapshot1 = await getDocs(q1);
       if (!querySnapshot.empty) {
         SameData = false;
-        this.ErrorMsg = "رقم الهاتف والإيميل مسجلين بالفعل علي الموقع";
+        this.ErrorMsg = "رقم الهاتف  مسجل بالفعل علي الموقع";
       } else {
         SameData = true;
+      }
+      if (!querySnapshot1.empty) {
+        SameData1 = false;
+        this.ErrorMsg = "الإيميل مسجل بالفعل علي الموقع";
+      } else {
+        SameData1 = true;
       }
 
       if (this.user.password_1 !== this.user.password_2) {
@@ -548,7 +573,8 @@ export default {
         phone === true &&
         Samephone === true &&
         AllData === true &&
-        SameData === true
+        SameData === true &&
+        SameData1 === true
       ) {
         console.log("Done");
         this.ErrorMsg = "";
@@ -574,8 +600,8 @@ export default {
           name_2: this.user.Name_2,
           name_3: this.user.Name_3,
           email: this.user.email,
-          phone: +this.user.phone,
-          parents_phone: +this.user.parents_phone,
+          phone: this.user.phone,
+          parents_phone: this.user.parents_phone,
           college_place: document.querySelector(".form-floating>.form-select")
             .value,
           password: pass,
@@ -593,11 +619,7 @@ export default {
           localStorage.setItem("username_1", this.user.Name_1);
           localStorage.setItem("username_2", this.user.Name_2);
           localStorage.setItem("username_3", this.user.Name_3);
-          localStorage.setItem("useremail", this.user.email);
-          localStorage.setItem("userphone", this.user.phone);
           localStorage.setItem("userid", docRef.id);
-          localStorage.setItem("college_place", this.user.college_place);
-          localStorage.setItem("parents_phone", this.user.parents_phone);
           localStorage.setItem("Class", this.class);
           localStorage.setItem("TypeOfClass", this.type);
           localStorage.setItem("Lang", this.lang);
