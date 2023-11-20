@@ -540,7 +540,7 @@ export default {
       console.log("Data:", Data);
       console.log("Full Response:", response);
       let userid = localStorage.getItem("userid");
-      console.log('userid',userid);
+      console.log("userid", userid);
       // تحديث الحقل باستخدام `updateDoc`
       const documentRef = doc(db, "الطلاب", userid);
       // احصل على المستند الحالي
@@ -569,10 +569,10 @@ export default {
       await updateDoc(documentRef, {
         [fieldName]: currentFieldValue,
       });
-      setTimeout(() => {
-        let TheToken = response.token;
-        this.CardPayment(TheToken);
-      }, 5000);
+      // let TheToken = response.token;
+      // setTimeout(() => {
+      //   this.CardPayment(TheToken);
+      // }, 5000);
     },
     CardPayment(token) {
       let iframURL = `https://accept.paymob.com/api/acceptance/iframes/802769?payment_token=${token}`;
