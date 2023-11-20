@@ -20,7 +20,7 @@
         </nav>
         <div
           @click="CloseAndOpenAddSub"
-          class="flex items-center gap-2.5 bg-[#eee] p-2.5 rounded cursor-pointer"
+          class="flex items-center gap-2.5 bg-[red] p-2.5 rounded cursor-pointer"
         >
           <font-awesome-icon :icon="['fas', 'plus']" />
           <span>أضف مادة</span>
