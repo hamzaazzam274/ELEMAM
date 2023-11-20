@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import Main_Class from "../views/Main_Class.vue";
 import Main_Testing from "../views/Main_Testing.vue";
+import TheUser from "../views/TheUser.vue";
 
 const routes = [
   {
@@ -18,6 +19,11 @@ const routes = [
     path: "/Main_Testing",
     name: "Main_Testing",
     component: Main_Testing,
+  },
+  {
+    path: "/TheUser",
+    name: "TheUser",
+    component: TheUser,
   },
 ];
 

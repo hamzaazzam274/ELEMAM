@@ -39,6 +39,10 @@
         class="All_Courses bg-[#eee] w-48 text-center p-2.5 cursor-pointer rounded"
       >
         كورساتي
+<<<<<<< HEAD
+=======
+        <!-- FawryPay Checkout Button -->
+>>>>>>> 9220627ec37910fb23593e9983d128d63f473271
       </div>
     </div>
   </div>
@@ -63,10 +67,21 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+<<<<<<< HEAD
+=======
+// import crypto from "crypto-js";
+import CryptoJS from "crypto-js";
+// الآن يمكنك استخدام 'crypto' في هذا الملف بشكل طبيعي
+
+>>>>>>> 9220627ec37910fb23593e9983d128d63f473271
 export default {
   name: "TheUser",
   mounted() {
     this.GetData();
+<<<<<<< HEAD
+=======
+    this.State();
+>>>>>>> 9220627ec37910fb23593e9983d128d63f473271
   },
   data() {
     return {
@@ -82,6 +97,66 @@ export default {
     };
   },
   methods: {
+<<<<<<< HEAD
+=======
+    Hmac() {},
+    State() {
+      const urlParams = new URLSearchParams(window.location.search);
+
+      // جمع البيانات المطلوبة لحساب الهاش
+      const dataKeys = [
+        "amount_cents",
+        "created_at",
+        "currency",
+        "error_occured",
+        "has_parent_transaction",
+        "obj.id",
+        "integration_id",
+        "is_3d_secure",
+        "is_auth",
+        "is_capture",
+        "is_refunded",
+        "is_standalone_payment",
+        "is_voided",
+        "order.id",
+        "owner",
+        "pending",
+        "source_data.pan",
+        "source_data.sub_type",
+        "source_data.type",
+        "success",
+        "billing_data",
+      ];
+
+      const test = dataKeys.map((key) => urlParams.get(key));
+
+      // حساب الهاش باستخدام crypto-js
+      const secretKey = "DFDAACE2D9EF9DA02CAB73EFA36945DF";
+      const hashedData = CryptoJS.HmacSHA512(test, secretKey).toString(
+        CryptoJS.enc.Hex
+      );
+
+      console.log("Hmac =>", urlParams.get("hmac"));
+      console.log("Test =>", test);
+      console.log("hashedData =>", hashedData);
+
+      // قارن بين الهاش المتوقع والهاش الفعلي
+      if (urlParams.get("hmac") === hashedData) {
+        console.log("ok Hmac");
+      } else {
+        console.log("Error Hmac");
+      }
+
+      // استخدام هذه المعلومات كما تحتاج
+      if (urlParams.get("success") === "true") {
+        console.log("Payment successful!");
+      } else {
+        console.log("Payment failed!");
+      }
+
+      // إضافة المزيد من الاستجابات حسب الحاجة
+    },
+>>>>>>> 9220627ec37910fb23593e9983d128d63f473271
     async GetData() {
       console.log(typeof localStorage.getItem("userphone"));
       const q = query(

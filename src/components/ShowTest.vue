@@ -181,6 +181,71 @@ export default {
     };
   },
   methods: {
+<<<<<<< HEAD
+=======
+    ShowResult() {
+      let AnswerDad = document.querySelectorAll(".Answer");
+      let AllAnswer = document.querySelectorAll(".Answer > div");
+      let active = document.querySelectorAll(".Answer > .active");
+      if (active.length !== this.Qu.length || active.length === 0) {
+        this.ErrorActive = true;
+        this.MyResult = false;
+      } else {
+        this.MyResult = true;
+        this.ErrorActive = false;
+        AllAnswer.forEach((e) => {
+          e.classList.add("pointer-events-none");
+        });
+        for (let i = 0; i < active.length; i++) {
+          this.Allresult = active.length;
+          for (let j = 0; j < 3; j++) {
+            if (AnswerDad[i].children[j].innerHTML === this.Qu[i].RightAnswer) {
+              AnswerDad[i].children[j].style.background = "red";
+            }
+          }
+          if (active[i].innerHTML === this.Qu[i].RightAnswer) {
+            this.result += 1;
+            this.percent = ((this.result / this.Allresult) * 100).toFixed(0);
+            if (this.percent >= 90 && this.percent <= 100) {
+              this.appreciation = "إمتياز";
+            } else if (this.percent >= 80 && this.percent <= 89) {
+              this.appreciation = "جيد جدا";
+            } else if (this.percent >= 70 && this.percent <= 79) {
+              this.appreciation = "جيد";
+            } else if (this.percent >= 50 && this.percent <= 69) {
+              this.appreciation = "مقبول";
+            } else if (this.percent >= 25 && this.percent <= 49) {
+              this.appreciation = "ضعيف";
+            } else if (this.percent >= 0 && this.percent <= 24) {
+              this.appreciation = "ضعيف جدا";
+            }
+          }
+        }
+      }
+    },
+    ClickActive() {
+      let AnswerDad = document.querySelectorAll(".Answer");
+      AnswerDad.forEach(() => {
+        for (let i = 0; i < AnswerDad.length; i++) {
+          document
+            .querySelectorAll(".Answer")
+            [i].querySelectorAll("div")
+            .forEach((e) => {
+              e.style.order = -Math.floor(Math.random() * 4);
+              e.onclick = () => {
+                document
+                  .querySelectorAll(".Answer")
+                  [i].querySelectorAll("div")
+                  .forEach((e) => {
+                    e.classList.remove("active");
+                  });
+                e.classList.add("active");
+              };
+            });
+        }
+      });
+    },
+>>>>>>> 9220627ec37910fb23593e9983d128d63f473271
     async DeleteQu() {
       let sentence = localStorage.getItem("updateType");
 
@@ -218,7 +283,13 @@ export default {
       const index = this.TestIndex;
       this.Qu = docData.test[index].AllQu;
       this.ShowImg = false;
+<<<<<<< HEAD
       console.log(this.Qu);
+=======
+      setTimeout(() => {
+        this.ClickActive();
+      }, 100);
+>>>>>>> 9220627ec37910fb23593e9983d128d63f473271
     },
     async AddData() {
       console.log("AddData");
@@ -270,7 +341,13 @@ export default {
           ],
         });
       }
+<<<<<<< HEAD
       this.CleanData();
+=======
+      setTimeout(() => {
+        this.ClickActive();
+      }, 100);
+>>>>>>> 9220627ec37910fb23593e9983d128d63f473271
     },
     OpenCheck() {
       this.ShowCheck = true;

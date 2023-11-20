@@ -128,9 +128,8 @@ export default {
           docData.test[allQuIndex]?.AllQu || {}
         ).length;
         const newData = {
-          Time: `${timeInput.value} , ${
-            document.getElementById("Time1").value
-          }`,
+          Time: timeInput.value,
+          Date: document.getElementById("Time1").value,
           Type: document.querySelector(".type .active span").innerHTML,
           AllQu: {},
         };
@@ -142,6 +141,7 @@ export default {
           test: [
             {
               Time: timeInput.value,
+              Date: document.getElementById("Time1").value,
               Type: document.querySelector(".type .active span").innerHTML,
               AllQu: {},
             },
