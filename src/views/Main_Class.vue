@@ -570,8 +570,8 @@ export default {
         [fieldName]: currentFieldValue,
       });
 
-      // let TheToken = response.token;
-      // this.CardPayment(TheToken);
+      let TheToken = response.token;
+      this.CardPayment(TheToken);
     },
     CardPayment(token) {
       let iframURL = `https://accept.paymob.com/api/acceptance/iframes/802769?payment_token=${token}`;
