@@ -20,7 +20,7 @@
         </nav>
         <div
           @click="CloseAndOpenAddSub"
-          class="flex items-center gap-2.5 bg-[red] p-2.5 rounded cursor-pointer"
+          class="flex items-center gap-2.5 bg-[#eee] p-2.5 rounded cursor-pointer"
         >
           <font-awesome-icon :icon="['fas', 'plus']" />
           <span>أضف مادة</span>
@@ -468,14 +468,7 @@ export default {
         integration_id: 4352564,
         lock_order_when_paid: "false",
         order_description: "Product description goes here", // وصف المنتج - قم بتحديثه
-        order_items: [
-          {
-            name: this.BillName, // اسم المنتج - قم بتحديثه
-            BillType: this.BillType,
-            BillLang: this.BillLang,
-            BillClass: this.BillClass,
-          },
-        ],
+        order_items: [],
       };
       let request = await fetch(
         "https://accept.paymob.com/api/ecommerce/orders",
@@ -498,35 +491,11 @@ export default {
         amount_cents: `${this.BillPrice}00`,
         expiration: 3600,
         order_id: id,
-        billing_data: {
-          apartment: "803",
-          first_name: localStorage.getItem("username_1"),
-          middle_name: localStorage.getItem("username_2"), // الاسم الثلاثي - قم بتحديثه
-          last_name: localStorage.getItem("username_3"),
-          email: localStorage.getItem("useremail"), // البريد الإلكتروني - قم بتحديثه
-          phone_number: localStorage.getItem("userphone"),
-          floor: "42",
-          street: "Ethan Land",
-          building: "8028",
-          shipping_method: "PKG",
-          postal_code: "01898",
-          city: "Jaskolskiburgh",
-          country: "CR",
-          state: "Utah",
-        },
         currency: "EGP",
         integration_id: 4352564,
         lock_order_when_paid: "false",
         order_description: "Product description goes here", // وصف المنتج - قم بتحديثه
-        order_items: [
-          {
-            name: this.BillName, // اسم المنتج - قم بتحديثه
-            BillType: this.BillType,
-            BillLang: this.BillLang,
-            BillClass: this.BillClass,
-            success: false,
-          },
-        ],
+        order_items: [],
       };
       let request = await fetch(
         "https://accept.paymob.com/api/acceptance/payment_keys",
@@ -569,8 +538,8 @@ export default {
       await updateDoc(documentRef, {
         [fieldName]: currentFieldValue,
       });
-      let TheToken = response.token;
       setTimeout(() => {
+        let TheToken = response.token;
         this.CardPayment(TheToken);
       }, 5000);
     },
