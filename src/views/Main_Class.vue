@@ -529,7 +529,8 @@ export default {
         BillClass: this.BillClass,
         BillPrice: `${this.BillPrice}00`,
         SubName: this.SubName,
-        data: new Date(),
+        Time: new Date(),
+        order_id: id,
       };
       // إضافة الكائن الجديد إلى القيمة الحالية للحقل
       currentFieldValue.push(newObject);

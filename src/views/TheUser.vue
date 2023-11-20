@@ -42,6 +42,7 @@
         <!-- FawryPay Checkout Button -->
       </div>
     </div>
+    <MyCourse />
   </div>
 </template>
 <script>
@@ -67,9 +68,12 @@ const db = getFirestore(app);
 // import crypto from "crypto-js";
 import CryptoJS from "crypto-js";
 // الآن يمكنك استخدام 'crypto' في هذا الملف بشكل طبيعي
-
+import MyCourse from "../components/MyCourse.vue";
 export default {
   name: "TheUser",
+  components: {
+    MyCourse,
+  },
   mounted() {
     this.GetData();
     this.State();
@@ -114,7 +118,6 @@ export default {
         "source_data.sub_type",
         "source_data.type",
         "success",
-        "billing_data",
       ];
 
       const test = dataKeys.map((key) => urlParams.get(key));
