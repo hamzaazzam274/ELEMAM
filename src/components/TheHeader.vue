@@ -41,12 +41,62 @@
         </div>
         <div
           class="login flex gap-2.5 items-center cursor-pointer bg-[#eee] p-2.5 rounded-md"
+<<<<<<< HEAD
         >
           <font-awesome-icon :icon="['fas', 'arrow-right-to-bracket']" />
           <span>تسجيل دخول</span>
         </div>
         <div
           class="registr flex gap-2.5 items-center cursor-pointer bg-[#eee] p-2.5 rounded-md"
+=======
+          v-if="!UserState"
+          @click="close_1"
+        >
+          <font-awesome-icon :icon="['fas', 'user-lock']" />
+          <span>تسجيل دخول</span>
+        </div>
+
+        <div class="Sign_In">
+          <div v-if="UserState" style="position: relative">
+            <div
+              class="User_Logo bg-[--main-color] h-10 w-10 text-white rounded-full flex justify-center items-center cursor-pointer"
+              @click="State"
+            >
+              {{ firstLetters }}
+            </div>
+            <div class="user" v-if="state">
+              <div>أهلا {{ thetype }} {{ UserName }}</div>
+              <div class="email">{{ useremail }}</div>
+              <div class="add" @click="close_modal_3">
+                <router-link to="/TheUser"> حسابي </router-link>
+              </div>
+              <div class="add" v-if="Mosalem_Admin" @click="close_modal_3">
+                إضافة المشرفين
+              </div>
+              <div class="add" v-if="Mosalem_Admin" @click="close_modal_4">
+                إدارة المشرفين
+              </div>
+              <div class="add" v-if="Mosalem_Admin" @click="close_modal_5">
+                طلبات التبرع
+              </div>
+              <div @click="SignOut">
+                <font-awesome-icon :icon="['fas', 'arrow-right-to-bracket']" />
+                <span>تسجيل خروج</span>
+              </div>
+            </div>
+            <div
+              class="main_popup bg-transparent"
+              v-if="state"
+              @click="State"
+            ></div>
+          </div>
+        </div>
+
+        <div
+          class="registr flex gap-2.5 items-center cursor-pointer bg-[#eee] p-2.5 rounded-md"
+          v-if="!UserState"
+          @click="close_2"
+>>>>>>> 9220627ec37910fb23593e9983d128d63f473271
         >
           <font-awesome-icon :icon="['fas', 'user-plus']" />
           <span>حساب جديد</span>
@@ -54,10 +104,18 @@
       </div>
     </div>
   </div>
+<<<<<<< HEAD
+=======
+  <SignIn @close_1="close_1" v-if="close_1_State" />
+  <TheRegister @close_2="close_2" v-if="close_2_State" />
+>>>>>>> 9220627ec37910fb23593e9983d128d63f473271
 </template>
 <script>
+import SignIn from "./SignIn.vue";
+import TheRegister from "./TheRegister.vue";
 export default {
   name: "TheHeader",
+<<<<<<< HEAD
   methods: {
     ShowLinks() {
       document.querySelector(".all_links").classList.toggle("hidden");
@@ -91,3 +149,87 @@ export default {
   }
 }
 </style>
+=======
+  data() {
+    return {
+      UserState: null,
+      state: null,
+      close_1_State: null,
+      close_2_State: null,
+      firstLetters: "",
+      UserName: "",
+      UserEmail: "",
+      ShowHelloUser: null,
+      thetype: "",
+    };
+  },
+  components: {
+    SignIn,
+    TheRegister,
+  },
+  mounted() {
+    this.UserStateFunction();
+  },
+  methods: {
+    State() {
+      this.state = !this.state;
+    },
+    close_1() {
+      this.close_1_State = !this.close_1_State;
+      this.UserStateFunction();
+    },
+    close_2() {
+      this.close_2_State = !this.close_2_State;
+      setTimeout(() => {
+        this.UserStateFunction();
+      }, 100);
+    },
+    SignOut() {
+      localStorage.removeItem("username_1");
+      localStorage.removeItem("username_2");
+      localStorage.removeItem("username_3");
+
+      localStorage.removeItem("useremail");
+      localStorage.removeItem("userphone");
+      localStorage.removeItem("userid");
+      localStorage.removeItem("college_place");
+      localStorage.removeItem("parents_phone");
+      this.state = null;
+      setTimeout(() => {
+        this.UserStateFunction();
+      }, 10);
+    },
+    UserStateFunction() {
+      console.log("UserStateFunction");
+      this.state = null;
+      this.thetype = localStorage.getItem("type") === "بنين" ? "بك " : "بيكي ";
+      this.UserName = `${localStorage.getItem("username_1")} 
+        ${localStorage.getItem("username_2")} 
+        ${localStorage.getItem("username_3")}`;
+      this.UserState = localStorage.getItem("userid") ? true : false;
+      if (this.UserState) {
+        var words = this.UserName.split(" ");
+        this.firstLetters = words
+          .slice(0, -1)
+          .map(function (word) {
+            return word.charAt(0);
+          })
+          .join(" ");
+      }
+    },
+    ShowLinks() {
+      document.querySelector(".all_links").classList.toggle("hidden");
+    },
+    mounted() {
+      const list = document.querySelectorAll(".list");
+
+      function activeLink() {
+        list.forEach((item) => item.classList.remove("active"));
+        this.classList.add("active");
+      }
+      list.forEach((item) => item.addEventListener("click", activeLink));
+    },
+  },
+};
+</script>
+>>>>>>> 9220627ec37910fb23593e9983d128d63f473271

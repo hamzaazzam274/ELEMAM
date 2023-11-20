@@ -15,7 +15,11 @@
       <div class="input-group mb-3">
         <div class="form-floating">
           <input
+<<<<<<< HEAD
             type="number"
+=======
+            type="text"
+>>>>>>> 9220627ec37910fb23593e9983d128d63f473271
             class="form-control"
             placeholder="number"
             v-model="number"
@@ -103,7 +107,11 @@ export default {
       try {
         const q = query(
           collection(db, "الطلاب"),
+<<<<<<< HEAD
           where("phone", "==", 0 + this.number)
+=======
+          where("phone", "==", this.number)
+>>>>>>> 9220627ec37910fb23593e9983d128d63f473271
         );
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
@@ -118,7 +126,13 @@ export default {
             this.username = user.name;
             this.useremail = user.number;
 
+<<<<<<< HEAD
             localStorage.setItem("username", user.name);
+=======
+            localStorage.setItem("username_1", user.name_1);
+            localStorage.setItem("username_2", user.name_2);
+            localStorage.setItem("username_3", user.name_3);
+>>>>>>> 9220627ec37910fb23593e9983d128d63f473271
             localStorage.setItem("useremail", user.email);
             localStorage.setItem("userphone", user.phone);
             localStorage.setItem("userid", doc.id);

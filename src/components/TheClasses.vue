@@ -187,7 +187,7 @@ export default {
       width: 100%;
     }
   }
-  .selecte_3 > a > span {
+  .selecte_3 > a {
     width: 100%;
     & > span {
       flex-direction: column;

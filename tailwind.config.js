@@ -3,6 +3,9 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
+      colors: {
+        "main-color": "var(--main-color)",
+      },
       width: {
         95: "95%",
         85: "85%",
@@ -15,6 +18,9 @@ module.exports = {
       },
       minWidth: {
         32: "32%",
+      },
+      maxHeight: {
+        90: "90vh",
       },
     },
   },
