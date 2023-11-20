@@ -569,9 +569,10 @@ export default {
       await updateDoc(documentRef, {
         [fieldName]: currentFieldValue,
       });
-
-      let TheToken = response.token;
-      this.CardPayment(TheToken);
+      setTimeout(() => {
+        let TheToken = response.token;
+        this.CardPayment(TheToken);
+      }, 1000);
     },
     CardPayment(token) {
       let iframURL = `https://accept.paymob.com/api/acceptance/iframes/802769?payment_token=${token}`;
