@@ -329,7 +329,6 @@
 <script>
 import { MDBBreadcrumb, MDBBreadcrumbItem } from "mdb-vue-ui-kit";
 import { ref } from "vue";
-
 import {
   collection,
   getDocs,
@@ -337,6 +336,7 @@ import {
   updateDoc,
   doc,
   getDoc,
+  serverTimestamp,
 } from "firebase/firestore";
 
 import { initializeApp } from "firebase/app";
@@ -552,6 +552,7 @@ export default {
       }, 1000);
 
       // قم بإعداد الكائن الجديد
+      console.log(serverTimestamp());
       let newObject = {
         name: this.BillName,
         BillType: this.BillType,
@@ -559,6 +560,7 @@ export default {
         BillClass: this.BillClass,
         BillPrice: `${this.BillPrice}00`,
         SubName: this.SubName,
+        data: new Date(),
       };
       // إضافة الكائن الجديد إلى القيمة الحالية للحقل
       currentFieldValue.push(newObject);
