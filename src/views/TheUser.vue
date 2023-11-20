@@ -39,7 +39,10 @@
         class="All_Courses bg-[#eee] w-48 text-center p-2.5 cursor-pointer rounded"
       >
         كورساتي
+<<<<<<< HEAD
+=======
         <!-- FawryPay Checkout Button -->
+>>>>>>> 9220627ec37910fb23593e9983d128d63f473271
       </div>
     </div>
   </div>
@@ -64,15 +67,21 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+<<<<<<< HEAD
+=======
 // import crypto from "crypto-js";
 import CryptoJS from "crypto-js";
 // الآن يمكنك استخدام 'crypto' في هذا الملف بشكل طبيعي
 
+>>>>>>> 9220627ec37910fb23593e9983d128d63f473271
 export default {
   name: "TheUser",
   mounted() {
     this.GetData();
+<<<<<<< HEAD
+=======
     this.State();
+>>>>>>> 9220627ec37910fb23593e9983d128d63f473271
   },
   data() {
     return {
@@ -88,6 +97,8 @@ export default {
     };
   },
   methods: {
+<<<<<<< HEAD
+=======
     Hmac() {},
     State() {
       const urlParams = new URLSearchParams(window.location.search);
@@ -145,6 +156,7 @@ export default {
 
       // إضافة المزيد من الاستجابات حسب الحاجة
     },
+>>>>>>> 9220627ec37910fb23593e9983d128d63f473271
     async GetData() {
       console.log(typeof localStorage.getItem("userphone"));
       const q = query(

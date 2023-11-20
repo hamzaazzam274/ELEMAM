@@ -1,9 +1,13 @@
 <template>
   <div class="AboutCollege">
     <div class="container">
+<<<<<<< HEAD
+      <div class="main_title">نبذة عن كلية الشريعة و القانون</div>
+=======
       <div class="main_title">
         <h1>لماذا تختار كلية الشريعة و القانون ؟</h1>
       </div>
+>>>>>>> 9220627ec37910fb23593e9983d128d63f473271
       <div>
         - Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic
         aspernatur excepturi quisquam sed. Maiores magni perspiciatis ullam

@@ -25,14 +25,7 @@
           <span class="btn" @click="CloseCheck">لا</span>
         </div>
       </div>
-      <div
-        class="Add_Qu flex items-center gap-2.5 mr-auto w-fit p-2 text-[--main-color] border-[--main-color] border-1 rounded cursor-pointer mt-2.5"
-        @click="ShowForm = !ShowForm"
-      >
-        <font-awesome-icon :icon="['fas', 'plus']" />
-        <span>اضف سؤال</span>
-      </div>
-      <div class="form" v-if="ShowForm">
+      <div class="form">
         <div class="rounded p-2.5">
           <div class="body flex flex-col gap-2.5">
             <div class="feat border p-2 5 rounded">
@@ -42,7 +35,7 @@
                   name="qu1"
                   id="qu1"
                   cols="10"
-                  rows="4"
+                  rows="5"
                   placeholder="السؤال"
                   class="resize-none border p-2.5"
                   v-model="qu1"
@@ -58,7 +51,7 @@
                   name="qu2"
                   id="qu2"
                   cols="10"
-                  rows="2"
+                  rows="3"
                   placeholder="تكملة السؤال"
                   class="resize-none border p-2.5"
                   v-model="qu2"
@@ -79,16 +72,22 @@
               </div>
             </div>
           </div>
-          <div
-            class="Add_Qu flex items-center gap-2.5 mr-auto w-fit p-2 text-[--main-color] border-[--main-color] border-1 rounded cursor-pointer mt-2.5"
-            @click="AddData"
-          >
-            تم
+          <div class="button text-left mt-5">
+            <span
+              class="bg-[--main-color] text-white p-2.5 rounded cursor-pointer"
+              @click="AddData"
+              >تم</span
+            >
           </div>
         </div>
       </div>
-      <div class="counter text-left p-2.5">عدد الأسئلة ({{ Qu.length }})</div>
       <div class="body mt-2.5">
+        <div
+          class="Add_Qu flex items-center gap-2.5 mr-auto w-fit p-2 text-[--main-color] border-[--main-color] border-1 rounded cursor-pointer"
+        >
+          <font-awesome-icon :icon="['fas', 'plus']" />
+          <span>اضف سؤال</span>
+        </div>
         <img
           src="../assets/animation_lolk2w1w_small.gif"
           alt=""
@@ -134,24 +133,6 @@
           </div>
         </div>
       </div>
-      <div v-if="ErrorActive" class="text-[red] bold text-center my-2.5">
-        أجب علي جميع الأسئلة
-      </div>
-      <div
-        class="ShowDegree bg-[--main-color] text-white text-center cursor-pointer p-2.5 rounded"
-        @click="ShowResult"
-      >
-        النتيجة
-      </div>
-      <div class="ShowResult" v-if="MyResult">
-        <div>نتيجتك => {{ result }} / {{ Allresult }}</div>
-        <div>نسبتك المؤية : {{ percent }} %</div>
-        <div>تقديرك : {{ appreciation }}</div>
-        <div class="flex gap-2.5 items-center">
-          <div class="bg-[red] w-2.5 h-2.5"></div>
-          <div>الإجابة الصحيحة</div>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -161,8 +142,8 @@ import {
   getFirestore,
   setDoc,
   doc,
-  // updateDoc,
-  // deleteField,
+  updateDoc,
+  deleteField,
 } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 const firebaseConfig = {
@@ -183,6 +164,7 @@ export default {
   mounted() {
     this.ShowImg = true;
     setTimeout(() => {
+      console.log("this.TestIndex", this.TestIndex);
       this.GetData();
     }, 10);
   },
@@ -196,16 +178,11 @@ export default {
       WrongAnswer1: "",
       WrongAnswer2: "",
       ShowImg: null,
-      ErrorActive: null,
-      result: 0,
-      Allresult: "",
-      appreciation: "",
-      percent: "",
-      MyResult: null,
-      ShowForm: null,
     };
   },
   methods: {
+<<<<<<< HEAD
+=======
     ShowResult() {
       let AnswerDad = document.querySelectorAll(".Answer");
       let AllAnswer = document.querySelectorAll(".Answer > div");
@@ -268,23 +245,25 @@ export default {
         }
       });
     },
+>>>>>>> 9220627ec37910fb23593e9983d128d63f473271
     async DeleteQu() {
-      // let sentence = localStorage.getItem("updateType");
-      // let words = sentence.split(" ");
-      // let firstWord = words[0];
-      // const collectionPath = `اختبارات - ${firstWord} - ${localStorage.getItem(
-      //   "updateLang"
-      // )} - ${localStorage.getItem("updateClass")}`;
-      // const docRef = doc(db, collectionPath, localStorage.getItem("updateSub"));
-      // // const index = this.TestIndex;
-      // console.log(docRef);
-      // await updateDoc(docRef, {
-      //   test: deleteField(),
-      // });
+      let sentence = localStorage.getItem("updateType");
+
+      let words = sentence.split(" ");
+      let firstWord = words[0];
+      const collectionPath = `اختبارات - ${firstWord} - ${localStorage.getItem(
+        "updateLang"
+      )} - ${localStorage.getItem("updateClass")}`;
+      const docRef = doc(db, collectionPath, localStorage.getItem("updateSub"));
+      // const index = this.TestIndex;
+      console.log(docRef);
+      await updateDoc(docRef, {
+        test: deleteField(),
+      });
     },
     CleanData() {
       this.qu1 = "";
-      this.qu2 = "؟";
+      this.qu2 = "";
       this.RightAnswer = "";
       this.WrongAnswer1 = "";
       this.WrongAnswer2 = "";
@@ -304,77 +283,71 @@ export default {
       const index = this.TestIndex;
       this.Qu = docData.test[index].AllQu;
       this.ShowImg = false;
+<<<<<<< HEAD
+      console.log(this.Qu);
+=======
       setTimeout(() => {
         this.ClickActive();
       }, 100);
+>>>>>>> 9220627ec37910fb23593e9983d128d63f473271
     },
     async AddData() {
-      if (
-        document.getElementById("qu1").value !== "" &&
-        document.getElementById("RightAnswer").value !== "" &&
-        document.getElementById("qu2").value !== "" &&
-        document.getElementById("WrongAnswer1").value !== "" &&
-        document.getElementById("WrongAnswer2").value !== ""
-      ) {
-        let sentence = localStorage.getItem("updateType");
+      console.log("AddData");
+      let sentence = localStorage.getItem("updateType");
 
-        let words = sentence.split(" ");
-        let firstWord = words[0];
-        const collectionPath = `اختبارات - ${firstWord} - ${localStorage.getItem(
-          "updateLang"
-        )} - ${localStorage.getItem("updateClass")}`;
-        const docRef = doc(
-          db,
-          collectionPath,
-          localStorage.getItem("updateSub")
-        );
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          const docData = docSnap.data();
-          if (!docData.test) {
-            docData.test = [];
-          }
-          const index = this.TestIndex;
-          const newData = {
-            qu1: document.getElementById("qu1").value,
-            RightAnswer: document.getElementById("RightAnswer").value,
-            qu2: document.getElementById("qu2").value,
-            WrongeAnswer1: document.getElementById("WrongAnswer1").value,
-            WrongeAnswer2: document.getElementById("WrongAnswer2").value,
-          };
+      let words = sentence.split(" ");
+      let firstWord = words[0];
+      const collectionPath = `اختبارات - ${firstWord} - ${localStorage.getItem(
+        "updateLang"
+      )} - ${localStorage.getItem("updateClass")}`;
+      const docRef = doc(db, collectionPath, localStorage.getItem("updateSub"));
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        const docData = docSnap.data();
+        if (!docData.test) {
+          docData.test = [];
+        }
+        const index = this.TestIndex;
+        const newData = {
+          qu1: document.getElementById("qu1").value,
+          RightAnswer: document.getElementById("RightAnswer").value,
+          qu2: document.getElementById("qu2").value,
+          WrongeAnswer1: document.getElementById("WrongAnswer1").value,
+          WrongeAnswer2: document.getElementById("WrongAnswer2").value,
+        };
 
-          if (Array.isArray(docData.test[index].AllQu)) {
-            docData.test[index].AllQu.push(newData);
-          } else {
-            docData.test[index].AllQu = [newData];
-          }
-          this.Qu = docData.test[index].AllQu;
-          console.log(this.Qu);
-          await setDoc(docRef, docData);
+        if (Array.isArray(docData.test[index].AllQu)) {
+          docData.test[index].AllQu.push(newData);
         } else {
-          await setDoc(docRef, {
-            test: [
-              {
-                AllQu: {
-                  [0]: {
-                    qu1: document.getElementById("qu1").value,
-                    RightAnswer: document.getElementById("RightAnswer").value,
-                    qu2: document.getElementById("qu2").value,
-                    WrongeAnswer1:
-                      document.getElementById("WrongAnswer1").value,
-                    WrongeAnswer2:
-                      document.getElementById("WrongAnswer2").value,
-                  },
+          docData.test[index].AllQu = [newData];
+        }
+        this.Qu = docData.test[index].AllQu;
+        console.log(this.Qu);
+        await setDoc(docRef, docData);
+      } else {
+        await setDoc(docRef, {
+          test: [
+            {
+              AllQu: {
+                [0]: {
+                  qu1: document.getElementById("qu1").value,
+                  RightAnswer: document.getElementById("RightAnswer").value,
+                  qu2: document.getElementById("qu2").value,
+                  WrongeAnswer1: document.getElementById("WrongAnswer1").value,
+                  WrongeAnswer2: document.getElementById("WrongAnswer2").value,
                 },
               },
-            ],
-          });
-        }
-        this.CleanData();
+            },
+          ],
+        });
       }
+<<<<<<< HEAD
+      this.CleanData();
+=======
       setTimeout(() => {
         this.ClickActive();
       }, 100);
+>>>>>>> 9220627ec37910fb23593e9983d128d63f473271
     },
     OpenCheck() {
       this.ShowCheck = true;
@@ -391,10 +364,6 @@ export default {
 <style lang="scss" scoped>
 .Check {
   animation: Check 0.3s 1;
-}
-.active {
-  background: var(--main-color);
-  color: #fff;
 }
 @keyframes Check {
   0% {

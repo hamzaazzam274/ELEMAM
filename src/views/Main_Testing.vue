@@ -26,17 +26,16 @@
             <MDBBreadcrumbItem active>{{ Sub }}</MDBBreadcrumbItem>
           </MDBBreadcrumb>
         </nav>
-        <div
+        <span
           class="bg-[#eee] p-2.5 rounded cursor-pointer flex items-center gap-2.5"
           @click="CloseAndOpenAddTest"
         >
           <font-awesome-icon :icon="['fas', 'plus']" />
           <span>اضف اختبار</span>
-        </div>
+        </span>
         <!-- @click="CloseAndOpenAddSub" -->
       </nav>
-      <div>({{ AllTest.length }}) اختبار</div>
-      <div class="data flex flex-col gap-2.5" style="min-height: 56.7vh">
+      <div class="data flex flex-col gap-2.5">
         <img
           src="../assets/animation_lolk2w1w_small.gif"
           alt="animation"
@@ -122,6 +121,8 @@ export default {
     ShowTest,
   },
   methods: {
+<<<<<<< HEAD
+=======
     compareTime() {
       let userTime = document.getElementById("userTime").value;
       let currentTime = new Date().toLocaleTimeString([], {
@@ -135,6 +136,7 @@ export default {
         console.log("The user input does not match the current time.");
       }
     },
+>>>>>>> 9220627ec37910fb23593e9983d128d63f473271
     getvalues() {
       setTimeout(() => {
         this.Type = localStorage.getItem("updateType");
