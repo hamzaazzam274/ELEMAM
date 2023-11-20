@@ -41,12 +41,6 @@
         </div>
         <div
           class="login flex gap-2.5 items-center cursor-pointer bg-[#eee] p-2.5 rounded-md"
-        >
-          <font-awesome-icon :icon="['fas', 'arrow-right-to-bracket']" />
-          <span>تسجيل دخول</span>
-        </div>
-        <div
-          class="registr flex gap-2.5 items-center cursor-pointer bg-[#eee] p-2.5 rounded-md"
           v-if="!UserState"
           @click="close_1"
         >
@@ -65,6 +59,7 @@
             <div class="user" v-if="state">
               <div>أهلا {{ thetype }} {{ UserName }}</div>
               <div class="email">{{ useremail }}</div>
+              <div class="add" @click="close_modal_2">تغيير كلمة السر</div>
               <div class="add" @click="close_modal_3">
                 <router-link to="/TheUser"> حسابي </router-link>
               </div>
@@ -101,8 +96,6 @@
       </div>
     </div>
   </div>
-  <SignIn @close_1="close_1" v-if="close_1_State" />
-  <TheRegister @close_2="close_2" v-if="close_2_State" />
   <SignIn @close_1="close_1" v-if="close_1_State" />
   <TheRegister @close_2="close_2" v-if="close_2_State" />
 </template>
