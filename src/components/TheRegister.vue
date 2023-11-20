@@ -620,14 +620,7 @@ export default {
           localStorage.setItem("username_2", this.user.Name_2);
           localStorage.setItem("username_3", this.user.Name_3);
           localStorage.setItem("userid", docRef.id);
-          localStorage.setItem("Class", this.class);
-          localStorage.setItem("TypeOfClass", this.type);
-          localStorage.setItem("Lang", this.lang);
           localStorage.setItem("type", lastWord);
-          localStorage.setItem(
-            "UserState",
-            localStorage.getItem("username_1") ? true : false
-          );
           this.closeHelloUser = true;
         }, 100);
 

@@ -147,7 +147,6 @@ export default {
       localStorage.removeItem("userid");
       localStorage.removeItem("college_place");
       localStorage.removeItem("parents_phone");
-      localStorage.removeItem("UserState");
       this.state = null;
       setTimeout(() => {
         this.UserStateFunction();
@@ -160,11 +159,7 @@ export default {
       this.UserName = `${localStorage.getItem("username_1")} 
         ${localStorage.getItem("username_2")} 
         ${localStorage.getItem("username_3")}`;
-      localStorage.setItem(
-        "UserState",
-        localStorage.getItem("username_1") ? true : false
-      );
-      this.UserState = localStorage.getItem("username_1") ? true : false;
+      this.UserState = localStorage.getItem("userid") ? true : false;
       if (this.UserState) {
         var words = this.UserName.split(" ");
         this.firstLetters = words
