@@ -121,8 +121,6 @@ export default {
     ShowTest,
   },
   methods: {
-<<<<<<< HEAD
-=======
     compareTime() {
       let userTime = document.getElementById("userTime").value;
       let currentTime = new Date().toLocaleTimeString([], {
@@ -136,7 +134,6 @@ export default {
         console.log("The user input does not match the current time.");
       }
     },
->>>>>>> 9220627ec37910fb23593e9983d128d63f473271
     getvalues() {
       setTimeout(() => {
         this.Type = localStorage.getItem("updateType");

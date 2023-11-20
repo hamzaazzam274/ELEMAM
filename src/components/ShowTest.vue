@@ -181,8 +181,6 @@ export default {
     };
   },
   methods: {
-<<<<<<< HEAD
-=======
     ShowResult() {
       let AnswerDad = document.querySelectorAll(".Answer");
       let AllAnswer = document.querySelectorAll(".Answer > div");
@@ -245,7 +243,6 @@ export default {
         }
       });
     },
->>>>>>> 9220627ec37910fb23593e9983d128d63f473271
     async DeleteQu() {
       let sentence = localStorage.getItem("updateType");
 
@@ -283,13 +280,9 @@ export default {
       const index = this.TestIndex;
       this.Qu = docData.test[index].AllQu;
       this.ShowImg = false;
-<<<<<<< HEAD
-      console.log(this.Qu);
-=======
       setTimeout(() => {
         this.ClickActive();
       }, 100);
->>>>>>> 9220627ec37910fb23593e9983d128d63f473271
     },
     async AddData() {
       console.log("AddData");
@@ -341,13 +334,10 @@ export default {
           ],
         });
       }
-<<<<<<< HEAD
-      this.CleanData();
-=======
+
       setTimeout(() => {
         this.ClickActive();
       }, 100);
->>>>>>> 9220627ec37910fb23593e9983d128d63f473271
     },
     OpenCheck() {
       this.ShowCheck = true;

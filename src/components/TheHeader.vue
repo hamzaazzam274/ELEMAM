@@ -41,14 +41,12 @@
         </div>
         <div
           class="login flex gap-2.5 items-center cursor-pointer bg-[#eee] p-2.5 rounded-md"
-<<<<<<< HEAD
         >
           <font-awesome-icon :icon="['fas', 'arrow-right-to-bracket']" />
           <span>تسجيل دخول</span>
         </div>
         <div
           class="registr flex gap-2.5 items-center cursor-pointer bg-[#eee] p-2.5 rounded-md"
-=======
           v-if="!UserState"
           @click="close_1"
         >
@@ -96,7 +94,6 @@
           class="registr flex gap-2.5 items-center cursor-pointer bg-[#eee] p-2.5 rounded-md"
           v-if="!UserState"
           @click="close_2"
->>>>>>> 9220627ec37910fb23593e9983d128d63f473271
         >
           <font-awesome-icon :icon="['fas', 'user-plus']" />
           <span>حساب جديد</span>
@@ -104,52 +101,15 @@
       </div>
     </div>
   </div>
-<<<<<<< HEAD
-=======
   <SignIn @close_1="close_1" v-if="close_1_State" />
   <TheRegister @close_2="close_2" v-if="close_2_State" />
->>>>>>> 9220627ec37910fb23593e9983d128d63f473271
 </template>
 <script>
 import SignIn from "./SignIn.vue";
 import TheRegister from "./TheRegister.vue";
 export default {
   name: "TheHeader",
-<<<<<<< HEAD
-  methods: {
-    ShowLinks() {
-      document.querySelector(".all_links").classList.toggle("hidden");
-    },
-  },
-};
-</script>
-<style lang="scss" scoped>
-@media (min-width: 1200px) {
-}
 
-@media (min-width: 768px) and (max-width: 1199px) {
-}
-
-@media (max-width: 767px) {
-  .container {
-    flex-direction: column;
-    .logo {
-      width: 100%;
-    }
-    .left {
-      width: 100%;
-      justify-content: space-between;
-      .links {
-        width: 90%;
-        .click {
-          justify-content: space-between;
-        }
-      }
-    }
-  }
-}
-</style>
-=======
   data() {
     return {
       UserState: null,
@@ -171,6 +131,9 @@ export default {
     this.UserStateFunction();
   },
   methods: {
+    ShowLinks() {
+      document.querySelector(".all_links").classList.toggle("hidden");
+    },
     State() {
       this.state = !this.state;
     },
@@ -217,9 +180,6 @@ export default {
           .join(" ");
       }
     },
-    ShowLinks() {
-      document.querySelector(".all_links").classList.toggle("hidden");
-    },
     mounted() {
       const list = document.querySelectorAll(".list");
 
@@ -232,4 +192,30 @@ export default {
   },
 };
 </script>
->>>>>>> 9220627ec37910fb23593e9983d128d63f473271
+
+<style lang="scss" scoped>
+@media (min-width: 1200px) {
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+}
+
+@media (max-width: 767px) {
+  .container {
+    flex-direction: column;
+    .logo {
+      width: 100%;
+    }
+    .left {
+      width: 100%;
+      justify-content: space-between;
+      .links {
+        width: 90%;
+        .click {
+          justify-content: space-between;
+        }
+      }
+    }
+  }
+}
+</style>
