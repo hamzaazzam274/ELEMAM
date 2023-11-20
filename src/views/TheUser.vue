@@ -39,14 +39,7 @@
         class="All_Courses bg-[#eee] w-48 text-center p-2.5 cursor-pointer rounded"
       >
         كورساتي
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
         <!-- FawryPay Checkout Button -->
->>>>>>> 9220627ec37910fb23593e9983d128d63f473271
-=======
-        <!-- FawryPay Checkout Button -->
->>>>>>> 1ecf8c6aa6fbe6098c67d9996f3d0e659e1c98ae
       </div>
     </div>
   </div>
@@ -71,31 +64,15 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 1ecf8c6aa6fbe6098c67d9996f3d0e659e1c98ae
 // import crypto from "crypto-js";
 import CryptoJS from "crypto-js";
 // الآن يمكنك استخدام 'crypto' في هذا الملف بشكل طبيعي
 
-<<<<<<< HEAD
->>>>>>> 9220627ec37910fb23593e9983d128d63f473271
-=======
->>>>>>> 1ecf8c6aa6fbe6098c67d9996f3d0e659e1c98ae
 export default {
   name: "TheUser",
   mounted() {
     this.GetData();
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
     this.State();
->>>>>>> 9220627ec37910fb23593e9983d128d63f473271
-=======
-    this.State();
->>>>>>> 1ecf8c6aa6fbe6098c67d9996f3d0e659e1c98ae
   },
   data() {
     return {
@@ -111,11 +88,6 @@ export default {
     };
   },
   methods: {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 1ecf8c6aa6fbe6098c67d9996f3d0e659e1c98ae
     Hmac() {},
     State() {
       const urlParams = new URLSearchParams(window.location.search);
@@ -173,10 +145,6 @@ export default {
 
       // إضافة المزيد من الاستجابات حسب الحاجة
     },
-<<<<<<< HEAD
->>>>>>> 9220627ec37910fb23593e9983d128d63f473271
-=======
->>>>>>> 1ecf8c6aa6fbe6098c67d9996f3d0e659e1c98ae
     async GetData() {
       console.log(typeof localStorage.getItem("userphone"));
       const q = query(

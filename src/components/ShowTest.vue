@@ -181,11 +181,6 @@ export default {
     };
   },
   methods: {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 1ecf8c6aa6fbe6098c67d9996f3d0e659e1c98ae
     ShowResult() {
       let AnswerDad = document.querySelectorAll(".Answer");
       let AllAnswer = document.querySelectorAll(".Answer > div");
@@ -248,10 +243,6 @@ export default {
         }
       });
     },
-<<<<<<< HEAD
->>>>>>> 9220627ec37910fb23593e9983d128d63f473271
-=======
->>>>>>> 1ecf8c6aa6fbe6098c67d9996f3d0e659e1c98ae
     async DeleteQu() {
       let sentence = localStorage.getItem("updateType");
 
@@ -289,19 +280,13 @@ export default {
       const index = this.TestIndex;
       this.Qu = docData.test[index].AllQu;
       this.ShowImg = false;
-<<<<<<< HEAD
-<<<<<<< HEAD
       console.log(this.Qu);
-=======
       setTimeout(() => {
         this.ClickActive();
       }, 100);
->>>>>>> 9220627ec37910fb23593e9983d128d63f473271
-=======
       setTimeout(() => {
         this.ClickActive();
       }, 100);
->>>>>>> 1ecf8c6aa6fbe6098c67d9996f3d0e659e1c98ae
     },
     async AddData() {
       console.log("AddData");
@@ -353,20 +338,9 @@ export default {
           ],
         });
       }
-<<<<<<< HEAD
-<<<<<<< HEAD
-      this.CleanData();
-=======
       setTimeout(() => {
         this.ClickActive();
       }, 100);
->>>>>>> 9220627ec37910fb23593e9983d128d63f473271
-=======
-
-      setTimeout(() => {
-        this.ClickActive();
-      }, 100);
->>>>>>> 1ecf8c6aa6fbe6098c67d9996f3d0e659e1c98ae
     },
     OpenCheck() {
       this.ShowCheck = true;
