@@ -19,7 +19,7 @@
         <div><span>الصنف : </span> <span>بنك الأسئلة</span></div>
         <div>
           <span>السعر : </span>
-          <span>{{ data.BillPrice }}</span>
+          <span>{{ data.BillPrice / 00 }}</span>
         </div>
         <div>
           <span>كود الإستلام : </span> <span>{{ data.order_id }}</span>
