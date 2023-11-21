@@ -88,6 +88,7 @@ export default {
         let AllDataArray = [];
         AllDataArray.push(user);
         this.AllData = AllDataArray[0];
+        this.AllData[0]?.sort((a, b) => b.Time.toMillis() - a.Time.toMillis());
         console.log("AllData", this.AllData.length);
       });
     },
