@@ -69,6 +69,7 @@ export default {
   name: "MyCourse",
   props: ["success"],
   mounted() {
+    this.State();
     this.GetData();
   },
   data() {
@@ -77,6 +78,39 @@ export default {
     };
   },
   methods: {
+    State() {
+      const urlParams = new URLSearchParams(window.location.search);
+
+      // جمع البيانات المطلوبة لحساب الهاش
+      // const dataKeys = [
+      //   "amount_cents",
+      //   "created_at",
+      //   "currency",
+      //   "error_occured",
+      //   "has_parent_transaction",
+      //   "obj.id",
+      //   "integration_id",
+      //   "is_3d_secure",
+      //   "is_auth",
+      //   "is_capture",
+      //   "is_refunded",
+      //   "is_standalone_payment",
+      //   "is_voided",
+      //   "order.id",
+      //   "owner",
+      //   "pending",
+      //   "source_data.pan",
+      //   "source_data.sub_type",
+      //   "source_data.type",
+      //   "success",
+      // ];
+      console.log(urlParams);
+      if (urlParams.get("success") === "true") {
+        console.log("Payment successful!");
+      } else {
+        console.log("Payment failed!");
+      }
+    },
     async GetData() {
       const q = query(
         collection(db, "الطلاب"),
