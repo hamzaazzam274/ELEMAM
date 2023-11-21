@@ -589,7 +589,7 @@ export default {
       setTimeout(() => {
         let TheToken = response.token;
         this.CardPayment(TheToken);
-      }, 5000);
+      }, 1000);
     },
     CardPayment(token) {
       let iframURL = `https://accept.paymob.com/api/acceptance/iframes/802769?payment_token=${token}`;
