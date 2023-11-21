@@ -27,7 +27,10 @@
         </div>
       </nav>
       <section class="flex justify-between p-2.5 gap-2.5">
-        <div class="w-48 p-2.5 bg-[#eee] text-center cursor-pointer">
+        <div
+          class="w-48 p-2.5 bg-[#eee] text-center cursor-pointer"
+          @click="AllTest"
+        >
           اختبارات {{ Class }} كاملة
         </div>
         <div
@@ -414,6 +417,15 @@ export default {
     }, 100);
   },
   methods: {
+    AllTest() {
+      this.SubName = `جميع اختبارات ${this.Class}`;
+      this.BillPrice = 100;
+      this.BillName = "جميع الإختبارات";
+      this.BillType = localStorage.getItem("updateType");
+      this.BillLang = localStorage.getItem("updateLang");
+      this.BillClass = localStorage.getItem("updateClass");
+      this.Close = true;
+    },
     AllCourses() {
       this.SubName = `جميع مواد ${this.Class}`;
       this.BillPrice = 1500;
