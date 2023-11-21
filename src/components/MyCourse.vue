@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-2.5 flex gap-2.5 flex-wrap justify-between">
+  <div class="mt-2.5 flex gap-[19px] flex-wrap justify-between">
     <div
       class="box w-32 border p-2.5"
       v-for="(data, index) in AllData"
@@ -7,7 +7,7 @@
     >
       <div class="header">
         <div class="number">{{ index + 1 }}</div>
-        <div class="title">{{ data.SubName }}</div>
+        <div class="title">{{ data.BillName }}</div>
       </div>
       <div class="body">
         <div>
@@ -16,7 +16,9 @@
         <div>
           <span>الفرقة : </span> <span>{{ data.BillClass }}</span>
         </div>
-        <div><span>الصنف : </span> <span>بنك الأسئلة</span></div>
+        <div>
+          <span>الصنف : </span> <span>{{ data.BillItem }}</span>
+        </div>
         <div>
           <span>السعر : </span>
           <span>{{ data.BillPrice / 100 }}</span>

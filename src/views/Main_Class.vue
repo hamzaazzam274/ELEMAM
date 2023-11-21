@@ -26,6 +26,17 @@
           <span>أضف مادة</span>
         </div>
       </nav>
+      <section class="flex justify-between p-2.5 gap-2.5">
+        <div class="w-48 p-2.5 bg-[#eee] text-center cursor-pointer">
+          اختبارات {{ Class }} كاملة
+        </div>
+        <div
+          class="w-48 p-2.5 bg-[#eee] text-center cursor-pointer"
+          @click="AllCourses"
+        >
+          كورسات {{ Class }} كاملة
+        </div>
+      </section>
       <div style="min-height: 58vh" class="mt-2.5">
         <span>({{ AllData.length }}) مادة </span>
         <div
@@ -403,6 +414,15 @@ export default {
     }, 100);
   },
   methods: {
+    AllCourses() {
+      this.SubName = `جميع مواد ${this.Class}`;
+      this.BillPrice = 1500;
+      this.BillName = "جميع المواد";
+      this.BillType = localStorage.getItem("updateType");
+      this.BillLang = localStorage.getItem("updateLang");
+      this.BillClass = localStorage.getItem("updateClass");
+      this.Close = true;
+    },
     CloseFunction() {
       setTimeout(() => {
         let boxes = document.querySelectorAll(".main_box .Cash_course");
@@ -550,12 +570,12 @@ export default {
       // قم بإعداد الكائن الجديد
       console.log(serverTimestamp());
       let newObject = {
-        name: this.BillName,
+        BillName: this.BillName,
         BillType: this.BillType,
         BillLang: this.BillLang,
         BillClass: this.BillClass,
         BillPrice: `${this.BillPrice}00`,
-        SubName: this.SubName,
+        BillItem: this.SubName,
         Time: new Date(),
         order_id: id,
       };
