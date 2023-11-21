@@ -160,6 +160,7 @@ export default {
       console.log("UserStateFunction");
       this.state = null;
       this.thetype = localStorage.getItem("type") === "بنين" ? "بك " : "بيكي ";
+      console.log(localStorage.getItem("type"));
       this.UserName = `${localStorage.getItem("username_1")} 
         ${localStorage.getItem("username_2")} 
         ${localStorage.getItem("username_3")}`;

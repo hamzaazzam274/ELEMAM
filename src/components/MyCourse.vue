@@ -1,38 +1,44 @@
 <template>
-  <div class="box" v-for="(data, index) in AllData" :key="data">
-    <div class="header">
-      <div class="number">{{ index + 1 }}</div>
-      <div class="title">{{ data.SubName }}</div>
-    </div>
-    <div class="body">
-      <div>
-        <span>الدراسة : </span> <span>{{ data.BillType }}</span>
+  <div class="mt-2.5 flex gap-2.5 flex-wrap justify-between">
+    <div
+      class="box w-32 border p-2.5"
+      v-for="(data, index) in AllData"
+      :key="data"
+    >
+      <div class="header">
+        <div class="number">{{ index + 1 }}</div>
+        <div class="title">{{ data.SubName }}</div>
       </div>
-      <div>
-        <span>الفرقة : </span> <span>{{ data.BillClass }}</span>
-      </div>
-      <div><span>الصنف : </span> <span>بنك الأسئلة</span></div>
-      <div>
-        <span>السعر : </span>
-        <span>{{ data.BillPrice }}</span>
-      </div>
-      <div>
-        <span>كود الإستلام : </span> <span>{{ data.order_id }}</span>
-      </div>
-      <div>
-        <span> تاريخ الدفع : </span>
-        <span>
-          {{
-            new Date(data.Time.toMillis()).toLocaleString(["ar"], {
-              weekday: "short",
-              year: "numeric",
-              month: "short",
-              day: "numeric",
-              hour: "2-digit",
-              minute: "2-digit",
-            })
-          }}</span
-        >
+      <div class="body">
+        <div>
+          <span>الدراسة : </span> <span>{{ data.BillType }}</span>
+        </div>
+        <div>
+          <span>الفرقة : </span> <span>{{ data.BillClass }}</span>
+        </div>
+        <div><span>الصنف : </span> <span>بنك الأسئلة</span></div>
+        <div>
+          <span>السعر : </span>
+          <span>{{ data.BillPrice }}</span>
+        </div>
+        <div>
+          <span>كود الإستلام : </span> <span>{{ data.order_id }}</span>
+        </div>
+        <div>
+          <span> تاريخ الدفع : </span>
+          <span>
+            {{
+              new Date(data.Time.toMillis()).toLocaleString(["ar"], {
+                weekday: "short",
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+              })
+            }}
+          </span>
+        </div>
       </div>
     </div>
   </div>
@@ -76,9 +82,11 @@ export default {
       );
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
-        const user = doc.data().pay[0];
-        this.AllData.push(user);
-        console.log(this.AllData);
+        const user = doc.data().pay;
+        let AllDataArray = [];
+        AllDataArray.push(user);
+        this.AllData = AllDataArray[0];
+        console.log("AllData", this.AllData.length);
       });
     },
   },

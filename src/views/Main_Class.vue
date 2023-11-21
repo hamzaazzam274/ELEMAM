@@ -380,6 +380,12 @@ export default {
       BillClass: "",
       BillLang: "",
       SubName: "",
+      FullName: `
+       ${localStorage.getItem("username_1")} ${localStorage.getItem(
+        "username_2"
+      )} ${localStorage.getItem("username_3")}
+       
+       `,
     };
   },
   props: ["Main_Id"],
@@ -464,11 +470,16 @@ export default {
         delivery_needed: "false",
         amount_cents: `${this.BillPrice}00`,
         currency: "EGP",
-        merchant_order_id: Date.now(),
+        merchant_order_id: (
+          Date.now() -
+          Math.floor(Math.random() * 10) +
+          1
+        ).toFixed(0),
         integration_id: 4352564,
         lock_order_when_paid: "false",
         order_description: "Product description goes here", // وصف المنتج - قم بتحديثه
         order_items: [],
+        items: [],
       };
       let request = await fetch(
         "https://accept.paymob.com/api/ecommerce/orders",
@@ -485,6 +496,7 @@ export default {
       console.log(token);
       this.pay3(token, id);
     },
+
     async pay3(token, id) {
       let Data = {
         auth_token: token,
@@ -496,6 +508,21 @@ export default {
         lock_order_when_paid: "false",
         order_description: "Product description goes here", // وصف المنتج - قم بتحديثه
         order_items: [],
+        billing_data: {
+          apartment: "803",
+          email: localStorage.getItem("useremail"),
+          floor: "42",
+          first_name: this.FullName,
+          street: "Ethan Land",
+          building: "8028",
+          phone_number: localStorage.getItem("userphone"),
+          shipping_method: "PKG",
+          postal_code: "01898",
+          city: "Jaskolskiburgh",
+          country: "CR",
+          last_name: "Nicolas",
+          state: "Utah",
+        },
       };
       let request = await fetch(
         "https://accept.paymob.com/api/acceptance/payment_keys",

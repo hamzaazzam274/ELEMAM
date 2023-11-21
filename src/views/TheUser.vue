@@ -29,7 +29,7 @@
         <span>متوسط النتائج</span>
       </div>
     </div>
-    <div class="flex gap-2.5">
+    <div class="flex gap-2.5 justify-between">
       <div
         class="All_Result bg-[#eee] w-48 text-center p-2.5 cursor-pointer rounded"
       >

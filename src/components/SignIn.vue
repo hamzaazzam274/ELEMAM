@@ -125,6 +125,7 @@ export default {
             localStorage.setItem("userid", doc.id);
             localStorage.setItem("college_place", user.college_place);
             localStorage.setItem("parents_phone", user.parents_phone);
+            localStorage.setItem("type", user.type);
             this.loginError = "";
             this.number = "";
             this.password = "";
