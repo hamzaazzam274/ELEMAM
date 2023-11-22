@@ -154,18 +154,32 @@ export default {
 
       // احصل على القيمة الحالية للمصفوفة pay
       const washingtonSnap = await getDoc(washingtonRef);
+
       const payArray = washingtonSnap.data().pay;
 
-      // قم بتحديث القيمة المطلوبة في المصفوفة
-      const updatedPayArray = payArray.map((item) => {
-        if (item.success !== undefined) {
-          return { ...item, success: urlParams.get("success") };
+      for (let i = 0; i < payArray.length; i++) {
+        if (+urlParams.get("order") === payArray[i].order_id) {
+          console.log("order_id => ", urlParams.get("order"));
+
+          // قم بتحديث القيمة المطلوبة في المصفوفة
+          const updatedPayArray = [...payArray]; // انشئ نسخة جديدة من المصفوفة
+
+          updatedPayArray[i] = {
+            ...updatedPayArray[i],
+            success: urlParams.get("success"),
+          };
+
+          // قم بتحديث الوثيقة في قاعدة البيانات
+          await updateDoc(washingtonRef, { pay: updatedPayArray });
+
+          // بمجرد أن يتم تحديث العنصر الأول الذي يطابق الشرط، اخرج من الحلقة
+          break;
         }
-        return item;
-      });
+      }
+      console.log(+urlParams.get("order"));
+      console.log(payArray.length);
 
       // قم بتحديث الوثيقة في قاعدة البيانات
-      await updateDoc(washingtonRef, { pay: updatedPayArray });
     },
     async GetData() {
       console.log(typeof localStorage.getItem("userphone"));
