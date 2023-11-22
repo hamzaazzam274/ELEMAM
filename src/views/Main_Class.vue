@@ -31,13 +31,13 @@
           class="w-48 p-2.5 bg-[#eee] text-center cursor-pointer"
           @click="AllTest"
         >
-          اختبارات {{ Class }} كاملة
+          شراء اختبارات {{ Class }} كاملة
         </div>
         <div
           class="w-48 p-2.5 bg-[#eee] text-center cursor-pointer"
           @click="AllCourses"
         >
-          كورسات {{ Class }} كاملة
+          شراء كورسات {{ Class }} كاملة
         </div>
       </section>
       <div style="min-height: 58vh" class="mt-2.5">
@@ -502,11 +502,8 @@ export default {
         delivery_needed: "false",
         amount_cents: `${this.BillPrice}00`,
         currency: "EGP",
-        merchant_order_id: (
-          Date.now() -
-          Math.floor(Math.random() * 10) +
-          1
-        ).toFixed(0),
+        merchant_order_id:
+          Date.now() + Math.floor(Math.random() * 100000000000) + 10000000000,
         integration_id: 4352564,
         lock_order_when_paid: "false",
         order_description: "Product description goes here", // وصف المنتج - قم بتحديثه
@@ -590,6 +587,7 @@ export default {
         BillItem: this.SubName,
         Time: new Date(),
         order_id: id,
+        success: null,
       };
       // إضافة الكائن الجديد إلى القيمة الحالية للحقل
       currentFieldValue.push(newObject);
@@ -598,10 +596,8 @@ export default {
       await updateDoc(documentRef, {
         [fieldName]: currentFieldValue,
       });
-      setTimeout(() => {
-        let TheToken = response.token;
-        this.CardPayment(TheToken);
-      }, 1000);
+      let TheToken = response.token;
+      this.CardPayment(TheToken);
     },
     CardPayment(token) {
       let iframURL = `https://accept.paymob.com/api/acceptance/iframes/802769?payment_token=${token}`;

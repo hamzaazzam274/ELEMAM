@@ -32,7 +32,7 @@
           <font-awesome-icon :icon="['fas', 'plus']" />
           <span>اضف اختبار</span>
         </span>
-        <HelloUser v-if="sh" />
+
         <!-- @click="CloseAndOpenAddSub" -->
       </nav>
       <div class="data flex flex-col gap-2.5">
@@ -66,13 +66,23 @@
       </div>
     </div>
   </div>
+  <PayTest v-if="PayTest" @ColseAndOpen="ColseAndOpen" />
 </template>
 <script>
 import { MDBBreadcrumb, MDBBreadcrumbItem } from "mdb-vue-ui-kit";
 import AddTest from "../components/Add_Test.vue";
 import ShowTest from "../components/ShowTest.vue";
+import PayTest from "../components/PayTest.vue";
 
-import { getDoc, getFirestore, doc } from "firebase/firestore";
+import {
+  getDoc,
+  getFirestore,
+  doc,
+  query,
+  where,
+  collection,
+  getDocs,
+} from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 const firebaseConfig = {
   apiKey: "AIzaSyBOlDn6NmPGHHfdY-gYHvnA6MoM-y0Xbmo",
@@ -86,7 +96,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 // import moment from "moment";
-import HelloUser from "../components/HelloUser.vue";
 export default {
   name: "Main_Testing",
   emits: ["GetData"],
@@ -112,6 +121,8 @@ export default {
       Lang: "",
       Class: "",
       Sub: "",
+      PayState: true,
+      PayTest: null,
     };
   },
   components: {
@@ -119,10 +130,48 @@ export default {
     MDBBreadcrumbItem,
     AddTest,
     ShowTest,
-    HelloUser,
+
+    PayTest,
   },
   methods: {
-    CheckTimeAndData(index) {
+    ColseAndOpen() {
+      this.PayTest = !this.PayTest;
+    },
+    async CheckTimeAndData(index) {
+      if (this.AllTest[index].Type === "مدفوع") {
+        console.log("مدفوع");
+        const q = query(
+          collection(db, "الطلاب"),
+          where("userid", "==", localStorage.getItem("userid"))
+        );
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+          const user = doc.data();
+          if (user.pay.success) {
+            for (let i = 0; i < user.pay.length; i++) {
+              if (
+                user.pay[i].BillName === "جميع الإختبارات" &&
+                user.pay[i].BillClass === this.Class &&
+                user.pay[i].BillLang === this.Lang &&
+                user.pay[i].success === true
+              ) {
+                console.log(user.pay[i]);
+                this.PayState = true;
+              } else {
+                console.log("user.pay[i]", false);
+                this.PayState = false;
+                this.PayTest = true;
+              }
+            }
+          } else {
+            this.PayState = false;
+            this.PayTest = true;
+          }
+        });
+        setTimeout(() => {
+          console.log("PayState", this.PayState);
+        }, 1000);
+      }
       const currentDate = new Date();
       const formattedTime = currentDate.toLocaleTimeString("en-US", {
         hour: "numeric",
@@ -140,7 +189,8 @@ export default {
       console.log(formattedTime);
       if (
         this.AllTest[index].Time <= formattedTime &&
-        this.AllTest[index].Date <= formattedDate
+        this.AllTest[index].Date <= formattedDate &&
+        this.PayState === true
       ) {
         this.Close();
       } else {

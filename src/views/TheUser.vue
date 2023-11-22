@@ -52,6 +52,9 @@ import {
   getFirestore,
   where,
   query,
+  updateDoc,
+  doc,
+  getDoc,
 } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 const firebaseConfig = {
@@ -93,7 +96,7 @@ export default {
   },
   methods: {
     Hmac() {},
-    State() {
+    async State() {
       const urlParams = new URLSearchParams(window.location.search);
 
       // جمع البيانات المطلوبة لحساب الهاش
@@ -145,8 +148,24 @@ export default {
       } else {
         console.log("Payment failed!");
       }
-
+      console.log(urlParams.get("success"));
       // إضافة المزيد من الاستجابات حسب الحاجة
+      const washingtonRef = doc(db, "الطلاب", localStorage.getItem("userid"));
+
+      // احصل على القيمة الحالية للمصفوفة pay
+      const washingtonSnap = await getDoc(washingtonRef);
+      const payArray = washingtonSnap.data().pay;
+
+      // قم بتحديث القيمة المطلوبة في المصفوفة
+      const updatedPayArray = payArray.map((item) => {
+        if (item.success !== undefined) {
+          return { ...item, success: urlParams.get("success") };
+        }
+        return item;
+      });
+
+      // قم بتحديث الوثيقة في قاعدة البيانات
+      await updateDoc(washingtonRef, { pay: updatedPayArray });
     },
     async GetData() {
       console.log(typeof localStorage.getItem("userphone"));
