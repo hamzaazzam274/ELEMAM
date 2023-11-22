@@ -72,22 +72,17 @@
               </div>
             </div>
           </div>
-          <div class="button text-left mt-5">
-            <span
-              class="bg-[--main-color] text-white p-2.5 rounded cursor-pointer"
-              @click="AddData"
-              >تم</span
-            >
+
+          <div
+            class="Add_Qu flex items-center gap-2.5 mr-auto w-fit p-2 text-[--main-color] border-[--main-color] border-1 rounded cursor-pointer"
+            @click="AddData"
+          >
+            <font-awesome-icon :icon="['fas', 'plus']" />
+            <span>اضف سؤال</span>
           </div>
         </div>
       </div>
       <div class="body mt-2.5">
-        <div
-          class="Add_Qu flex items-center gap-2.5 mr-auto w-fit p-2 text-[--main-color] border-[--main-color] border-1 rounded cursor-pointer"
-        >
-          <font-awesome-icon :icon="['fas', 'plus']" />
-          <span>اضف سؤال</span>
-        </div>
         <img
           src="../assets/animation_lolk2w1w_small.gif"
           alt=""
@@ -157,6 +152,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
 export default {
   name: "ShowTest",
   emits: ["close"],

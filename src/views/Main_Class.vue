@@ -674,7 +674,7 @@ export default {
       this.Class = localStorage.getItem("updateClass");
     },
     AddSubToStore() {
-      let link = document.querySelectorAll(".box .test a");
+      let link = document.querySelectorAll(".main_box .test a");
       let Sub_Name = this.AllData;
       for (let i = 0; i < link.length; i++) {
         link[i].onclick = () => {
@@ -745,13 +745,13 @@ export default {
 }
 
 @media (min-width: 768px) and (max-width: 1199px) {
-  .body .box {
+  .body .main_box {
     width: 100% !important;
   }
 }
 
 @media (max-width: 767px) {
-  .body .box {
+  .body .main_box {
     width: 100% !important;
   }
 }

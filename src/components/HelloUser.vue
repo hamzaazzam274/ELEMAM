@@ -1,27 +1,42 @@
 <template>
-  <div class="main_Overlay" @click="Close"></div>
-  <div
-    class="container bg-white fixed z-10 rounded p-2.5 -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 flex flex-col gap-2.5 items-center"
+  <div class="main_Overlay"></div>
+  <v-sheet
+    elevation="12"
+    max-width="600"
+    rounded="lg"
+    width="100%"
+    class="pa-4 text-center mx-auto z-10 rounded p-2.5 -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 fixed"
   >
-    <font-awesome-icon :icon="['fas', 'user-check']" class="text-6xl m-auto" />
-    <h3 class="my-2.5">تم انشاء حسابك و تسجيل الدخول بنجاح</h3>
-    <div>اضغط حسنًا للإستمرار</div>
-    <button class="ml-auto border p-2.5 px-5" @click="Close">حسناً</button>
-  </div>
-</template>
-<script>
-export default {
-  name: "HelloUser",
-  methods: {
-    Close() {
-      this.$emit("close");
-      this.$emit("close_2");
+    <font-awesome-icon
+      :icon="['fas', 'circle-check']"
+      class="text-7xl text-success mb-2.5"
+    />
 
-      localStorage.setItem(
-        "UserState",
-        localStorage.getItem("username") ? true : false
-      );
-    },
-  },
-};
-</script>
+    <h2 class="text-h5 mb-6">You reconciled this account</h2>
+
+    <p class="mb-4 text-medium-emphasis text-body-2">
+      To see a report on this reconciliation, click
+      <a href="#" class="text-decoration-none text-info"
+        >View reconciliation report.</a
+      >
+
+      <br />
+
+      Otherwise, you're done!
+    </p>
+
+    <v-divider class="mb-4"></v-divider>
+
+    <div class="text-end">
+      <v-btn
+        class="text-none"
+        color="success"
+        rounded
+        variant="flat"
+        width="90"
+      >
+        Done
+      </v-btn>
+    </div>
+  </v-sheet>
+</template>

@@ -6,7 +6,6 @@
         @GetData="GetData"
         v-if="ShowAddTest"
       />
-      <AddQu @Close="CloseAndOpenAddQu" @GetData="GetData" v-if="ShowAddQu" />
       <ShowTest @Close="Close" v-if="ShowTest" :TestIndex="this.TestIndex" />
       <nav
         aria-label="breadcrumb"
@@ -33,6 +32,7 @@
           <font-awesome-icon :icon="['fas', 'plus']" />
           <span>اضف اختبار</span>
         </span>
+        <HelloUser v-if="sh" />
         <!-- @click="CloseAndOpenAddSub" -->
       </nav>
       <div class="data flex flex-col gap-2.5">
@@ -61,7 +61,7 @@
             <font-awesome-icon :icon="['fas', 'calendar-days']" />
             <p class="Date">{{ test.Date }}</p>
           </div>
-          <div class="btn" @click="Close">أختبر نفسك</div>
+          <div class="btn" @click="CheckTimeAndData(index)">أختبر نفسك</div>
         </div>
       </div>
     </div>
@@ -70,7 +70,6 @@
 <script>
 import { MDBBreadcrumb, MDBBreadcrumbItem } from "mdb-vue-ui-kit";
 import AddTest from "../components/Add_Test.vue";
-import AddQu from "../components/Add_Qu.vue";
 import ShowTest from "../components/ShowTest.vue";
 
 import { getDoc, getFirestore, doc } from "firebase/firestore";
@@ -86,6 +85,8 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+// import moment from "moment";
+import HelloUser from "../components/HelloUser.vue";
 export default {
   name: "Main_Testing",
   emits: ["GetData"],
@@ -117,21 +118,33 @@ export default {
     MDBBreadcrumb,
     MDBBreadcrumbItem,
     AddTest,
-    AddQu,
     ShowTest,
+    HelloUser,
   },
   methods: {
-    compareTime() {
-      let userTime = document.getElementById("userTime").value;
-      let currentTime = new Date().toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
+    CheckTimeAndData(index) {
+      const currentDate = new Date();
+      const formattedTime = currentDate.toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "numeric",
+        hour12: true,
+      });
+      const formattedDate = currentDate.toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "numeric",
+        year: "numeric",
       });
 
-      if (userTime === currentTime) {
-        console.log("The user input matches the current time.");
+      console.log(formattedDate);
+
+      console.log(formattedTime);
+      if (
+        this.AllTest[index].Time <= formattedTime &&
+        this.AllTest[index].Date <= formattedDate
+      ) {
+        this.Close();
       } else {
-        console.log("The user input does not match the current time.");
+        console.log("error");
       }
     },
     getvalues() {

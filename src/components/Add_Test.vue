@@ -2,7 +2,7 @@
   <div class="Add_Test">
     <div class="main_Overlay" @click="CloseAddTest"></div>
     <div
-      class="container rounded p-2.5 bg-white fixed -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 overflow-auto h-auto z-10"
+      class="container rounded p-2.5 bg-white fixed -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 overflow-auto z-10 h-90"
     >
       <div class="head text-left flex justify-between mb-2.5">
         <span>أضف اختبار</span
@@ -17,13 +17,21 @@
                 type="time"
                 class="form-control"
                 id="Time"
-                v-model="time"
+                v-model="selectedTime"
+                @change="updateTimeFormat"
               />
-              <label for="Time">تاريخ الإختبار </label>
+              <label for="Time">وقت الإختبار</label>
             </div>
             <div class="form-floating text-end w-48 mt-2.5">
-              <input type="date" class="form-control" id="Time1" />
-              <label for="Time1">وقت الإختبار</label>
+              <v-container>
+                <v-date-picker
+                  v-model="selectedDate"
+                  show-adjacent-months
+                ></v-date-picker>
+                <div class="text-right">
+                  تاريخ الإختبار : {{ formatDate(selectedDate) }}
+                </div>
+              </v-container>
             </div>
           </div>
         </div>
@@ -31,19 +39,20 @@
           <div>نوع الإختبار</div>
           <div class="type flex flex-wrap justify-between">
             <div
-              class="p-2.5 border cursor-pointer mt-2.5 flex gap-2.5 w-48 items-center"
+              class="p-2.5 border cursor-pointer mt-2.5 flex gap-2.5 w-48 items-center type"
             >
               <font-awesome-icon :icon="['fas', 'thumbs-up']" />
               <span>مجاني</span>
             </div>
             <div
-              class="p-2.5 border cursor-pointer mt-2.5 flex gap-2.5 w-48 items-center"
+              class="p-2.5 border cursor-pointer mt-2.5 flex gap-2.5 w-48 items-center type"
             >
               <font-awesome-icon :icon="['fas', 'coins']" /> <span>مدفوع</span>
             </div>
           </div>
         </div>
       </div>
+
       <div class="button text-left mt-5">
         <span
           class="bg-[--main-color] text-white p-2.5 rounded cursor-pointer"
@@ -69,12 +78,20 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
+import { format } from "date-fns";
 export default {
   name: "Add_Test",
+
   data() {
     return {
-      time: "",
+      selectedHour: 12,
+      selectedMinute: 0,
+      selectedPeriod: "AM",
+      currentTime: "",
+      dialog: false,
+      selectedTime: "",
+      formattedTime: "",
+      selectedDate: null,
     };
   },
   mounted() {
@@ -82,19 +99,37 @@ export default {
   },
 
   methods: {
+    formatDate(date) {
+      if (!date) return "";
+      return format(date, "dd/MM/yyyy"); // تغيير التنسيق حسب رغبتك
+    },
+    updateTimeFormat() {
+      const timeArray = this.selectedTime.split(":");
+      const hours = parseInt(timeArray[0], 10);
+      const minutes = timeArray[1] || "00";
+
+      // Convert to 12-hour format
+      const period = hours >= 12 ? "PM" : "AM";
+      const formattedHours = hours % 12 || 12;
+
+      // Update the formatted time
+      this.formattedTime = `${formattedHours}:${minutes} ${period}`;
+      console.log(this.formattedTime);
+    },
+
     GetData() {
       this.$emit("GetData");
     },
     ClassActive() {
-      let btn = document.querySelectorAll(".type > div");
+      let btn = document.querySelectorAll(".type > .type ");
       for (let i = 0; i < btn.length; i++) {
         btn[i].onclick = () => {
           btn.forEach((e) => {
             e.classList.remove("active");
-            e.classList.remove("border-2");
+            e.classList.remove("border-[--main-color]");
           });
           btn[i].classList.add("active");
-          btn[i].classList.add("border-2");
+          btn[i].classList.add("border-[--main-color]");
         };
       }
     },
@@ -109,12 +144,7 @@ export default {
       const collectionPath = `اختبارات - ${firstWord} - ${localStorage.getItem(
         "updateLang"
       )} - ${localStorage.getItem("updateClass")}`;
-      const timeInput = document.getElementById("Time");
-
-      if (!timeInput) {
-        console.error("Time input element not found");
-        return;
-      }
+      this.currentTime = this.formattedTime;
 
       const docRef = doc(db, collectionPath, localStorage.getItem("updateSub"));
       const docSnap = await getDoc(docRef);
@@ -124,24 +154,22 @@ export default {
           docData.test = [];
         }
         const allQuIndex = Object.keys(docData.test).length;
-        const allQuCount = Object.keys(
-          docData.test[allQuIndex]?.AllQu || {}
-        ).length;
+        Object.keys(docData.test[allQuIndex]?.AllQu || {}).length;
         const newData = {
-          Time: timeInput.value,
-          Date: document.getElementById("Time1").value,
+          Time: this.formattedTime,
+          Date: this.formatDate(this.selectedDate),
           Type: document.querySelector(".type .active span").innerHTML,
           AllQu: {},
         };
-        console.log(allQuCount);
+        console.log(this.formatDate(this.selectedDate));
         docData.test.push(newData);
         await setDoc(docRef, docData);
       } else {
         await setDoc(docRef, {
           test: [
             {
-              Time: timeInput.value,
-              Date: document.getElementById("Time1").value,
+              Time: this.formattedTime,
+              Date: this.formatDate(this.selectedDate),
               Type: document.querySelector(".type .active span").innerHTML,
               AllQu: {},
             },
