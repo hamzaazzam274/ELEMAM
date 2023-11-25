@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <TestPaying />
     <TheLanding />
     <AboutCollege />
     <TheNews />
@@ -15,6 +16,7 @@ import AboutCollege from "@/components/AboutCollege.vue";
 import TheNews from "@/components/TheNews.vue";
 import TheClasses from "@/components/TheClasses.vue";
 import TheGallary from "@/components/TheGallary.vue";
+import TestPaying from "@/components/TestPaying.vue";
 
 export default {
   name: "HomeView",
@@ -24,6 +26,7 @@ export default {
     TheNews,
     TheClasses,
     TheGallary,
+    TestPaying,
   },
 };
 </script>

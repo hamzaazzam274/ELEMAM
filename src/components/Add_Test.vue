@@ -5,20 +5,19 @@
       class="container rounded p-2.5 bg-white fixed -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 overflow-auto z-10 h-90"
     >
       <div class="head text-left flex justify-between mb-2.5">
-        <span>أضف اختبار</span
-        ><font-awesome-icon :icon="['fas', 'xmark']" @click="CloseAddTest" />
+        <span>أضف اختبار</span>
+        <font-awesome-icon :icon="['fas', 'xmark']" @click="CloseAddTest" />
       </div>
       <div class="body flex flex-col gap-2.5">
         <div class="feat border p-2.5 rounded">
           <div>ميعاد الإختبار</div>
-          <div class="type flex flex-wrap justify-between">
+          <div class="flex flex-wrap justify-between">
             <div class="form-floating text-end w-48 mt-2.5">
               <input
                 type="time"
                 class="form-control"
                 id="Time"
                 v-model="selectedTime"
-                @change="updateTimeFormat"
               />
               <label for="Time">وقت الإختبار</label>
             </div>
@@ -63,10 +62,11 @@
     </div>
   </div>
 </template>
+
 <script>
 import { getFirestore, setDoc, doc, getDoc } from "firebase/firestore";
-
 import { initializeApp } from "firebase/app";
+
 const firebaseConfig = {
   apiKey: "AIzaSyBOlDn6NmPGHHfdY-gYHvnA6MoM-y0Xbmo",
   authDomain: "elemam-center-for-training.firebaseapp.com",
@@ -78,103 +78,82 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-import { format } from "date-fns";
+
+import moment from "moment";
+import "moment/locale/ar";
 export default {
   name: "Add_Test",
 
   data() {
     return {
-      selectedHour: 12,
-      selectedMinute: 0,
-      selectedPeriod: "AM",
-      currentTime: "",
-      dialog: false,
       selectedTime: "",
       formattedTime: "",
       selectedDate: null,
     };
   },
   mounted() {
-    this.ClassActive();
+    setTimeout(() => {
+      this.ClassActive();
+    }, 100);
   },
 
   methods: {
-    formatDate(date) {
-      if (!date) return "";
-      return format(date, "dd/MM/yyyy"); // تغيير التنسيق حسب رغبتك
-    },
-    updateTimeFormat() {
-      const timeArray = this.selectedTime.split(":");
-      const hours = parseInt(timeArray[0], 10);
-      const minutes = timeArray[1] || "00";
-
-      // Convert to 12-hour format
-      const period = hours >= 12 ? "PM" : "AM";
-      const formattedHours = hours % 12 || 12;
-
-      // Update the formatted time
-      this.formattedTime = `${formattedHours}:${minutes} ${period}`;
-      console.log(this.formattedTime);
-    },
-
     GetData() {
       this.$emit("GetData");
-    },
-    ClassActive() {
-      let btn = document.querySelectorAll(".type > .type ");
-      for (let i = 0; i < btn.length; i++) {
-        btn[i].onclick = () => {
-          btn.forEach((e) => {
-            e.classList.remove("active");
-            e.classList.remove("border-[--main-color]");
-          });
-          btn[i].classList.add("active");
-          btn[i].classList.add("border-[--main-color]");
-        };
-      }
     },
     CloseAddTest() {
       this.$emit("close");
     },
-    async AddData() {
-      let sentence = localStorage.getItem("updateType");
+    ClassActive() {
+      let btn = document.querySelectorAll(".type > .type");
+      for (let i = 0; i < btn.length; i++) {
+        btn[i].onclick = () => {
+          btn.forEach((e) => {
+            e.classList.remove("ActiveClass");
+          });
+          btn[i].classList.add("ActiveClass");
+          console.log(btn[i]);
+        };
+      }
+    },
+    formatDate(date) {
+      if (!date) return "";
+      return moment(date).locale("ar").format("DD/MM/YYYY");
+    },
 
+    async AddData() {
+      moment.locale("ar");
+      const formattedTime = moment(this.selectedTime, "hh:mm A")
+        .locale("ar")
+        .format("HH:mm");
+
+      // قم بطباعة الوقت المنسق
+      console.log(formattedTime);
+      const newData = {
+        Time: formattedTime,
+        Date: this.formatDate(this.selectedDate),
+        Type: document.querySelector(".type .type.ActiveClass span").innerHTML,
+        AllQu: {},
+      };
+      let sentence = localStorage.getItem("updateType");
       let words = sentence.split(" ");
       let firstWord = words[0];
+
       const collectionPath = `اختبارات - ${firstWord} - ${localStorage.getItem(
         "updateLang"
       )} - ${localStorage.getItem("updateClass")}`;
-      this.currentTime = this.formattedTime;
-
       const docRef = doc(db, collectionPath, localStorage.getItem("updateSub"));
+
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         const docData = docSnap.data();
         if (!docData.test) {
           docData.test = [];
         }
-        const allQuIndex = Object.keys(docData.test).length;
-        Object.keys(docData.test[allQuIndex]?.AllQu || {}).length;
-        const newData = {
-          Time: this.formattedTime,
-          Date: this.formatDate(this.selectedDate),
-          Type: document.querySelector(".type .active span").innerHTML,
-          AllQu: {},
-        };
-        console.log(this.formatDate(this.selectedDate));
         docData.test.push(newData);
         await setDoc(docRef, docData);
       } else {
-        await setDoc(docRef, {
-          test: [
-            {
-              Time: this.formattedTime,
-              Date: this.formatDate(this.selectedDate),
-              Type: document.querySelector(".type .active span").innerHTML,
-              AllQu: {},
-            },
-          ],
-        });
+        await setDoc(docRef, { test: [newData] });
       }
 
       this.CloseAddTest();
@@ -183,3 +162,9 @@ export default {
   },
 };
 </script>
+<style>
+.ActiveClass {
+  background: var(--main-color);
+  color: #fff;
+}
+</style>

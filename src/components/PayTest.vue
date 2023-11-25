@@ -12,10 +12,10 @@
       class="text-7xl text-success mb-2.5"
     />
 
-    <h2 class="text-h5 mb-6">You reconciled this account</h2>
+    <h2 class="text-h5 mb-6">أشترك في الإختبارات</h2>
 
     <p class="mb-4 text-medium-emphasis text-body-2">
-      To see a report on this reconciliation, click
+      أشتري الآن
       <a href="#" class="text-decoration-none text-info"
         >View reconciliation report.</a
       >

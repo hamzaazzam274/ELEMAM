@@ -483,7 +483,7 @@ export default {
 
     async pay1() {
       const API =
-        "ZXlKaGJHY2lPaUpJVXpVeE1pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SmpiR0Z6Y3lJNklrMWxjbU5vWVc1MElpd2ljSEp2Wm1sc1pWOXdheUk2T1RRd056UXdMQ0p1WVcxbElqb2lhVzVwZEdsaGJDSjkucmtzSHVZcWN0MHZUMDJjOUdlY3JNZ0JlT196UjRiMkEyWVN2S2I3ZWhXcC1sN0k5MTR4S1B3bjhFV2VUWTd5SGJSOTV5MGxMdFNhbW91cl9IWmJqQlE=";
+        "ZXlKaGJHY2lPaUpJVXpVeE1pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SmpiR0Z6Y3lJNklrMWxjbU5vWVc1MElpd2ljSEp2Wm1sc1pWOXdheUk2T1RRd056UXdMQ0p1WVcxbElqb2lNVGN3TURreE56SXhPQzR6TmpnNU16Y2lmUS5QVzQtRXV3YU9kWHlreUt4TEVFdi15UkdRWGVMbUVaQnFxOE1nVFFISEtxeGd6LWl2ZTNRTmZPQlVINFQ5XzdLZGNfY1pBQXd5UlNZb1FlNld3ajREQQ==";
       let Data = {
         api_key: API,
       };
@@ -492,7 +492,16 @@ export default {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(Data),
       });
+
       let response = await request.json();
+      console.log("Response:", response);
+
+      if (response && response.token) {
+        let token = response.token;
+        this.pay2(token);
+      } else {
+        console.error("Token not found in the response");
+      }
       let token = response.token;
       this.pay2(token);
     },
@@ -527,6 +536,12 @@ export default {
     },
 
     async pay3(token, id) {
+      let userid = localStorage.getItem("userid");
+      const documentRef = doc(db, "الطلاب", userid);
+      const documentSnapshot = await getDoc(documentRef);
+      const fieldName = "pay";
+      const currentFieldValue = documentSnapshot.data()[fieldName];
+      console.log(documentSnapshot.data());
       let Data = {
         auth_token: token,
         amount_cents: `${this.BillPrice}00`,
@@ -539,12 +554,12 @@ export default {
         order_items: [],
         billing_data: {
           apartment: "803",
-          email: localStorage.getItem("useremail"),
+          email: documentSnapshot.data().email,
           floor: "42",
           first_name: this.FullName,
           street: "Ethan Land",
           building: "8028",
-          phone_number: localStorage.getItem("userphone"),
+          phone_number: documentSnapshot.data().phone,
           shipping_method: "PKG",
           postal_code: "01898",
           city: "Jaskolskiburgh",
@@ -561,22 +576,19 @@ export default {
           body: JSON.stringify(Data),
         }
       );
+
       let response = await request.json();
       console.log("Data:", Data);
       console.log("Full Response:", response);
-      let userid = localStorage.getItem("userid");
-      console.log("userid", userid);
-      // تحديث الحقل باستخدام `updateDoc`
-      const documentRef = doc(db, "الطلاب", userid);
-      // احصل على المستند الحالي
-      const documentSnapshot = await getDoc(documentRef);
-      const fieldName = "pay";
-      const currentFieldValue = documentSnapshot.data()[fieldName];
+
+      // تحقق مما إذا كانت الاستجابة تحتوي على الـ token
+      let TheToken = response.token;
+      console.log("Data:", Data);
+      console.log("Full Response:", response);
       setTimeout(() => {
         console.log(documentSnapshot.data());
       }, 1000);
 
-      // قم بإعداد الكائن الجديد
       console.log(serverTimestamp());
       let newObject = {
         BillName: this.BillName,
@@ -596,7 +608,6 @@ export default {
       await updateDoc(documentRef, {
         [fieldName]: currentFieldValue,
       });
-      let TheToken = response.token;
       this.CardPayment(TheToken);
     },
     CardPayment(token) {

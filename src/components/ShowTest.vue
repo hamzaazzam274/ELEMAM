@@ -127,6 +127,7 @@
             </div>
           </div>
         </div>
+        <div class="showresult" @click="ShowResult">النتيجة</div>
       </div>
     </div>
   </div>
@@ -160,7 +161,7 @@ export default {
   mounted() {
     this.ShowImg = true;
     setTimeout(() => {
-      console.log("this.TestIndex", this.TestIndex);
+      console.log("this.TestIndex =>", this.TestIndex);
       this.GetData();
     }, 10);
   },
@@ -274,6 +275,8 @@ export default {
       const docSnap = await getDoc(docRef);
       const docData = docSnap.data();
       const index = this.TestIndex;
+      console.log(indexedDB);
+      console.log(docData.test[0]);
       this.Qu = docData.test[index].AllQu;
       this.ShowImg = false;
       console.log(this.Qu);

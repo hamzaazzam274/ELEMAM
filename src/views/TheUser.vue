@@ -37,12 +37,13 @@
       </div>
       <div
         class="All_Courses bg-[#eee] w-48 text-center p-2.5 cursor-pointer rounded"
+        @click="CloseTogell_1"
       >
         كورساتي
         <!-- FawryPay Checkout Button -->
       </div>
     </div>
-    <MyCourse />
+    <MyCourse v-if="close_1" />
   </div>
 </template>
 <script>
@@ -92,9 +93,13 @@ export default {
       college_place: "",
       Class: "",
       Lang: "",
+      close_1: null,
     };
   },
   methods: {
+    CloseTogell_1() {
+      this.close_1 = true;
+    },
     Hmac() {},
     async State() {
       const urlParams = new URLSearchParams(window.location.search);
