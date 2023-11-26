@@ -159,6 +159,13 @@ export default {
     UserStateFunction() {
       console.log("UserStateFunction");
       this.state = null;
+      if (localStorage.getItem("college_place")) {
+        const inputString = localStorage.getItem("college_place");
+        const Words = inputString.split(" ");
+
+        const lastWord = Words[Words.length - 1];
+        console.log(lastWord);
+      }
       this.thetype = localStorage.getItem("type") === "بنين" ? "بك " : "بيكي ";
       console.log(localStorage.getItem("type"));
       this.UserName = `${localStorage.getItem("username_1")} 

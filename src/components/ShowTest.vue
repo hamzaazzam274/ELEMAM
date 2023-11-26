@@ -25,7 +25,13 @@
           <span class="btn" @click="CloseCheck">لا</span>
         </div>
       </div>
-      <div class="form">
+      <div
+        class="border p-2.5 text-center cursor-pointer"
+        @click="ShowQuFunction"
+      >
+        اضف سؤال
+      </div>
+      <div class="form" v-if="ShowQu">
         <div class="rounded p-2.5">
           <div class="body flex flex-col gap-2.5">
             <div class="feat border p-2 5 rounded">
@@ -127,7 +133,24 @@
             </div>
           </div>
         </div>
-        <div class="showresult" @click="ShowResult">النتيجة</div>
+        <div class="error text-[red] text-center p-2.5" v-if="ErrorActive">
+          أكمل الأسئلة
+        </div>
+        <div
+          class="showresult bg-[--main-color] p-2.5 text-center cursor-pointer text-white"
+          @click="ShowResult"
+        >
+          النتيجة
+        </div>
+        <div class="result" v-if="MyResult">
+          <div>درجتك : {{ result }} / {{ Allresult }}</div>
+          <div>التقدير : {{ appreciation }}</div>
+          <div>النسبة المئوية : {{ percent }}%</div>
+          <div>
+            الإجابة الصحيحة :
+            <span class="bg-[red] h-2.5 w-2.5 py-1 px-2.5"></span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -175,9 +198,19 @@ export default {
       WrongAnswer1: "",
       WrongAnswer2: "",
       ShowImg: null,
+      MyResult: null,
+      appreciation: "",
+      percent: "",
+      result: 0,
+      Allresult: "",
+      ErrorActive: null,
+      ShowQu: null,
     };
   },
   methods: {
+    ShowQuFunction() {
+      this.ShowQu = !this.ShowQu;
+    },
     ShowResult() {
       let AnswerDad = document.querySelectorAll(".Answer");
       let AllAnswer = document.querySelectorAll(".Answer > div");
@@ -354,6 +387,10 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.active {
+  background: var(--main-color);
+  color: #fff;
+}
 .Check {
   animation: Check 0.3s 1;
 }
