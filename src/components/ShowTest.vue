@@ -88,7 +88,37 @@
           </div>
         </div>
       </div>
-      <div class="body mt-2.5">
+      <div class="Notes" v-if="TestState">
+        <h3>ملاحظات هامة</h3>
+        <div class="flex items-center gap-2.5 mt-2.5">
+          <font-awesome-icon :icon="['fas', 'clock']" />
+          <span
+            >الإختبار بوقت محدد بمعدل دقيقة و نصف لكل سؤال وقت الإختبار ({{
+              this.Qu.length * 1.5
+            }}
+            دقيقة )</span
+          >
+        </div>
+        <div class="flex items-center gap-2.5 mt-2.5">
+          <font-awesome-icon :icon="['fas', 'square-poll-vertical']" />
+          <span>يتم حساب نتيجة أول أختبار فقط</span>
+        </div>
+        <div class="flex items-center gap-2.5 mt-2.5">
+          <font-awesome-icon :icon="['fas', 'thumbs-up']" />
+          <span
+            >بمجرد ضغطك علي زر البدأ يتم احتساب النتيجة حتي لو اغلقت الإختبار
+            الإختبار</span
+          >
+        </div>
+        <div
+          class="button border p-3 text-center cursor-pointer mt-2.5"
+          @click="StarTest"
+        >
+          ابدأ الإختبار
+        </div>
+      </div>
+      <div class="body mt-2.5" v-if="StarTestState">
+        <p>{{ formatTime }}</p>
         <img
           src="../assets/animation_lolk2w1w_small.gif"
           alt=""
@@ -97,15 +127,6 @@
         />
         <div class="All_Qu my-3">
           <div class="box my-2.5 relative" v-for="(qu, index) in Qu" :key="qu">
-            <font-awesome-icon
-              :icon="['fas', 'pen-to-square']"
-              class="absolute transform -translate-x-1/2 translate-y-1/2 left-10"
-            />
-            <font-awesome-icon
-              :icon="['fas', 'trash-can']"
-              class="absolute transform -translate-x-1/2 translate-y-1/2 left-5"
-              @click="DeleteQu"
-            />
             <div
               class="qu flex items-center p-2.5 gap-1 bg-[#fafafa] rounded whitespace-pre-line"
             >
@@ -156,14 +177,7 @@
   </div>
 </template>
 <script>
-import {
-  getDoc,
-  getFirestore,
-  setDoc,
-  doc,
-  updateDoc,
-  deleteField,
-} from "firebase/firestore";
+import { getDoc, getFirestore, setDoc, doc } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 const firebaseConfig = {
   apiKey: "AIzaSyBOlDn6NmPGHHfdY-gYHvnA6MoM-y0Xbmo",
@@ -184,10 +198,14 @@ export default {
   mounted() {
     this.ShowImg = true;
     setTimeout(() => {
-      console.log("this.TestIndex =>", this.TestIndex);
       this.GetData();
-    }, 10);
+    }, 1000);
   },
+  beforeUnmount() {
+    clearInterval(this.timer);
+    clearTimeout(this.timeout);
+  },
+
   data() {
     return {
       ShowCheck: null,
@@ -205,10 +223,101 @@ export default {
       Allresult: "",
       ErrorActive: null,
       ShowQu: null,
+      StarTestState: null,
+      TestState: true,
+      targetTime: new Date().getTime() + 0 * 60 * 1000,
+      currentTime: new Date().getTime(),
+      QULength: 0,
     };
   },
+  computed: {
+    timeRemaining() {
+      return this.targetTime - this.currentTime;
+    },
+    formatTime() {
+      const minutes = Math.floor(
+        (this.timeRemaining % (1000 * 60 * 60)) / (1000 * 60)
+      );
+      const seconds = Math.floor((this.timeRemaining % (1000 * 60)) / 1000);
+
+      return `${minutes} دقيقة ${seconds} ثانية `;
+    },
+  },
   methods: {
+    handleCountdownExpired() {
+      let AnswerDad = document.querySelectorAll(".Answer");
+      let AllAnswer = document.querySelectorAll(".Answer > div");
+      let active = document.querySelectorAll(".Answer > .active");
+      this.MyResult = true;
+      this.ErrorActive = false;
+      AllAnswer.forEach((e) => {
+        e.classList.add("pointer-events-none");
+      });
+      this.Allresult = this.Qu.length;
+      for (let i = 0; i < this.Qu.length; i++) {
+        for (let j = 0; j < 3; j++) {
+          if (AnswerDad[i].children[j].innerHTML === this.Qu[i].RightAnswer) {
+            AnswerDad[i].children[j].style.background = "red";
+          }
+        }
+      }
+      for (let i = 0; i < active.length; i++) {
+        if (active[i].innerHTML === this.Qu[i].RightAnswer) {
+          this.result += 1;
+          if (this.result !== 0) {
+            this.percent = ((this.result / this.Allresult) * 100).toFixed(0);
+          } else {
+            this.percent = 0;
+          }
+          if (this.percent >= 90 && this.percent <= 100) {
+            this.appreciation = "إمتياز";
+          } else if (this.percent >= 80 && this.percent <= 89) {
+            this.appreciation = "جيد جدا";
+          } else if (this.percent >= 70 && this.percent <= 79) {
+            this.appreciation = "جيد";
+          } else if (this.percent >= 50 && this.percent <= 69) {
+            this.appreciation = "مقبول";
+          } else if (this.percent >= 25 && this.percent <= 49) {
+            this.appreciation = "ضعيف";
+          } else if (this.percent >= 0 && this.percent <= 24) {
+            this.appreciation = "ضعيف جدا";
+          }
+        } else {
+          this.result = 0;
+          this.percent = 0;
+          this.appreciation = "ضعيف جدا";
+        }
+      }
+      if (active.length === 0) {
+        this.result = 0;
+        this.percent = 0;
+        this.appreciation = "ضعيف جدا";
+      }
+    },
+    StartTime() {
+      this.targetTime = new Date().getTime() + this.Qu * 1.5 * 60 * 1000;
+      this.updateCurrentTime();
+      this.timer = setInterval(() => {
+        this.updateCurrentTime();
+        if (this.formatTime === "0 دقيقة 0 ثانية ") {
+          clearInterval(this.timer);
+          setTimeout(() => {
+            this.handleCountdownExpired();
+          }, 100);
+        }
+      }, 1000);
+    },
+    updateCurrentTime() {
+      this.currentTime = new Date().getTime();
+    },
+    StarTest() {
+      this.StarTestState = true;
+      this.TestState = false;
+      this.GetData();
+      this.StartTime();
+    },
     ShowQuFunction() {
+      this.formatTime === "0 دقيقة 0 ثانية ";
       this.ShowQu = !this.ShowQu;
     },
     ShowResult() {
@@ -250,6 +359,9 @@ export default {
           }
         }
       }
+      setTimeout(() => {
+        clearInterval(this.timer);
+      }, 100);
     },
     ClickActive() {
       let AnswerDad = document.querySelectorAll(".Answer");
@@ -273,21 +385,6 @@ export default {
         }
       });
     },
-    async DeleteQu() {
-      let sentence = localStorage.getItem("updateType");
-
-      let words = sentence.split(" ");
-      let firstWord = words[0];
-      const collectionPath = `اختبارات - ${firstWord} - ${localStorage.getItem(
-        "updateLang"
-      )} - ${localStorage.getItem("updateClass")}`;
-      const docRef = doc(db, collectionPath, localStorage.getItem("updateSub"));
-      // const index = this.TestIndex;
-      console.log(docRef);
-      await updateDoc(docRef, {
-        test: deleteField(),
-      });
-    },
     CleanData() {
       this.qu1 = "";
       this.qu2 = "";
@@ -308,11 +405,8 @@ export default {
       const docSnap = await getDoc(docRef);
       const docData = docSnap.data();
       const index = this.TestIndex;
-      console.log(indexedDB);
-      console.log(docData.test[0]);
       this.Qu = docData.test[index].AllQu;
       this.ShowImg = false;
-      console.log(this.Qu);
       setTimeout(() => {
         this.ClickActive();
       }, 100);
@@ -321,7 +415,17 @@ export default {
       }, 100);
     },
     async AddData() {
-      console.log("AddData");
+      this.MyResult = false;
+      // if (this.StarTestState) {
+      //   this.handleCountdownExpired();
+      // }
+      let AllAnswer = document.querySelectorAll(".Answer > div");
+      if (AllAnswer.length !== 0) {
+        AllAnswer.forEach((e) => {
+          e.classList.remove("pointer-events-none");
+        });
+      }
+      this.formatTime = "0 دقيقة 0 ثانية ";
       let sentence = localStorage.getItem("updateType");
 
       let words = sentence.split(" ");
@@ -351,7 +455,6 @@ export default {
           docData.test[index].AllQu = [newData];
         }
         this.Qu = docData.test[index].AllQu;
-        console.log(this.Qu);
         await setDoc(docRef, docData);
       } else {
         await setDoc(docRef, {
@@ -381,7 +484,18 @@ export default {
       this.ShowCheck = false;
     },
     Close() {
-      this.$emit("close");
+      if (this.StarTestState) {
+        this.handleCountdownExpired();
+      }
+      let AllAnswer = document.querySelectorAll(".Answer > div");
+      if (AllAnswer.length !== 0) {
+        AllAnswer.forEach((e) => {
+          e.classList.remove("pointer-events-none");
+        });
+      }
+      setTimeout(() => {
+        this.$emit("close");
+      }, 1000);
     },
   },
 };
