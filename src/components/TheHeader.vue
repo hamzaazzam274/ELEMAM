@@ -94,7 +94,9 @@
           <span>حساب جديد</span>
         </div>
       </div>
-      <div @click="Google">عدد الزوار : {{ visitorCount }}</div>
+      <div @click="Google" class="cursor-pointer">
+        عدد الزوار : {{ visitorCount }}
+      </div>
     </div>
   </div>
   <SignIn @close_1="close_1" v-if="close_1_State" />
