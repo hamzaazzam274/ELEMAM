@@ -21,7 +21,7 @@
         </div>
         <div>
           <span>السعر : </span>
-          <span>{{ data.BillPrice / 100 }}</span>
+          <span>{{ data.BillPrice / 100 }} ج م</span>
         </div>
         <div>
           <span>كود الإستلام : </span> <span>{{ data.order_id }}</span>

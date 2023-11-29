@@ -137,7 +137,6 @@ export default {
     MDBBreadcrumbItem,
     AddTest,
     ShowTest,
-
     PayTest,
   },
   methods: {
@@ -160,17 +159,8 @@ export default {
     async CheckTimeAndData(index) {
       this.TestIndex = index;
       const currentDate = new Date();
-
-      // moment.locale("ar");
-      // console.log("currentTime24h", moment(currentDate).format("HH:mm"));
-      // console.log("currentTime12h",);
-      // console.log("#############", this.AllTest[index].Time);
-      // console.log("#############", this.AllTest[index].Date);
       const currentTime = moment(currentDate).format("HH:mm");
       let currentDate1 = moment().locale("ar").format("DD/MM/YYYY");
-      console.log(currentDate1);
-      console.log(currentTime);
-      console.log(this.AllTest[index].Time);
       if (currentDate1 > this.AllTest[index].Date) {
         if (this.AllTest[index].Type === "مدفوع") {
           const q = query(

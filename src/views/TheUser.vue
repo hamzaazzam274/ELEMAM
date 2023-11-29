@@ -25,15 +25,18 @@
           <span>{{ Class }} - {{ Lang }}</span>
         </div>
       </div>
-      <div class="result w-1/2 flex items-center justify-center">
-        <span>متوسط النتائج</span>
+      <div class="result w-1/2 flex items-center justify-center flex-col">
+        <div>{{ TotalResult }}%</div>
+        <div>{{ Appreciations }}</div>
+        <div>{{ Ranking }}</div>
       </div>
     </div>
     <div class="flex gap-2.5 justify-between">
       <div
         class="All_Result bg-[#eee] w-48 text-center p-2.5 cursor-pointer rounded"
+        @click="CloseTogell_2"
       >
-        نتائج الإختبارات
+        نتائجي
       </div>
       <div
         class="All_Courses bg-[#eee] w-48 text-center p-2.5 cursor-pointer rounded"
@@ -44,6 +47,11 @@
       </div>
     </div>
     <MyCourse v-if="close_1" />
+    <MyResults
+      v-if="close_2"
+      @TotalResultFunction="handleTotalResult"
+      @AppreciationsFunction="handleAppreciations"
+    />
   </div>
 </template>
 <script>
@@ -73,10 +81,12 @@ const db = getFirestore(app);
 import CryptoJS from "crypto-js";
 // الآن يمكنك استخدام 'crypto' في هذا الملف بشكل طبيعي
 import MyCourse from "../components/MyCourse.vue";
+import MyResults from "../components/MyResults.vue";
 export default {
   name: "TheUser",
   components: {
     MyCourse,
+    MyResults,
   },
   mounted() {
     this.GetData();
@@ -94,17 +104,95 @@ export default {
       Class: "",
       Lang: "",
       close_1: null,
+      close_2: true,
+      TotalResult: "",
+      Appreciations: "",
+      Ranking: "",
+      TypeOfClass: "",
     };
   },
   methods: {
+    handleAppreciations(Data) {
+      this.Appreciations = Data;
+    },
+    async handleTotalResult(Data) {
+      this.TotalResult = Data;
+      // ["AllResults"]: this.TotalResult,
+      console.log(typeof Data);
+      const documentRef = doc(db, "الطلاب", localStorage.getItem("userid"));
+      await updateDoc(documentRef, {
+        ["AllResults"]: `${Data}`,
+      });
+      const studentsCollection = collection(db, "الطلاب");
+      const querySnapshot = await getDocs(studentsCollection);
+      let array = [];
+
+      querySnapshot.forEach((doc) => {
+        if (
+          doc.data().Class === this.Class &&
+          doc.data().Lang === this.Lang &&
+          doc.data().TypeOfClass === this.TypeOfClass
+        ) {
+          console.log(doc.id, " => ", doc.data().AllResults);
+          array.push(doc.data().AllResults);
+        }
+      });
+
+      // const array1 = [13, 233, 43, 434, 45, 65, 74, 48, 39, 210];
+
+      // تصفية القيم الغير معرفة (undefined)
+      const filteredArray = array.filter((element) => element !== undefined);
+
+      // فرز المصفوفة بترتيب تنازلي
+      const sortedArray = filteredArray.sort((a, b) => b - a);
+
+      // اختيار أول 10 عناصر
+      const top10Elements = sortedArray.slice(0, 10);
+
+      console.log(top10Elements);
+
+      querySnapshot.forEach((doc) => {
+        if (
+          top10Elements.includes(doc.data().AllResults) &&
+          doc.data().userid === localStorage.getItem("userid")
+        ) {
+          console.log(top10Elements.indexOf(doc.data().AllResults) + 1);
+          if (top10Elements.indexOf(doc.data().AllResults) + 1 === 1) {
+            this.Ranking = "الأول";
+          } else if (top10Elements.indexOf(doc.data().AllResults) + 1 === 2) {
+            this.Ranking = "الثاني";
+          } else if (top10Elements.indexOf(doc.data().AllResults) + 1 === 3) {
+            this.Ranking = "الثالث";
+          } else if (top10Elements.indexOf(doc.data().AllResults) + 1 === 4) {
+            this.Ranking = "الرابع";
+          } else if (top10Elements.indexOf(doc.data().AllResults) + 1 === 5) {
+            this.Ranking = "الخامس";
+          } else if (top10Elements.indexOf(doc.data().AllResults) + 1 === 6) {
+            this.Ranking = "السادس";
+          } else if (top10Elements.indexOf(doc.data().AllResults) + 1 === 7) {
+            this.Ranking = "السابع";
+          } else if (top10Elements.indexOf(doc.data().AllResults) + 1 === 8) {
+            this.Ranking = "الثامن";
+          } else if (top10Elements.indexOf(doc.data().AllResults) + 1 === 9) {
+            this.Ranking = "التاسع";
+          } else if (top10Elements.indexOf(doc.data().AllResults) + 1 === 10) {
+            this.Ranking = "العاشر";
+          }
+        }
+      });
+    },
     CloseTogell_1() {
       this.close_1 = true;
+      this.close_2 = false;
+    },
+    CloseTogell_2() {
+      this.close_1 = false;
+      this.close_2 = true;
     },
     Hmac() {},
     async State() {
       const urlParams = new URLSearchParams(window.location.search);
 
-      // جمع البيانات المطلوبة لحساب الهاش
       const dataKeys = [
         "amount_cents",
         "created_at",
@@ -130,7 +218,6 @@ export default {
 
       const test = dataKeys.map((key) => urlParams.get(key));
 
-      // حساب الهاش باستخدام crypto-js
       const secretKey = "DFDAACE2D9EF9DA02CAB73EFA36945DF";
       const hashedData = CryptoJS.HmacSHA512(test, secretKey).toString(
         CryptoJS.enc.Hex
@@ -140,24 +227,20 @@ export default {
       console.log("Test =>", test);
       console.log("hashedData =>", hashedData);
 
-      // قارن بين الهاش المتوقع والهاش الفعلي
       if (urlParams.get("hmac") === hashedData) {
         console.log("ok Hmac");
       } else {
         console.log("Error Hmac");
       }
 
-      // استخدام هذه المعلومات كما تحتاج
       if (urlParams.get("success") === "true") {
         console.log("Payment successful!");
       } else {
         console.log("Payment failed!");
       }
       console.log(urlParams.get("success"));
-      // إضافة المزيد من الاستجابات حسب الحاجة
       const washingtonRef = doc(db, "الطلاب", localStorage.getItem("userid"));
 
-      // احصل على القيمة الحالية للمصفوفة pay
       const washingtonSnap = await getDoc(washingtonRef);
 
       const payArray = washingtonSnap.data().pay;
@@ -166,25 +249,20 @@ export default {
         if (+urlParams.get("order") === payArray[i].order_id) {
           console.log("order_id => ", urlParams.get("order"));
 
-          // قم بتحديث القيمة المطلوبة في المصفوفة
-          const updatedPayArray = [...payArray]; // انشئ نسخة جديدة من المصفوفة
+          const updatedPayArray = [...payArray];
 
           updatedPayArray[i] = {
             ...updatedPayArray[i],
             success: urlParams.get("success"),
           };
 
-          // قم بتحديث الوثيقة في قاعدة البيانات
           await updateDoc(washingtonRef, { pay: updatedPayArray });
 
-          // بمجرد أن يتم تحديث العنصر الأول الذي يطابق الشرط، اخرج من الحلقة
           break;
         }
       }
       console.log(+urlParams.get("order"));
       console.log(payArray.length);
-
-      // قم بتحديث الوثيقة في قاعدة البيانات
     },
     async GetData() {
       console.log(typeof localStorage.getItem("userphone"));
@@ -207,9 +285,13 @@ export default {
         this.college_place = user.college_place;
         this.Class = user.Class;
         this.Lang = user.Lang;
+        this.TypeOfClass = user.TypeOfClass;
         console.log(this.AllName);
         console.log(user);
       });
+      // setTimeout(() => {
+      this.handleTotalResult();
+      // }, 1000);
     },
   },
 };

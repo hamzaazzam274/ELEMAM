@@ -106,7 +106,7 @@
         <div class="flex items-center gap-2.5 mt-2.5">
           <font-awesome-icon :icon="['fas', 'thumbs-up']" />
           <span
-            >بمجرد ضغطك علي زر البدأ يتم احتساب النتيجة حتي لو اغلقت الإختبار
+            >بمجرد ضغطك علي زر البدأ يتم احتساب النتيجة حتي لو اغلقت
             الإختبار</span
           >
         </div>
@@ -118,7 +118,10 @@
         </div>
       </div>
       <div class="body mt-2.5" v-if="StarTestState">
-        <p>{{ formatTime }}</p>
+        <div class="flex items-center p-2.5 bg-[#eee] justify-between">
+          <p>{{ formatTime }}</p>
+          <div>({{ this.Qu.length }}) سؤال</div>
+        </div>
         <img
           src="../assets/animation_lolk2w1w_small.gif"
           alt=""
@@ -157,6 +160,7 @@
         <div class="error text-[red] text-center p-2.5" v-if="ErrorActive">
           أكمل الأسئلة
         </div>
+
         <div
           class="showresult bg-[--main-color] p-2.5 text-center cursor-pointer text-white"
           @click="ShowResult"
@@ -197,9 +201,9 @@ export default {
   props: ["TestIndex"],
   mounted() {
     this.ShowImg = true;
-    setTimeout(() => {
-      this.GetData();
-    }, 1000);
+    // setTimeout(() => {
+    this.GetData();
+    // }, 1000);
   },
   beforeUnmount() {
     clearInterval(this.timer);
@@ -228,6 +232,7 @@ export default {
       targetTime: new Date().getTime() + 0 * 60 * 1000,
       currentTime: new Date().getTime(),
       QULength: 0,
+      StateSub: null,
     };
   },
   computed: {
@@ -244,6 +249,50 @@ export default {
     },
   },
   methods: {
+    async AddResultInData() {
+      console.log("AddResultInData");
+      const docRef = doc(db, "الطلاب", localStorage.getItem("userid"));
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        const docData = docSnap.data();
+        const index = this.TestIndex;
+        const newData = {
+          Type: localStorage.getItem("updateType"),
+          Lang: localStorage.getItem("updateLang"),
+          Class: localStorage.getItem("updateClass"),
+          Sub: localStorage.getItem("updateSub"),
+          TestNumber: index + 1,
+          result: this.result,
+          Allresult: this.Allresult,
+          appreciation: this.appreciation,
+          percent: this.percent,
+          Time: new Date(),
+        };
+        if (docData.resultes.length === 0) {
+          docData.resultes.push(newData);
+        }
+        let Array = [];
+        for (let i = 0; i < docData.resultes.length; i++) {
+          if (docData.resultes[i].Sub === localStorage.getItem("updateSub")) {
+            Array.push(docData.resultes[i].TestNumber);
+            console.log(Array);
+            this.StateSub = !Array.includes(index + 1);
+            console.log(Array);
+          } else {
+            this.StateSub = true;
+          }
+        }
+        console.log(this.StateSub);
+        if (this.StateSub) {
+          docData.resultes.push(newData);
+        }
+
+        await setDoc(docRef, docData);
+      }
+      setTimeout(() => {
+        clearInterval(this.timer);
+      }, 1000);
+    },
     handleCountdownExpired() {
       let AnswerDad = document.querySelectorAll(".Answer");
       let AllAnswer = document.querySelectorAll(".Answer > div");
@@ -293,9 +342,11 @@ export default {
         this.percent = 0;
         this.appreciation = "ضعيف جدا";
       }
+
+      this.AddResultInData();
     },
     StartTime() {
-      this.targetTime = new Date().getTime() + this.Qu * 1.5 * 60 * 1000;
+      this.targetTime = new Date().getTime() + this.Qu.length * 1.5 * 60 * 1000;
       this.updateCurrentTime();
       this.timer = setInterval(() => {
         this.updateCurrentTime();
@@ -314,7 +365,6 @@ export default {
       this.StarTestState = true;
       this.TestState = false;
       this.GetData();
-      this.StartTime();
     },
     ShowQuFunction() {
       this.formatTime === "0 دقيقة 0 ثانية ";
@@ -342,7 +392,14 @@ export default {
           }
           if (active[i].innerHTML === this.Qu[i].RightAnswer) {
             this.result += 1;
-            this.percent = ((this.result / this.Allresult) * 100).toFixed(0);
+            console.log(this.result);
+            if (this.result !== 0) {
+              this.percent = ((this.result / this.Allresult) * 100).toFixed(0);
+            } else {
+              this.percent = 0;
+              this.appreciation = "ضعيف جدا";
+              this.result = 0;
+            }
             if (this.percent >= 90 && this.percent <= 100) {
               this.appreciation = "إمتياز";
             } else if (this.percent >= 80 && this.percent <= 89) {
@@ -356,12 +413,14 @@ export default {
             } else if (this.percent >= 0 && this.percent <= 24) {
               this.appreciation = "ضعيف جدا";
             }
+          } else {
+            this.percent = 0;
+            this.appreciation = "ضعيف جدا";
+            this.result = 0;
           }
         }
+        this.AddResultInData();
       }
-      setTimeout(() => {
-        clearInterval(this.timer);
-      }, 100);
     },
     ClickActive() {
       let AnswerDad = document.querySelectorAll(".Answer");
@@ -371,7 +430,7 @@ export default {
             .querySelectorAll(".Answer")
             [i].querySelectorAll("div")
             .forEach((e) => {
-              e.style.order = -Math.floor(Math.random() * 4);
+              e.style.order = -Math.floor(Math.random() * 10);
               e.onclick = () => {
                 document
                   .querySelectorAll(".Answer")
@@ -409,16 +468,13 @@ export default {
       this.ShowImg = false;
       setTimeout(() => {
         this.ClickActive();
-      }, 100);
-      setTimeout(() => {
-        this.ClickActive();
+        setTimeout(() => {
+          this.StartTime();
+        }, 1000);
       }, 100);
     },
     async AddData() {
       this.MyResult = false;
-      // if (this.StarTestState) {
-      //   this.handleCountdownExpired();
-      // }
       let AllAnswer = document.querySelectorAll(".Answer > div");
       if (AllAnswer.length !== 0) {
         AllAnswer.forEach((e) => {

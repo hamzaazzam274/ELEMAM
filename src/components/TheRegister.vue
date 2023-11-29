@@ -612,6 +612,7 @@ export default {
           TypeOfClass: this.type,
           Lang: this.lang,
           userid: null,
+          AllResults: "",
         });
         await updateDoc(docRef, { userid: docRef.id });
         console.log("Document written with ID: ", docRef.id);

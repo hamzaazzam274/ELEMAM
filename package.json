@@ -35,6 +35,8 @@
     "sass-loader": "^13.3.2",
     "stream-browserify": "^3.0.0",
     "vue": "^3.2.13",
+    "vue-analytics": "^5.22.1",
+    "vue-gtag": "^2.0.1",
     "vue-router": "^4.0.3",
     "vuetify": "^3.4.3",
     "vuex": "^4.0.2",

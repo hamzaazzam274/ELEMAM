@@ -94,6 +94,7 @@
           <span>حساب جديد</span>
         </div>
       </div>
+      <div>عدد الزوار : {{ visitorCount }}</div>
     </div>
   </div>
   <SignIn @close_1="close_1" v-if="close_1_State" />
@@ -115,6 +116,7 @@ export default {
       UserEmail: "",
       ShowHelloUser: null,
       thetype: "",
+      visitorCount: null,
     };
   },
   components: {
@@ -123,6 +125,14 @@ export default {
   },
   mounted() {
     this.UserStateFunction();
+    this.$gtag
+      .getVisitorCount()
+      .then((count) => {
+        this.visitorCount = count;
+      })
+      .catch((error) => {
+        console.error("Error fetching visitor count:", error);
+      });
   },
   methods: {
     ShowLinks() {
@@ -151,6 +161,7 @@ export default {
       localStorage.removeItem("userid");
       localStorage.removeItem("college_place");
       localStorage.removeItem("parents_phone");
+      localStorage.removeItem("type");
       this.state = null;
       setTimeout(() => {
         this.UserStateFunction();
@@ -166,7 +177,7 @@ export default {
         const lastWord = Words[Words.length - 1];
         console.log(lastWord);
       }
-      this.thetype = localStorage.getItem("type") === "بنين" ? "بك " : "بيكي ";
+      this.thetype = localStorage.getItem("type") === "بنين" ? "بك " : "بكي ";
       console.log(localStorage.getItem("type"));
       this.UserName = `${localStorage.getItem("username_1")} 
         ${localStorage.getItem("username_2")} 

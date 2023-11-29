@@ -34,9 +34,13 @@ const vuetify = createVuetify({
   components,
   directives,
 });
+import GTag from "vue-gtag";
 
 createApp(App)
   .use(store)
+  .use(GTag, {
+    config: { id: "G-B49CND2GBJ" }, // استخدم معرّف القياس الخاص بك هنا
+  })
   .use(router)
   .use(vuetify)
   .component("font-awesome-icon", FontAwesomeIcon)
