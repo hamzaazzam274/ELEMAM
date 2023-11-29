@@ -201,6 +201,7 @@ export default {
         this.classList.add("active");
       }
       list.forEach((item) => item.addEventListener("click", activeLink));
+      this.$gtag.page_view("https://elemam.vercel.app/");
     },
   },
 };
