@@ -34,14 +34,14 @@ const vuetify = createVuetify({
   components,
   directives,
 });
-import GTag from "vue-gtag";
+import VueGtag from "vue-gtag";
 
 createApp(App)
   .use(store)
-  .use(GTag, {
-    config: { id: "G-B49CND2GBJ" }, // استخدم معرّف القياس الخاص بك هنا
-  })
   .use(router)
   .use(vuetify)
   .component("font-awesome-icon", FontAwesomeIcon)
+  .use(VueGtag, {
+    config: { id: "G-B49CND2GBJ" },
+  })
   .mount("#app");

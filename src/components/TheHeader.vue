@@ -94,7 +94,7 @@
           <span>حساب جديد</span>
         </div>
       </div>
-      <div>عدد الزوار : {{ visitorCount }}</div>
+      <div @click="Google">عدد الزوار : {{ visitorCount }}</div>
     </div>
   </div>
   <SignIn @close_1="close_1" v-if="close_1_State" />
@@ -123,18 +123,14 @@ export default {
     SignIn,
     TheRegister,
   },
-  mounted() {
-    this.UserStateFunction();
-    this.$gtag
-      .getVisitorCount()
-      .then((count) => {
-        this.visitorCount = count;
-      })
-      .catch((error) => {
-        console.error("Error fetching visitor count:", error);
-      });
-  },
   methods: {
+    Google() {
+      this.$gtag.event("ok", {
+        event_category: "ok",
+        event_label: "ok",
+        value: 1,
+      });
+    },
     ShowLinks() {
       document.querySelector(".all_links").classList.toggle("hidden");
     },
@@ -194,14 +190,7 @@ export default {
       }
     },
     mounted() {
-      const list = document.querySelectorAll(".list");
-
-      function activeLink() {
-        list.forEach((item) => item.classList.remove("active"));
-        this.classList.add("active");
-      }
-      list.forEach((item) => item.addEventListener("click", activeLink));
-      this.$gtag.page_view("https://elemam.vercel.app/");
+      // this.$gtag.page_view("https://elemam.vercel.app");
     },
   },
 };
