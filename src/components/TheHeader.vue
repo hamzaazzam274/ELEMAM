@@ -12,33 +12,42 @@
         </router-link>
       </div>
       <div class="left flex items-center gap-2.5 flex-wrap">
-        <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
         <div class="links relative">
-          <span
+          <!-- <span
             @click="ShowLinks"
             class="click flex gap-2.5 items-center cursor-pointer bg-[#eee] p-2.5 rounded-md"
           >
             <span>روابط هامة</span>
             <font-awesome-icon :icon="['fas', 'caret-down']" />
-          </span>
-          <div
-            class="all_links hidden flex flex-col gap-2.5 absolute bg-[#eee] top-14 w-96 rounded p-2.5"
-          >
+          </span> -->
+          <div class="all_links flex gap-2.5 rounded p-2.5">
             <span class="cursor-pointer border-b border-gray-300 pb-2.5"
-              >تعريف عن الأكاديمية</span
-            >
-            <span class="cursor-pointer border-b border-gray-300 pb-2.5"
-              >نبذة عن كلية الشريعة و القانون</span
+              >أحدث الأخبار</span
             >
             <span class="cursor-pointer border-b border-gray-300 pb-2.5"
               >الفرق الدراسية</span
             >
             <span class="cursor-pointer border-b border-gray-300 pb-2.5"
-              >الإختبارات</span
-            >
+              >معرض الصور
+            </span>
             <span class="cursor-pointer">تواصل معنا</span>
           </div>
         </div>
+        <v-menu transition="slide-y-transition">
+          <template v-slot:activator="{ props }">
+            <v-btn color="primary" v-bind="props">
+              <font-awesome-icon :icon="['fas', 'bars']" />
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item v-for="(item, i) in items" :key="i">
+              <a href="#"
+                ><v-list-item-title>{{ item.title }}</v-list-item-title>
+              </a>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+        <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
         <div
           class="login flex gap-2.5 items-center cursor-pointer bg-[#eee] p-2.5 rounded-md"
           v-if="!UserState"
@@ -131,6 +140,12 @@ export default {
       ShowHelloUser: null,
       thetype: "",
       visitorCount: null,
+      items: [
+        { title: "أحدث الأخبار" },
+        { title: "الفرق الدراسية" },
+        { title: "معرض الصور" },
+        { title: "تواصل معنا" },
+      ],
     };
   },
   components: {

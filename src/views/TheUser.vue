@@ -223,7 +223,10 @@ export default {
         console.log("Error Hmac");
       }
 
-      if (urlParams.get("success") === "true") {
+      if (
+        urlParams.get("success") === "true" &&
+        urlParams.get("pending") === "false"
+      ) {
         console.log("Payment successful!");
       } else {
         console.log("Payment failed!");
@@ -238,7 +241,10 @@ export default {
       for (let i = 0; i < payArray.length; i++) {
         if (+urlParams.get("order") === payArray[i].order_id) {
           console.log("order_id => ", urlParams.get("order"));
-          if (urlParams.get("success") !== "true") {
+          if (
+            urlParams.get("success") !== "true" &&
+            urlParams.get("pending") === "false"
+          ) {
             const updatedPayArray = [...payArray];
 
             // استخدم splice لحذف العنصر المحدد
