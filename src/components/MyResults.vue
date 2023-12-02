@@ -162,8 +162,8 @@ export default {
         (accumulator, currentValue) => accumulator + parseFloat(currentValue),
         0
       );
-      this.TotalResult = sum;
-      this.Appreciations = sum;
+      this.TotalResult = ((sum / +`${Array_1.length}00`) * 100).toFixed(1);
+      // this.Appreciations = sum;
 
       if (this.TotalResult >= 90 && this.TotalResult <= 100) {
         this.Appreciations = "إمتياز";

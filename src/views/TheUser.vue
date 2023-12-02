@@ -10,7 +10,7 @@
         </div>
         <div class="phone flex items-center gap-2.5">
           <font-awesome-icon icon="fa-solid fa-phone" />
-          <span>0{{ phone }}</span>
+          <span>{{ phone }}</span>
         </div>
         <div class="phone flex items-center gap-2.5">
           <font-awesome-icon :icon="['fas', 'at']" />
@@ -109,6 +109,7 @@ export default {
       Appreciations: "",
       Ranking: "",
       TypeOfClass: "",
+      User: "",
     };
   },
   methods: {
@@ -117,46 +118,34 @@ export default {
     },
     async handleTotalResult(Data) {
       this.TotalResult = Data;
-      // ["AllResults"]: this.TotalResult,
-      console.log(typeof Data);
-      const documentRef = doc(db, "الطلاب", localStorage.getItem("userid"));
-      await updateDoc(documentRef, {
-        ["AllResults"]: `${Data}`,
-      });
+
       const studentsCollection = collection(db, "الطلاب");
       const querySnapshot = await getDocs(studentsCollection);
-      let array = [];
+      const documentRef = doc(db, "الطلاب", localStorage.getItem("userid"));
 
+      // تحديث الوثيقة
+      await updateDoc(documentRef, {
+        AllResults: `${Data}`,
+      });
+      let array = [];
       querySnapshot.forEach((doc) => {
         if (
           doc.data().Class === this.Class &&
           doc.data().Lang === this.Lang &&
           doc.data().TypeOfClass === this.TypeOfClass
         ) {
-          console.log(doc.id, " => ", doc.data().AllResults);
           array.push(doc.data().AllResults);
         }
       });
 
-      // const array1 = [13, 233, 43, 434, 45, 65, 74, 48, 39, 210];
-
-      // تصفية القيم الغير معرفة (undefined)
       const filteredArray = array.filter((element) => element !== undefined);
-
-      // فرز المصفوفة بترتيب تنازلي
       const sortedArray = filteredArray.sort((a, b) => b - a);
-
-      // اختيار أول 10 عناصر
       const top10Elements = sortedArray.slice(0, 10);
-
-      console.log(top10Elements);
-
       querySnapshot.forEach((doc) => {
         if (
           top10Elements.includes(doc.data().AllResults) &&
           doc.data().userid === localStorage.getItem("userid")
         ) {
-          console.log(top10Elements.indexOf(doc.data().AllResults) + 1);
           if (top10Elements.indexOf(doc.data().AllResults) + 1 === 1) {
             this.Ranking = "الأول";
           } else if (top10Elements.indexOf(doc.data().AllResults) + 1 === 2) {
@@ -286,6 +275,7 @@ export default {
         this.Class = user.Class;
         this.Lang = user.Lang;
         this.TypeOfClass = user.TypeOfClass;
+        this.User = user;
         console.log(this.AllName);
         console.log(user);
       });

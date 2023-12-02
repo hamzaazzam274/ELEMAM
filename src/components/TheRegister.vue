@@ -386,7 +386,44 @@ export default {
       value: false,
     };
   },
+  computed: {
+    UserAdmin() {
+      return this.$store.state.UserAdmin;
+    },
+  },
   methods: {
+    async State() {
+      try {
+        const q_Admin = query(
+          collection(db, "المشرفين"),
+          where("Id", "==", localStorage.getItem("userid"))
+        );
+        const querySnapshot_Admin = await getDocs(q_Admin);
+        if (!querySnapshot_Admin.empty) {
+          this.$store.commit("setUserAdmin", "Admin");
+          console.log("Admin =>", this.UserAdmin);
+        } else {
+          this.$store.commit("setUserAdmin", "");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      try {
+        const q_User = query(
+          collection(db, "الطلاب"),
+          where("userid", "==", localStorage.getItem("userid"))
+        );
+        const querySnapshot_User = await getDocs(q_User);
+        if (!querySnapshot_User.empty) {
+          this.$store.commit("setUserAdmin", "User");
+          console.log("Admin =>", this.UserAdmin);
+        } else {
+          this.$store.commit("setUserAdmin", "");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
     select() {
       let numbers = document.querySelectorAll(".register .number .feat > div");
       let content = document.querySelectorAll(".register .content > div");
@@ -612,7 +649,7 @@ export default {
           TypeOfClass: this.type,
           Lang: this.lang,
           userid: null,
-          AllResults: "",
+          AllResults: 0,
         });
         await updateDoc(docRef, { userid: docRef.id });
         console.log("Document written with ID: ", docRef.id);
@@ -621,11 +658,13 @@ export default {
           localStorage.setItem("username_2", this.user.Name_2);
           localStorage.setItem("username_3", this.user.Name_3);
           localStorage.setItem("userid", docRef.id);
-          localStorage.setItem("type", lastWord);
           this.closeHelloUser = true;
         }, 100);
 
         this.$emit("close_2");
+        setTimeout(() => {
+          this.State();
+        }, 100);
       }
     },
   },

@@ -28,6 +28,7 @@
       <div
         class="border p-2.5 text-center cursor-pointer"
         @click="ShowQuFunction"
+        v-if="UserAdmin === 'Admin'"
       >
         اضف سؤال
       </div>
@@ -94,7 +95,7 @@
           <font-awesome-icon :icon="['fas', 'clock']" />
           <span
             >الإختبار بوقت محدد بمعدل دقيقة و نصف لكل سؤال وقت الإختبار ({{
-              this.Qu.length * 1.5
+              this.Qu.length * 1.5 || 0
             }}
             دقيقة )</span
           >
@@ -236,6 +237,9 @@ export default {
     };
   },
   computed: {
+    UserAdmin() {
+      return this.$store.state.UserAdmin;
+    },
     timeRemaining() {
       return this.targetTime - this.currentTime;
     },

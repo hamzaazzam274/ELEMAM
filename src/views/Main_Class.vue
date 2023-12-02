@@ -21,6 +21,7 @@
         <div
           @click="CloseAndOpenAddSub"
           class="flex items-center gap-2.5 bg-[#eee] p-2.5 rounded cursor-pointer"
+          v-if="UserAdmin === 'Admin'"
         >
           <font-awesome-icon :icon="['fas', 'plus']" />
           <span>أضف مادة</span>
@@ -59,10 +60,12 @@
             <font-awesome-icon
               :icon="['fas', 'pen-to-square']"
               class="absolute left-[7px] top-[7px] bg-[var(--main-color)] text-white text-xs p-1 rounded-full"
+              v-if="UserAdmin === 'Admin'"
             />
             <span
               class="absolute left-[35px] top-[7px] bg-[var(--main-color)] text-white text-xs p-1 rounded-full cursor-pointer hidden"
               @click="Updata"
+              v-if="UserAdmin === 'Admin'"
               >حفظ التغييرات</span
             >
             <div class="header flex justify-between p-2.5 items-center mt-2.5">
@@ -96,6 +99,7 @@
                 placeholder="لينك كتاب المادة"
                 class="border p-1 input1 pointer-events-none"
                 :value="Data.BookLink"
+                v-if="UserAdmin === 'Admin'"
               />
             </div>
             <div
@@ -122,9 +126,10 @@
                 </a>
                 <input
                   type="text"
-                  placeholder="لينك كتاب المادة"
+                  placeholder="لينك فيديوهات المادة"
                   class="border p-1 input2 pointer-events-none"
                   :value="Data.FreeCourse_Video"
+                  v-if="UserAdmin === 'Admin'"
                 />
               </div>
               <div class="pdf1 flex flex-col gap-2.5">
@@ -140,9 +145,10 @@
                 </a>
                 <input
                   type="text"
-                  placeholder="لينك كتاب المادة"
+                  placeholder="لينك مذكرات المادة"
                   class="border p-1 input3 pointer-events-none"
                   :value="Data.FreeCourse_Pdf_1"
+                  v-if="UserAdmin === 'Admin'"
                 />
               </div>
               <div class="pdf2 flex flex-col gap-2.5">
@@ -161,6 +167,7 @@
                   placeholder="لينك كتاب المادة"
                   class="border p-1 input4 pointer-events-none"
                   :value="Data.FreeCourse_Pdf_2"
+                  v-if="UserAdmin === 'Admin'"
                 />
               </div>
               <div
@@ -187,7 +194,7 @@
                     <input
                       type="number"
                       class="w-10 p-1 rounded input5 pointer-events-none text-center ml-1"
-                      v-if="Admin"
+                      v-if="UserAdmin === 'Admin'"
                       :value="Data.CachCourse_Video"
                     />
                     <span v-else>{{ Data.CachCourse_Video }}</span>
@@ -208,7 +215,7 @@
                     <input
                       type="number"
                       class="w-10 p-1 rounded input6 pointer-events-none text-center ml-1"
-                      v-if="Admin"
+                      v-if="UserAdmin === 'Admin'"
                       :value="Data.CachCourse_PdfPrice_1"
                     />
                     <span v-else>{{ Data.CachCourse_PdfPrice_1 }}</span>
@@ -229,7 +236,7 @@
                     <input
                       type="number"
                       class="w-10 p-1 rounded input7 pointer-events-none text-center ml-1"
-                      v-if="Admin"
+                      v-if="UserAdmin === 'Admin'"
                       :value="Data.CachCourse_PdfPrice_2"
                     />
                     <span v-else>{{ Data.CachCourse_PdfPrice_2 }}</span>
@@ -249,8 +256,8 @@
                   <div class="line-through">
                     <span class="ml-1">{{
                       +Data.CachCourse_Video +
-                      +Data.CachCourse_PdfPrice_1 +
-                      +Data.CachCourse_PdfPrice_2
+                        +Data.CachCourse_PdfPrice_1 +
+                        +Data.CachCourse_PdfPrice_2 || 0
                     }}</span>
                     <span>جنية مصري</span>
                   </div>
@@ -259,7 +266,7 @@
                   <input
                     type="number"
                     class="w-10 p-1 rounded input8 pointer-events-none text-center ml-1"
-                    v-if="Admin"
+                    v-if="UserAdmin === 'Admin'"
                     :value="Data.AllCourse"
                   />
                   <span v-else>{{ Data.AllCourse }}</span>
@@ -369,6 +376,11 @@ import AddSub from "../components/Add_Sub.vue";
 export default {
   name: "Main_Class",
   emits: ["getData"],
+  computed: {
+    UserAdmin() {
+      return this.$store.state.UserAdmin;
+    },
+  },
   data() {
     return {
       AllData: [],

@@ -58,19 +58,11 @@
             </div>
             <div class="user" v-if="state">
               <div>أهلا {{ thetype }} {{ UserName }}</div>
-              <div class="email">{{ useremail }}</div>
-              <div class="add" @click="close_modal_2">تغيير كلمة السر</div>
-              <div class="add" @click="close_modal_3">
+              <div class="add" v-if="UserAdmin === 'User'">
                 <router-link to="/TheUser"> حسابي </router-link>
               </div>
-              <div class="add" v-if="Mosalem_Admin" @click="close_modal_3">
-                إضافة المشرفين
-              </div>
-              <div class="add" v-if="Mosalem_Admin" @click="close_modal_4">
-                إدارة المشرفين
-              </div>
-              <div class="add" v-if="Mosalem_Admin" @click="close_modal_5">
-                طلبات التبرع
+              <div class="add" v-if="UserAdmin === 'Admin'">
+                <router-link to="/AdminPage"> الإشراف </router-link>
               </div>
               <div @click="SignOut">
                 <font-awesome-icon :icon="['fas', 'arrow-right-to-bracket']" />
@@ -94,9 +86,6 @@
           <span>حساب جديد</span>
         </div>
       </div>
-      <div @click="Google" class="cursor-pointer">
-        عدد الزوار : {{ visitorCount }}
-      </div>
     </div>
   </div>
   <SignIn @close_1="close_1" v-if="close_1_State" />
@@ -105,8 +94,31 @@
 <script>
 import SignIn from "./SignIn.vue";
 import TheRegister from "./TheRegister.vue";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  getFirestore,
+} from "firebase/firestore";
+import { initializeApp } from "firebase/app";
+const firebaseConfig = {
+  apiKey: "AIzaSyBOlDn6NmPGHHfdY-gYHvnA6MoM-y0Xbmo",
+  authDomain: "elemam-center-for-training.firebaseapp.com",
+  projectId: "elemam-center-for-training",
+  storageBucket: "elemam-center-for-training.appspot.com",
+  messagingSenderId: "253703295162",
+  appId: "1:253703295162:web:927a97dbbc2276f30d7283",
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 export default {
   name: "TheHeader",
+  emits: ["State"],
+  mounted() {
+    this.UserStateFunction();
+  },
   data() {
     return {
       UserState: null,
@@ -125,13 +137,44 @@ export default {
     SignIn,
     TheRegister,
   },
+  computed: {
+    UserAdmin() {
+      return this.$store.state.UserAdmin;
+    },
+  },
   methods: {
-    Google() {
-      this.$gtag.event("ok", {
-        event_category: "ok",
-        event_label: "ok",
-        value: 1,
-      });
+    async TheState() {
+      try {
+        const q_Admin = query(
+          collection(db, "المشرفين"),
+          where("Id", "==", localStorage.getItem("userid"))
+        );
+        const querySnapshot_Admin = await getDocs(q_Admin);
+        if (!querySnapshot_Admin.empty) {
+          this.$store.commit("setUserAdmin", "Admin");
+          console.log("Admin =>", this.UserAdmin);
+        } else {
+          this.$store.commit("setUserAdmin", "");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      try {
+        const q_User = query(
+          collection(db, "الطلاب"),
+          where("userid", "==", localStorage.getItem("userid"))
+        );
+        const querySnapshot_User = await getDocs(q_User);
+        if (!querySnapshot_User.empty) {
+          this.$store.commit("setUserAdmin", "User");
+          console.log("Admin =>", this.UserAdmin);
+        } else {
+          this.$store.commit("setUserAdmin", "");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      console.log("State =>", this.UserAdmin);
     },
     ShowLinks() {
       document.querySelector(".all_links").classList.toggle("hidden");
@@ -153,17 +196,14 @@ export default {
       localStorage.removeItem("username_1");
       localStorage.removeItem("username_2");
       localStorage.removeItem("username_3");
-
-      localStorage.removeItem("useremail");
-      localStorage.removeItem("userphone");
       localStorage.removeItem("userid");
-      localStorage.removeItem("college_place");
-      localStorage.removeItem("parents_phone");
       localStorage.removeItem("type");
+      localStorage.removeItem("userphone");
       this.state = null;
       setTimeout(() => {
         this.UserStateFunction();
-      }, 10);
+        this.TheState();
+      }, 100);
     },
     UserStateFunction() {
       console.log("UserStateFunction");
@@ -175,24 +215,28 @@ export default {
         const lastWord = Words[Words.length - 1];
         console.log(lastWord);
       }
-      this.thetype = localStorage.getItem("type") === "بنين" ? "بك " : "بكي ";
+      if (localStorage.getItem("type")) {
+        this.thetype = localStorage.getItem("type") !== "بنين" ? "بكي " : "بك ";
+      } else {
+        this.thetype = "";
+      }
       console.log(localStorage.getItem("type"));
       this.UserName = `${localStorage.getItem("username_1")} 
-        ${localStorage.getItem("username_2")} 
-        ${localStorage.getItem("username_3")}`;
+        ${localStorage.getItem("username_2") || ""} 
+        ${localStorage.getItem("username_3") || ""}`;
+      console.log(this.UserName);
       this.UserState = localStorage.getItem("userid") ? true : false;
       if (this.UserState) {
         var words = this.UserName.split(" ");
+        console.log(words.slice(0, -1));
         this.firstLetters = words
           .slice(0, -1)
           .map(function (word) {
-            return word.charAt(0);
+            return word.charAt(0) || "";
           })
           .join(" ");
+        console.log(this.firstLetters);
       }
-    },
-    mounted() {
-      // this.$gtag.page_view("https://elemam.vercel.app");
     },
   },
 };

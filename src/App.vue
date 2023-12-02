@@ -6,10 +6,71 @@
 <script>
 import TheHeader from "@/components/TheHeader.vue";
 import ContactUs from "@/components/ContactUs.vue";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  getFirestore,
+} from "firebase/firestore";
+import { initializeApp } from "firebase/app";
+const firebaseConfig = {
+  apiKey: "AIzaSyBOlDn6NmPGHHfdY-gYHvnA6MoM-y0Xbmo",
+  authDomain: "elemam-center-for-training.firebaseapp.com",
+  projectId: "elemam-center-for-training",
+  storageBucket: "elemam-center-for-training.appspot.com",
+  messagingSenderId: "253703295162",
+  appId: "1:253703295162:web:927a97dbbc2276f30d7283",
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 export default {
+  mounted() {
+    this.State();
+  },
   components: {
     TheHeader,
     ContactUs,
+  },
+  computed: {
+    UserAdmin() {
+      return this.$store.state.UserAdmin;
+    },
+  },
+  methods: {
+    async State() {
+      try {
+        const q_Admin = query(
+          collection(db, "المشرفين"),
+          where("Id", "==", localStorage.getItem("userid"))
+        );
+        const querySnapshot_Admin = await getDocs(q_Admin);
+        if (!querySnapshot_Admin.empty) {
+          this.$store.commit("setUserAdmin", "Admin");
+          console.log("Admin =>", this.UserAdmin);
+        } else {
+          this.$store.commit("setUserAdmin", "");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      try {
+        const q_User = query(
+          collection(db, "الطلاب"),
+          where("userid", "==", localStorage.getItem("userid"))
+        );
+        const querySnapshot_User = await getDocs(q_User);
+        if (!querySnapshot_User.empty) {
+          this.$store.commit("setUserAdmin", "User");
+          console.log("Admin =>", this.UserAdmin);
+        } else {
+          this.$store.commit("setUserAdmin", "");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
 };
 </script>

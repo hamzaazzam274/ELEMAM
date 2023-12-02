@@ -83,6 +83,11 @@ import bcrypt from "bcryptjs";
 export default {
   name: "SignIn",
   emits: ["close_1"],
+  computed: {
+    UserAdmin() {
+      return this.$store.state.UserAdmin;
+    },
+  },
   data() {
     return {
       number: null,
@@ -92,6 +97,38 @@ export default {
     };
   },
   methods: {
+    async State() {
+      try {
+        const q_Admin = query(
+          collection(db, "المشرفين"),
+          where("Id", "==", localStorage.getItem("userid"))
+        );
+        const querySnapshot_Admin = await getDocs(q_Admin);
+        if (!querySnapshot_Admin.empty) {
+          this.$store.commit("setUserAdmin", "Admin");
+          console.log("Admin =>", this.UserAdmin);
+        } else {
+          this.$store.commit("setUserAdmin", "");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      try {
+        const q_User = query(
+          collection(db, "الطلاب"),
+          where("userid", "==", localStorage.getItem("userid"))
+        );
+        const querySnapshot_User = await getDocs(q_User);
+        if (!querySnapshot_User.empty) {
+          this.$store.commit("setUserAdmin", "User");
+          console.log("Admin =>", this.UserAdmin);
+        } else {
+          this.$store.commit("setUserAdmin", "");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
     close_1() {
       this.$emit("close_1");
     },
@@ -101,6 +138,34 @@ export default {
       console.log("login");
 
       try {
+        const q_Admin = query(
+          collection(db, "المشرفين"),
+          where("phone", "==", this.number)
+        );
+        const querySnapshot_Admin = await getDocs(q_Admin);
+        querySnapshot_Admin.forEach((doc) => {
+          const user = doc.data();
+          console.log(user);
+          const isPasswordCorrect_Admin = bcrypt.compareSync(
+            this.password,
+            user.Password
+          );
+
+          if (isPasswordCorrect_Admin) {
+            localStorage.setItem("userphone", user.phone);
+            localStorage.setItem("userid", doc.id);
+            localStorage.setItem("username_1", user.Name);
+            this.loginError = "";
+            this.number = "";
+            this.password = "";
+            this.$emit("close_1");
+            setTimeout(() => {
+              this.State();
+            }, 100);
+          } else {
+            this.loginError = "بيانات تسجيل الدخول غير صحيحة !";
+          }
+        });
         const q = query(
           collection(db, "الطلاب"),
           where("phone", "==", this.number)
@@ -113,23 +178,20 @@ export default {
             this.password,
             user.password
           );
-
           if (isPasswordCorrect) {
             this.username = user.name;
             this.useremail = user.number;
             localStorage.setItem("username_1", user.name_1);
             localStorage.setItem("username_2", user.name_2);
             localStorage.setItem("username_3", user.name_3);
-            localStorage.setItem("useremail", user.email);
-            localStorage.setItem("userphone", user.phone);
             localStorage.setItem("userid", doc.id);
-            localStorage.setItem("college_place", user.college_place);
-            localStorage.setItem("parents_phone", user.parents_phone);
-            localStorage.setItem("type", user.type);
             this.loginError = "";
             this.number = "";
             this.password = "";
             this.$emit("close_1");
+            setTimeout(() => {
+              this.State();
+            }, 100);
             console.log(true);
           } else {
             this.loginError = "بيانات تسجيل الدخول غير صحيحة !";

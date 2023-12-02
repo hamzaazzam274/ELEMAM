@@ -28,6 +28,7 @@
         <span
           class="bg-[#eee] p-2.5 rounded cursor-pointer flex items-center gap-2.5"
           @click="CloseAndOpenAddTest"
+          v-if="UserAdmin === 'Admin'"
         >
           <font-awesome-icon :icon="['fas', 'plus']" />
           <span>اضف اختبار</span>
@@ -67,10 +68,6 @@
     </div>
   </div>
   <PayTest v-if="PayTest" @ColseAndOpen="ColseAndOpen" />
-  <div>
-    <p>الوقت الحالي بنظام 12 ساعة: {{ currentTime12h }}</p>
-    <p>الوقت الحالي بنظام 24 ساعة: {{ currentTime24h }}</p>
-  </div>
 </template>
 <script>
 import { MDBBreadcrumb, MDBBreadcrumbItem } from "mdb-vue-ui-kit";
@@ -104,6 +101,11 @@ import "moment/locale/ar";
 export default {
   name: "Main_Testing",
   emits: ["GetData"],
+  computed: {
+    UserAdmin() {
+      return this.$store.state.UserAdmin;
+    },
+  },
   mounted() {
     this.getvalues();
     setTimeout(() => {
@@ -128,8 +130,6 @@ export default {
       Sub: "",
       PayState: true,
       PayTest: null,
-      currentTime12h: "",
-      currentTime24h: "",
     };
   },
   components: {
@@ -142,15 +142,11 @@ export default {
   methods: {
     Time() {
       for (let i = 0; i < this.AllTest.length; i++) {
-        console.log(this.AllTest[i].Time);
         moment(this.AllTest[i].Time, "HH:mm").locale("ar").format("h:mm A");
         let AllTime = document.querySelectorAll(".box .Time");
         AllTime[i].innerHTML = moment(this.AllTest[i].Time, "HH:mm")
           .locale("ar")
           .format("h:mm A");
-        console.log(
-          moment(this.AllTest[i].Time, "HH:mm").locale("ar").format("h:mm A")
-        );
       }
     },
     ColseAndOpen() {
@@ -160,38 +156,29 @@ export default {
       this.TestIndex = index;
       const currentDate = new Date();
       const currentTime = moment(currentDate).format("HH:mm");
-      let currentDate1 = moment().locale("ar").format("DD/MM/YYYY");
-      if (currentDate1 > this.AllTest[index].Date) {
-        if (this.AllTest[index].Type === "مدفوع") {
-          const q = query(
-            collection(db, "الطلاب"),
-            where("userid", "==", localStorage.getItem("userid"))
-          );
-          const querySnapshot = await getDocs(q);
-          querySnapshot.forEach((doc) => {
-            const user = doc.data();
-            for (let i = 0; i < user.pay.length; i++) {
-              if (
-                user.pay[i].BillName === "جميع الإختبارات" &&
-                user.pay[i].BillType === this.Type &&
-                user.pay[i].BillClass === this.Class &&
-                user.pay[i].BillLang === this.Lang
-              ) {
-                if (user.pay[i].success === "true") {
-                  console.log("open Qu");
-                  this.ShowTest = true;
-                } else {
-                  this.PayTest = true;
-                }
-              }
-            }
-          });
+      let currentYear = moment().locale("ar").format("YYYY");
+      let currentMonth = moment().locale("ar").format("MM");
+      let currentDay = moment().locale("ar").format("DD");
+      const year = moment(this.AllTest[index].Date, "DD/MM/YYYY").format(
+        "YYYY"
+      );
+      const Month = moment(this.AllTest[index].Date, "DD/MM/YYYY").format("MM");
+      const Day = moment(this.AllTest[index].Date, "DD/MM/YYYY").format("DD");
+      let state;
+      if (currentYear > year) {
+        state = true;
+      } else {
+        if (currentMonth > Month) {
+          state = true;
         } else {
-          console.log("open Qu");
-          this.ShowTest = true;
+          if (currentDay > Day) {
+            state = true;
+          } else {
+            state = "Day";
+          }
         }
       }
-      if (currentDate1 === this.AllTest[index].Date) {
+      if (state === "Day") {
         if (currentTime >= this.AllTest[index].Time) {
           if (this.AllTest[index].Type === "مدفوع") {
             const q = query(
@@ -225,78 +212,39 @@ export default {
           console.log("close Qu2");
         }
       }
-      // if (this.AllTest[index].Type === "مدفوع") {
-      //   console.log("مدفوع");
-      //   const q = query(
-      //     collection(db, "الطلاب"),
-      //     where("userid", "==", localStorage.getItem("userid"))
-      //   );
-      //   const querySnapshot = await getDocs(q);
-      //   querySnapshot.forEach((doc) => {
-      //     const user = doc.data();
-      //     for (let i = 0; i < user.pay.length; i++) {
-      //       // if (user.pay[i].success !== "undefined") {
-      //       if (
-      //         user.pay[i].BillName === "جميع الإختبارات" &&
-      //         user.pay[i].BillType === this.Type &&
-      //         user.pay[i].BillClass === this.Class &&
-      //         user.pay[i].BillLang === this.Lang &&
-      //         user.pay[i].success === "true"
-      //       ) {
-      //         console.log(user.pay[i].success);
-      //         console.log("true true");
-      //         this.PayState = user.pay[i].success;
-      //       }
-      //       // else {
-      //       //   console.log("user.pay[i]", false);
-      //       //   this.PayState = false;
-      //       //   this.ShowTest = false;
-      //       //   this.PayTest = true;
-      //       // }
-      //       // } else {
-      //       //   this.PayState = false;
-      //       //   this.PayTest = false;
-      //       //   this.ShowTest = false;
-      //       // }
-      //     }
-      //   });
-      //   setTimeout(() => {
-      //     console.log("PayState", this.PayState);
-      //   }, 1000);
-      // } else {
-      //   this.PayState = true;
-      // }
-      // const currentDate = new Date();
-      // const formattedTime = currentDate.toLocaleTimeString("en-US", {
-      //   hour: "numeric",
-      //   minute: "numeric",
-      //   hour12: true,
-      // });
-      // const formattedDate = currentDate.toLocaleDateString("en-GB", {
-      //   day: "numeric",
-      //   month: "numeric",
-      //   year: "numeric",
-      // });
-      // console.log(formattedDate);
-      // console.log(formattedTime);
-      // console.log(this.AllTest[index].Time >= formattedTime);
-      // console.log(this.AllTest[index].Date <= formattedDate);
-      // if (
-      //   this.AllTest[index].Date < formattedDate &&
-      //   this.PayState === "true"
-      // ) {
-      //   this.Close();
-      // } else {
-      //   console.log("error");
-      // }
-      // if (
-      //   this.AllTest[index].Date === formattedDate &&
-      //   this.PayState === "true"
-      // ) {
-      //   if (this.AllTest[index].Time <= formattedTime) {
-      //     this.Close();
-      //   }
-      // }
+      console.log(state);
+      if (state) {
+        if (this.AllTest[index].Type === "مدفوع") {
+          const q = query(
+            collection(db, "الطلاب"),
+            where("userid", "==", localStorage.getItem("userid"))
+          );
+          const querySnapshot = await getDocs(q);
+          querySnapshot.forEach((doc) => {
+            const user = doc.data();
+            for (let i = 0; i < user.pay.length; i++) {
+              if (
+                user.pay[i].BillName === "جميع الإختبارات" &&
+                user.pay[i].BillType === this.Type &&
+                user.pay[i].BillClass === this.Class &&
+                user.pay[i].BillLang === this.Lang
+              ) {
+                if (user.pay[i].success === "true") {
+                  console.log("open Qu");
+                  this.ShowTest = true;
+                } else {
+                  this.PayTest = true;
+                }
+              }
+            }
+          });
+        } else {
+          this.ShowTest = true;
+          console.log("open Qu");
+        }
+        console.log(currentTime);
+        console.log(this.AllTest[index].Time);
+      }
     },
     getvalues() {
       setTimeout(() => {
@@ -313,7 +261,6 @@ export default {
       this.ShowPopup = !this.ShowPopup;
     },
     async GetData() {
-      console.log("getData");
       let sentence = localStorage.getItem("updateType");
       let words = sentence.split(" ");
       let firstWord = words[0];
