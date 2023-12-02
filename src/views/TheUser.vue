@@ -64,6 +64,7 @@ import {
   updateDoc,
   doc,
   getDoc,
+  setDoc,
 } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 const firebaseConfig = {
@@ -236,6 +237,16 @@ export default {
 
       for (let i = 0; i < payArray.length; i++) {
         if (+urlParams.get("order") === payArray[i].order_id) {
+          if (urlParams.get("success") !== "true") {
+            const docSnap = await getDoc(washingtonRef);
+            const currentArray = docSnap.data();
+
+            // قم بحذف العنصر في الموقع 0
+            currentArray.splice(i, 1);
+
+            // قم بتحديث حقل المصفوفة في Firestore
+            await setDoc(washingtonRef, { pay: currentArray });
+          }
           console.log("order_id => ", urlParams.get("order"));
 
           const updatedPayArray = [...payArray];
