@@ -64,7 +64,7 @@ import {
   updateDoc,
   doc,
   getDoc,
-  setDoc,
+  // setDoc,
 } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 const firebaseConfig = {
@@ -237,28 +237,17 @@ export default {
 
       for (let i = 0; i < payArray.length; i++) {
         if (+urlParams.get("order") === payArray[i].order_id) {
-          if (urlParams.get("success") !== "true") {
-            const docSnap = await getDoc(washingtonRef);
-            const currentArray = docSnap.data();
-
-            // قم بحذف العنصر في الموقع 0
-            currentArray.splice(i, 1);
-
-            // قم بتحديث حقل المصفوفة في Firestore
-            await setDoc(washingtonRef, { pay: currentArray });
-          }
           console.log("order_id => ", urlParams.get("order"));
+          if (urlParams.get("success") !== "true") {
+            const updatedPayArray = [...payArray];
 
-          const updatedPayArray = [...payArray];
+            // استخدم splice لحذف العنصر المحدد
+            updatedPayArray.splice(i, 1);
 
-          updatedPayArray[i] = {
-            ...updatedPayArray[i],
-            success: urlParams.get("success"),
-          };
+            await updateDoc(washingtonRef, { pay: updatedPayArray });
 
-          await updateDoc(washingtonRef, { pay: updatedPayArray });
-
-          break;
+            break;
+          }
         }
       }
       console.log(+urlParams.get("order"));
