@@ -328,7 +328,7 @@
           <div class="flex items-center gap-2.5">
             <div class="w-24 text-center">السعر</div>
             <span>:</span>
-            <strong>{{ BillPrice }} <span>جنية مصري</span></strong>
+            <strong>{{ BillPrice || 0 }} <span>جنية مصري</span></strong>
           </div>
           <div class="flex items-center gap-2.5">
             <div class="w-24 text-center">المادة</div>

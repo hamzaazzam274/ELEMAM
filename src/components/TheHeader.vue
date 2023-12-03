@@ -8,7 +8,7 @@
             alt="أكاديمية الإمام القانونية"
             class="h-24"
           />
-          <span>أكاديمية الإمام القانونية</span>
+          <span class="text-xl">أكاديمية الإمام القانونية</span>
         </router-link>
       </div>
       <div class="left flex items-center gap-2.5 flex-wrap">
