@@ -203,7 +203,7 @@
             top: 50%;
             left: 50%;
             background: rgb(255, 255, 255);
-            width: 50%;
+            width: 95%;
             transform: translate(-50%, -50%);
             z-index: 101;
             padding: 10px;
@@ -476,6 +476,9 @@ export default {
             }
           }
           if (active[i].innerHTML === this.Qu[i].RightAnswer) {
+            document
+              .querySelector(".showresult")
+              .classList.add("pointer-events-none");
             this.result += 1;
             console.log(this.result);
             if (this.result !== 0) {

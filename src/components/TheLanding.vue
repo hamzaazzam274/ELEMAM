@@ -34,10 +34,10 @@
           <div style="width: fit-content">
             <v-dialog v-model="dialog">
               <template v-slot:activator="{ props }">
-                <v-btn v-bind="props" class="button_2">
+                <div v-bind="props" class="button_2">
                   <font-awesome-icon :icon="['fas', 'scale-balanced']" />
                   <span>مجالات العمل بعد التخرج</span>
-                </v-btn>
+                </div>
               </template>
               <v-card>
                 <div class="flex justify-between items-center p-2.5">

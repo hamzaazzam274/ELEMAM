@@ -227,11 +227,14 @@ export default {
           doc.data().Class === this.Class
         ) {
           this.Result.push(doc.data().resultes);
+          this.Result.push(doc.data().resultes);
+          console.log("ALL.Result", this.Result);
+          this.Students.sort((a, b) => b.AllResults - a.AllResults);
           theResult = this.Result[index];
         }
       });
       this.Result = theResult;
-      this.Result.sort((a, b) => b.Time.toMillis() - a.Time.toMillis());
+      // this.Result.sort((a, b) => b.Time.toMillis() - a.Time.toMillis());
       console.log("this.Result", this.Result);
     },
     async GetBIll(index) {

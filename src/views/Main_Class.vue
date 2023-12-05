@@ -115,7 +115,10 @@
                 style="height: 26px; width: 100%"
               />
             </div>
-            <div class="free_course flex flex-col gap-2.5 my-2.5 mt-3">
+            <div
+              class="free_course flex flex-col gap-2.5 my-2.5 mt-3"
+              v-if="false"
+            >
               <div class="title flex gap-1 items-center">
                 <font-awesome-icon
                   :icon="['fas', 'circle-check']"
@@ -184,7 +187,7 @@
                 </div>
               </div>
             </div>
-            <div class="Cash_course flex flex-col gap-2.5 my-2.5">
+            <div class="Cash_course flex flex-col gap-2.5 my-2.5" v-if="false">
               <div class="title flex gap-1 items-center">
                 <font-awesome-icon
                   :icon="['fas', 'coins']"
