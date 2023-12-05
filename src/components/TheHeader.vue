@@ -236,11 +236,11 @@ export default {
         const lastWord = Words[Words.length - 1];
         console.log(lastWord);
       }
-      if (localStorage.getItem("type")) {
-        this.thetype = localStorage.getItem("type") !== "بنين" ? "بكي " : "بك ";
-      } else {
-        this.thetype = "";
-      }
+      // if (localStorage.getItem("type")) {
+      //   this.thetype = localStorage.getItem("type") !== "بنين" ? "بكي " : "بك ";
+      // } else {
+      // }
+      this.thetype = "";
       console.log(localStorage.getItem("type"));
       this.UserName = `${localStorage.getItem("username_1")} 
         ${localStorage.getItem("username_2") || ""} 
