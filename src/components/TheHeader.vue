@@ -56,15 +56,35 @@
             >
               {{ firstLetters }}
             </div>
-            <div class="user" v-if="state">
-              <div>أهلا {{ thetype }} {{ UserName }}</div>
-              <div class="add" v-if="UserAdmin === 'User'">
+            <div
+              style="
+                position: absolute;
+                width: 143px;
+border:1px solid #eee
+                top: 53px;
+                padding: 10px;
+              "
+              class="user"
+              v-if="state"
+            >
+              <div style="background: #fafafa; padding: 5px">
+                أهلا {{ thetype }} {{ UserName }}
+              </div>
+              <div
+                style="background: #fafafa; padding: 5px"
+                class="add"
+                v-if="UserAdmin === 'User'"
+              >
                 <router-link to="/TheUser"> حسابي </router-link>
               </div>
-              <div class="add" v-if="UserAdmin === 'Admin'">
+              <div
+                style="background: #fafafa; padding: 5px"
+                class="add"
+                v-if="UserAdmin === 'Admin'"
+              >
                 <router-link to="/AdminPage"> الإشراف </router-link>
               </div>
-              <div @click="SignOut">
+              <div style="background: #fafafa; padding: 5px" @click="SignOut">
                 <font-awesome-icon :icon="['fas', 'arrow-right-to-bracket']" />
                 <span>تسجيل خروج</span>
               </div>

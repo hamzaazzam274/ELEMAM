@@ -24,8 +24,8 @@
         <div
           @click="CloseAndOpenAddSub"
           class="flex items-center gap-2.5 p-2.5 bg-[#fff] rounded cursor-pointer"
+          v-if="UserAdmin === 'Admin'"
         >
-          <!-- v-if="UserAdmin === 'Admin'" -->
           <font-awesome-icon :icon="['fas', 'plus']" />
           <span>أضف مادة</span>
         </div>
