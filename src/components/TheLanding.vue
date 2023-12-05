@@ -26,8 +26,8 @@
           />
         </div>
         <div class="left w-1/2 flex flex-col justify-center gap-2.5">
-          <h2 class="title">د /</h2>
-          <h1 class="title_2">محمد الإمام</h1>
+          <h2 class="title" style="font-size: 35px">د /</h2>
+          <h1 class="title_2" style="font-size: 40px">محمد الإمام</h1>
           <div class="title_3">
             منصة الإمام منصة متخصصة في تدريس المواد القانونية
           </div>
