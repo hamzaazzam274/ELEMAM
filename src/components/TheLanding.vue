@@ -1,5 +1,5 @@
 <template>
-  <div class="TheLanding">
+  <div class="TheLanding p-2.5">
     <div class="container relative mt-0">
       <div class="flex justify-end w-100 absolute bottom-10 left-0 icon">
         <img
