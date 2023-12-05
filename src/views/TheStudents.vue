@@ -1,5 +1,5 @@
 <template>
-  <div class="container TheStudents flex">
+  <div class="container TheStudents flex CC">
     <div class="right w-2/5">
       <div class="box">
         <div class="Type border p-2.5 cursor-pointer">
@@ -46,7 +46,7 @@
           <div class="flex">
             <div class="name">{{ Student.Name }}</div>
             <div class="flex flex-col justify-between items-center">
-              <div class="AllResults">{{ Student.AllResults }}%</div>
+              <div class="AllResults">{{ Student.AllResults || 0 }}%</div>
               <div>متوسط النتائج</div>
             </div>
           </div>
@@ -65,10 +65,11 @@
             </div>
           </div>
         </div>
-        <div class="main_Overlay" v-if="BIllShow"></div>
-        <div class="main_Overlay" v-if="ResultShow"></div>
+        <div class="main_Overlay" v-if="BIllShow" style="z-index: 101"></div>
+        <div class="main_Overlay" v-if="ResultShow" style="z-index: 101"></div>
         <div
           class="BILL bg-white fixed z-10 rounded p-2.5 -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 max-h-90 overflow-auto"
+          style="z-index: 101"
           v-if="BIllShow"
         >
           <div>
@@ -103,6 +104,7 @@
         <div
           class="BILL bg-white fixed z-10 rounded p-2.5 -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 max-h-90 overflow-auto"
           v-if="ResultShow"
+          style="z-index: 101"
         >
           <div>
             <font-awesome-icon
@@ -272,7 +274,7 @@ export default {
           doc.data().Lang === this.Lang &&
           doc.data().Class === this.Class
         ) {
-          console.log(doc.id, " => ", doc.data().AllResults);
+          console.log("AllResults", " => ", doc.data().AllResults);
           console.log(doc.id, " => ", doc.data().name_1);
           console.log(doc.id, " => ", doc.data().name_2);
           console.log(doc.id, " => ", doc.data().pay);

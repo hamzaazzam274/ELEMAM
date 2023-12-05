@@ -1,8 +1,9 @@
 <template>
   <div class="Add_Test">
-    <div class="main_Overlay" @click="CloseAddTest"></div>
+    <div class="main_Overlay" style="z-index: 101" @click="CloseAddTest"></div>
     <div
       class="container rounded p-2.5 bg-white fixed -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 overflow-auto z-10 h-90"
+      style="z-index: 101"
     >
       <div class="head text-left flex justify-between mb-2.5">
         <span>أضف اختبار</span>

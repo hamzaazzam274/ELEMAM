@@ -125,20 +125,20 @@
               >
             </div>
           </div>
+          <div
+            class="button border p-3 text-center cursor-pointer mt-2.5"
+            @click="StarTest"
+            style="
+              border: 1px solid var(--main-color) !important;
+              border-radius: 5px;
+              color: var(--main-color);
+              font-size: 17px;
+              font-weight: bold;
+            "
+          >
+            ابدأ الإختبار
+          </div>
         </div>
-      </div>
-      <div
-        class="button border p-3 text-center cursor-pointer mt-2.5"
-        @click="StarTest"
-        style="
-          border: 1px solid var(--main-color) !important;
-          border-radius: 5px;
-          color: var(--main-color);
-          font-size: 17px;
-          font-weight: bold;
-        "
-      >
-        ابدأ الإختبار
       </div>
       <div class="body mt-2.5" v-if="StarTestState">
         <div class="flex items-center p-2.5 bg-[#eee] justify-between">
@@ -190,13 +190,69 @@
         >
           النتيجة
         </div>
-        <div class="result" v-if="MyResult">
-          <div>درجتك : {{ result }} / {{ Allresult }}</div>
-          <div>التقدير : {{ appreciation }}</div>
-          <div>النسبة المئوية : {{ percent }}%</div>
-          <div>
-            الإجابة الصحيحة :
-            <span class="bg-[red] h-2.5 w-2.5 py-1 px-2.5"></span>
+        <div
+          class="main_Overlay"
+          v-if="MyResult"
+          @click="MyResult = !MyResult"
+        ></div>
+        <div
+          class="result"
+          v-if="MyResult"
+          style="
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            background: rgb(255, 255, 255);
+            width: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 101;
+            padding: 10px;
+            border-radius: 5px;
+          "
+        >
+          <div class="flex items-center justify-between">
+            <span
+              style="
+                font-size: 25px;
+                font-weight: bold;
+                font-family: system-ui;
+                color: var(--main-color);
+              "
+            >
+              نتيجتك
+            </span>
+            <font-awesome-icon
+              :icon="['fas', 'rectangle-xmark']"
+              @click="CloseMyResult()"
+              style="
+                font-size: 25px;
+                font-weight: bold;
+                font-family: system-ui;
+                color: var(--main-color);
+              "
+            />
+          </div>
+          <div class="body mt-2.5">
+            <div>
+              <div>درجتك :</div>
+              <div>{{ result }} / {{ Allresult }}</div>
+            </div>
+            <div>
+              <div>التقدير :</div>
+              <div>
+                {{ appreciation }}
+              </div>
+            </div>
+            <div>
+              <div>النسبة المئوية :</div>
+              <div>{{ percent }}%</div>
+            </div>
+            <div>
+              <div>
+                <div class="color"></div>
+              </div>
+              <div>لون الإجابة الصحيحة</div>
+            </div>
           </div>
         </div>
       </div>
@@ -275,8 +331,12 @@ export default {
     },
   },
   methods: {
+    CloseMyResult() {
+      this.MyResult = !this.MyResult;
+    },
     async AddResultInData() {
       console.log("AddResultInData");
+
       const docRef = doc(db, "الطلاب", localStorage.getItem("userid"));
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
@@ -315,9 +375,6 @@ export default {
 
         await setDoc(docRef, docData);
       }
-      setTimeout(() => {
-        clearInterval(this.timer);
-      }, 1000);
     },
     handleCountdownExpired() {
       let AnswerDad = document.querySelectorAll(".Answer");
@@ -332,7 +389,8 @@ export default {
       for (let i = 0; i < this.Qu.length; i++) {
         for (let j = 0; j < 3; j++) {
           if (AnswerDad[i].children[j].innerHTML === this.Qu[i].RightAnswer) {
-            AnswerDad[i].children[j].style.background = "red";
+            AnswerDad[i].children[j].style.background = "#0088ff";
+            AnswerDad[i].children[j].style.color = "#fff";
           }
         }
       }
@@ -413,7 +471,8 @@ export default {
           this.Allresult = active.length;
           for (let j = 0; j < 3; j++) {
             if (AnswerDad[i].children[j].innerHTML === this.Qu[i].RightAnswer) {
-              AnswerDad[i].children[j].style.background = "red";
+              AnswerDad[i].children[j].style.background = "#0088ff";
+              AnswerDad[i].children[j].style.color = "#fff";
             }
           }
           if (active[i].innerHTML === this.Qu[i].RightAnswer) {
@@ -445,7 +504,13 @@ export default {
             this.result = 0;
           }
         }
-        this.AddResultInData();
+        setInterval(() => {
+          // this.formatTime = "0 دقيقة 0 ثانية ";
+          clearInterval(this.timer);
+        }, 1000);
+        setTimeout(() => {
+          // this.AddResultInData();
+        }, 1000);
       }
     },
     ClickActive() {
@@ -611,6 +676,29 @@ h3 {
     background: #fafafa;
     padding: 7px 10px;
     border-radius: 5px;
+  }
+}
+.result .body {
+  & > div {
+    display: flex;
+    align-items: center;
+    & > div {
+      width: 50%;
+      border: 1px solid;
+      padding: 5px;
+      text-align: center;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .color {
+        width: 30px;
+        height: 30px;
+        background: #0088ff;
+        border-radius: 50%;
+        margin: auto;
+      }
+    }
   }
 }
 @keyframes Check {
