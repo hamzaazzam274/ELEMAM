@@ -238,7 +238,7 @@ img {
   }
   .icon {
     bottom: 378px;
-    left: 288px;
+    left: 268px;
   }
   .container {
     flex-direction: column;
