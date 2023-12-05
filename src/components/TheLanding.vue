@@ -34,7 +34,7 @@
           <div style="width: fit-content">
             <v-dialog v-model="dialog">
               <template v-slot:activator="{ props }">
-                <div v-bind="props" class="button_2">
+                <div v-bind="props" class="button_2 p-0">
                   <font-awesome-icon :icon="['fas', 'scale-balanced']" />
                   <span>مجالات العمل بعد التخرج</span>
                 </div>
@@ -75,7 +75,7 @@
               <v-dialog v-model="dialog2" activator="parent" width="auto">
                 <v-card>
                   <div class="flex justify-between items-center p-2.5">
-                    <v-card-title style="padding: 10px !important">
+                    <v-card-title style="padding: 0px !important">
                       <div class="title_1_1 flex items-center gap-2.5">
                         <font-awesome-icon :icon="['fas', 'scale-balanced']" />
                         <span>لماذا كلية الشريعة و القانون</span>
