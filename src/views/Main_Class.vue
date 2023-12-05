@@ -908,10 +908,11 @@ export default {
       this.Class = localStorage.getItem("updateClass");
     },
     AddSubToStore() {
-      let link = document.querySelectorAll(".main_box .test a");
+      let link = document.querySelectorAll(".main_box .book a:last-child");
       let Sub_Name = this.AllData;
       for (let i = 0; i < link.length; i++) {
         link[i].onclick = () => {
+          console.log(" Sub_Name[i].sub_name", Sub_Name[i].sub_name);
           localStorage.setItem("updateSub", Sub_Name[i].sub_name);
         };
       }
