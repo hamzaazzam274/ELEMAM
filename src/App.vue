@@ -1,6 +1,6 @@
 <template>
   <TheHeader />
-  <router-view />
+  <router-view class="CC" />
   <ContactUs />
 </template>
 <script>
@@ -49,8 +49,6 @@ export default {
         if (!querySnapshot_Admin.empty) {
           this.$store.commit("setUserAdmin", "Admin");
           console.log("Admin =>", this.UserAdmin);
-        } else {
-          this.$store.commit("setUserAdmin", "");
         }
       } catch (error) {
         console.log(error);
@@ -64,8 +62,6 @@ export default {
         if (!querySnapshot_User.empty) {
           this.$store.commit("setUserAdmin", "User");
           console.log("Admin =>", this.UserAdmin);
-        } else {
-          this.$store.commit("setUserAdmin", "");
         }
       } catch (error) {
         console.log(error);
@@ -169,6 +165,9 @@ input:focus {
 .long {
   width: 100%;
 }
+.CC {
+  margin-top: 137px;
+}
 @media (min-width: 1200px) {
 }
 
@@ -176,5 +175,8 @@ input:focus {
 }
 
 @media (max-width: 767px) {
+  .CC {
+    margin-top: 192px;
+  }
 }
 </style>

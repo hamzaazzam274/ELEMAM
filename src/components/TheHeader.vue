@@ -1,5 +1,15 @@
 <template>
-  <div class="Header border-b border-gray-300">
+  <div
+    class="Header border-b border-gray-300"
+    style="
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: #fff;
+      z-index: 100;
+    "
+  >
     <div class="container flex justify-between items-center gap-2.5">
       <div class="logo">
         <router-link to="/" class="flex items-center gap-2.5">
@@ -12,14 +22,7 @@
         </router-link>
       </div>
       <div class="left flex items-center gap-2.5 flex-wrap">
-        <div class="links relative">
-          <!-- <span
-            @click="ShowLinks"
-            class="click flex gap-2.5 items-center cursor-pointer bg-[#eee] p-2.5 rounded-md"
-          >
-            <span>روابط هامة</span>
-            <font-awesome-icon :icon="['fas', 'caret-down']" />
-          </span> -->
+        <div class="links relative hidden">
           <div class="all_links flex gap-2.5 rounded p-2.5">
             <span class="cursor-pointer border-b border-gray-300 pb-2.5"
               >أحدث الأخبار</span
@@ -33,25 +36,13 @@
             <span class="cursor-pointer">تواصل معنا</span>
           </div>
         </div>
-        <v-menu transition="slide-y-transition">
-          <template v-slot:activator="{ props }">
-            <v-btn color="primary" v-bind="props">
-              <font-awesome-icon :icon="['fas', 'bars']" />
-            </v-btn>
-          </template>
-          <v-list>
-            <v-list-item v-for="(item, i) in items" :key="i">
-              <a href="#"
-                ><v-list-item-title>{{ item.title }}</v-list-item-title>
-              </a>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-        <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
+
+        <!-- <font-awesome-icon :icon="['fas', 'magnifying-glass']" /> -->
         <div
           class="login flex gap-2.5 items-center cursor-pointer bg-[#eee] p-2.5 rounded-md"
           v-if="!UserState"
           @click="close_1"
+          style="border: 1px solid var(--main-color); color: var(--main-color)"
         >
           <font-awesome-icon :icon="['fas', 'user-lock']" />
           <span>تسجيل دخول</span>
@@ -88,12 +79,27 @@
 
         <div
           class="registr flex gap-2.5 items-center cursor-pointer bg-[#eee] p-2.5 rounded-md"
+          style="border: 1px solid var(--main-color); color: var(--main-color)"
           v-if="!UserState"
           @click="close_2"
         >
           <font-awesome-icon :icon="['fas', 'user-plus']" />
           <span>حساب جديد</span>
         </div>
+        <v-menu transition="slide-y-transition">
+          <template v-slot:activator="{ props }">
+            <div v-bind="props">
+              <font-awesome-icon :icon="['fas', 'bars']" class="text-2xl" />
+            </div>
+          </template>
+          <v-list>
+            <v-list-item v-for="(item, i) in items" :key="i">
+              <a href="#"
+                ><v-list-item-title>{{ item.title }}</v-list-item-title>
+              </a>
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </div>
     </div>
   </div>

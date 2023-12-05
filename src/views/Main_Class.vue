@@ -1,12 +1,15 @@
 <template>
-  <div class="Main_Class">
+  <div class="Main_Class pt-2.5">
     <div class="container">
       <AddSub
         v-if="showAddSub"
         @Close="CloseAndOpenAddSub"
         @GetData="getdata"
       />
-      <nav aria-label="breadcrumb" class="flex items-center justify-between">
+      <nav
+        aria-label="breadcrumb"
+        class="nav_1 flex items-center justify-between"
+      >
         <nav aria-label="breadcrumb">
           <MDBBreadcrumb>
             <MDBBreadcrumbItem
@@ -20,29 +23,25 @@
         </nav>
         <div
           @click="CloseAndOpenAddSub"
-          class="flex items-center gap-2.5 bg-[#eee] p-2.5 rounded cursor-pointer"
-          v-if="UserAdmin === 'Admin'"
+          class="flex items-center gap-2.5 p-2.5 bg-[#fff] rounded cursor-pointer"
         >
+          <!-- v-if="UserAdmin === 'Admin'" -->
           <font-awesome-icon :icon="['fas', 'plus']" />
           <span>أضف مادة</span>
         </div>
       </nav>
       <section class="flex justify-between p-2.5 gap-2.5">
-        <div
-          class="w-48 p-2.5 bg-[#eee] text-center cursor-pointer"
-          @click="AllTest"
-        >
+        <div class="w-48 p-2.5 text-center cursor-pointer" @click="AllTest">
           شراء اختبارات {{ Class }} كاملة
         </div>
-        <div
-          class="w-48 p-2.5 bg-[#eee] text-center cursor-pointer"
-          @click="AllCourses"
-        >
+        <div class="w-48 p-2.5 text-center cursor-pointer" @click="AllCourses">
           شراء كورسات {{ Class }} كاملة
         </div>
       </section>
       <div style="min-height: 58vh" class="mt-2.5">
-        <span>({{ AllData.length }}) مادة </span>
+        <div class="text-left my-2.5 p-2.5 text-[--main-color]">
+          ({{ AllData.length }}) مادة
+        </div>
         <div
           class="body flex gap-2.5 items-center flex-wrap justify-between mt-2.5"
         >
@@ -75,185 +74,231 @@
                 >
                   {{ index + 1 }}
                 </div>
-                <div class="title font-bold text-[#7e7e7e]">
+                <div class="title font-bold text-[--main-color] text-xl">
                   {{ Data.sub_name }}
                 </div>
               </div>
-              <div class="text-[#6e6e6e] text-xs font-bold">
+              <div class="text-[#6e6e6e] text-xs font-bold text-sm">
                 {{ Data.Season }}
               </div>
             </div>
-            <div class="book flex flex-col gap-2.5">
+            <div class="book flex gap-2.5 relative flex-wrap">
               <a
                 :href="Data.BookLink"
-                class="border-1 border-[--main-color] flex items-center justify-center gap-2.5 p-2.5 rounded hover-0"
+                class="border-1 border-[--main-color] flex items-center justify-center gap-2.5 p-2.5 rounded hover-0 cursor-pointer w-48 mb-2.5"
               >
                 <font-awesome-icon
                   :icon="['fas', 'book']"
                   class="text-[--main-color]"
                 />
-                <span class="text-[--main-color]">كتاب المادة</span>
+                <span class="text-[--main-color]">تحميل كتاب المادة</span>
               </a>
+
+              <div class="cursor-pointer w-48 mb-2.5">
+                <router-link
+                  to="/Main_Testing"
+                  class="border-1 border-[--main-color] flex items-center justify-center gap-2.5 p-2.5 rounded hover-0"
+                >
+                  <font-awesome-icon
+                    :icon="['fas', 'clipboard-question']"
+                    class="text-[dimgrey]"
+                  />
+                  <span class="text-[dimgrey]"> الإختبارات </span>
+                </router-link>
+              </div>
               <input
                 type="text"
                 placeholder="لينك كتاب المادة"
                 class="border p-1 input1 pointer-events-none"
                 :value="Data.BookLink"
                 v-if="UserAdmin === 'Admin'"
+                style="height: 26px; width: 100%"
               />
             </div>
-            <div
-              class="free_course flex flex-col gap-2.5 border-1 border-[--main-color] p-2.5 my-2.5 rounded"
-            >
+            <div class="free_course flex flex-col gap-2.5 my-2.5 mt-3">
               <div class="title flex gap-1 items-center">
                 <font-awesome-icon
                   :icon="['fas', 'circle-check']"
                   class="text-[--main-color]"
                 />
 
-                <div class="text-lg">الكورس المجاني</div>
+                <div class="text-lg text-[--main-color]">الكورس المجاني</div>
               </div>
-              <div class="video flex flex-col gap-2.5">
-                <a
-                  :href="Data.FreeCourse_Video"
-                  class="border-1 border-[--main-color] flex items-center justify-center gap-2.5 p-2.5 rounded hover-0"
-                >
-                  <font-awesome-icon
-                    :icon="['fab', 'youtube']"
-                    class="text-[--main-color]"
+              <div class="All_Course flex justify-between">
+                <div class="video flex flex-col gap-2.5 w-32 cursor-pointer">
+                  <a
+                    :href="Data.FreeCourse_Video"
+                    class="flex-col border-1 border-[#ff0000] flex items-center justify-center gap-2.5 p-2.5 rounded hover-0"
+                  >
+                    <font-awesome-icon
+                      :icon="['fab', 'youtube']"
+                      class="text-[#ff0000] text-2xl"
+                    />
+                    <span class="text-[#ff0000]">الفيديوهات</span>
+                  </a>
+                  <input
+                    type="text"
+                    placeholder="لينك فيديوهات المادة"
+                    class="border p-1 input2 pointer-events-none"
+                    :value="Data.FreeCourse_Video"
+                    v-if="UserAdmin === 'Admin'"
                   />
-                  <span class="text-[--main-color]">الفيديوهات</span>
-                </a>
-                <input
-                  type="text"
-                  placeholder="لينك فيديوهات المادة"
-                  class="border p-1 input2 pointer-events-none"
-                  :value="Data.FreeCourse_Video"
-                  v-if="UserAdmin === 'Admin'"
-                />
-              </div>
-              <div class="pdf1 flex flex-col gap-2.5">
-                <a
-                  :href="Data.FreeCourse_Pdf_1"
-                  class="border-1 border-[--main-color] flex items-center justify-center gap-2.5 p-2.5 rounded hover-0"
-                >
-                  <font-awesome-icon
-                    :icon="['fas', 'book-open-reader']"
-                    class="text-[--main-color]"
+                </div>
+                <div class="pdf1 flex flex-col gap-2.5 w-32 cursor-pointer">
+                  <a
+                    :href="Data.FreeCourse_Pdf_1"
+                    class="flex-col border-1 border-[#857155] flex items-center justify-center gap-2.5 p-2.5 rounded hover-0"
+                  >
+                    <font-awesome-icon
+                      :icon="['fas', 'book-open-reader']"
+                      class="text-[#857155] text-2xl"
+                    />
+                    <span class="text-[#857155]">المذكرات</span>
+                  </a>
+                  <input
+                    type="text"
+                    placeholder="لينك مذكرات المادة"
+                    class="border p-1 input3 pointer-events-none"
+                    :value="Data.FreeCourse_Pdf_1"
+                    v-if="UserAdmin === 'Admin'"
                   />
-                  <span class="text-[--main-color]">المذكرات</span>
-                </a>
-                <input
-                  type="text"
-                  placeholder="لينك مذكرات المادة"
-                  class="border p-1 input3 pointer-events-none"
-                  :value="Data.FreeCourse_Pdf_1"
-                  v-if="UserAdmin === 'Admin'"
-                />
-              </div>
-              <div class="pdf2 flex flex-col gap-2.5">
-                <a
-                  :href="Data.FreeCourse_Pdf_2"
-                  class="border-1 border-[--main-color] flex items-center justify-center gap-2.5 p-2.5 rounded hover-0"
-                >
-                  <font-awesome-icon
-                    :icon="['fas', 'clipboard-question']"
-                    class="text-[--main-color]"
+                </div>
+                <div class="pdf2 flex flex-col gap-2.5 w-32 cursor-pointer">
+                  <a
+                    :href="Data.FreeCourse_Pdf_2"
+                    class="flex-col border-1 border-[dimgrey] flex items-center justify-center gap-2.5 p-2.5 rounded hover-0"
+                  >
+                    <font-awesome-icon
+                      :icon="['fas', 'clipboard-question']"
+                      class="text-[dimgrey] text-2xl"
+                    />
+                    <span class="text-[dimgrey]">بنك الأسئلة</span>
+                  </a>
+                  <input
+                    type="text"
+                    placeholder="لينك كتاب المادة"
+                    class="border p-1 input4 pointer-events-none"
+                    :value="Data.FreeCourse_Pdf_2"
+                    v-if="UserAdmin === 'Admin'"
                   />
-                  <span class="text-[--main-color]">بنك الأسئلة</span>
-                </a>
-                <input
-                  type="text"
-                  placeholder="لينك كتاب المادة"
-                  class="border p-1 input4 pointer-events-none"
-                  :value="Data.FreeCourse_Pdf_2"
-                  v-if="UserAdmin === 'Admin'"
-                />
-              </div>
-              <div
-                class="pay cursor-pointer w-100 border text-center p-2.5 hover-0"
-              >
-                شراء
+                </div>
               </div>
             </div>
-            <div
-              class="Cash_course flex flex-col gap-2.5 border-1 border-[--main-color] p-2.5 my-2.5 rounded"
-            >
+            <div class="Cash_course flex flex-col gap-2.5 my-2.5">
               <div class="title flex gap-1 items-center">
                 <font-awesome-icon
                   :icon="['fas', 'coins']"
-                  class="text-[--main-color]"
+                  class="text-[gold]"
                 />
 
-                <div class="text-lg">الكورس المدفوع</div>
+                <div class="text-lg text-[--main-color]">الكورس المدفوع</div>
               </div>
-              <div class="video bg-[#fafafa] p-2.5 rounded box">
-                <div class="flex justify-between">
-                  <div class="title text-xl BillName">الفيديوهات</div>
-                  <div class="price text-sm">
-                    <input
-                      type="number"
-                      class="w-10 p-1 rounded input5 pointer-events-none text-center ml-1"
-                      v-if="UserAdmin === 'Admin'"
-                      :value="Data.CachCourse_Video"
+              <div class="All_Course flex justify-between">
+                <div
+                  class="video p-2.5 box border-1 border-[#ff0000] flex flex-col items-center justify-center gap-2.5 p-2.5 rounded w-32"
+                >
+                  <div class="flex flex-col">
+                    <font-awesome-icon
+                      :icon="['fab', 'youtube']"
+                      class="text-[#ff0000] text-2xl"
                     />
-                    <span v-else>{{ Data.CachCourse_Video }}</span>
-                    <span>جنية مصري</span>
+                    <div
+                      class="title text-xl BillName text-base text-[#ff0000] mt-2.5"
+                    >
+                      الفيديوهات
+                    </div>
+                    <div
+                      class="price text-sm text-center flex gap-1.5 font-bold text-lg items-center"
+                    >
+                      <input
+                        type="number"
+                        class="w-10 p-1 rounded input5 pointer-events-none text-center ml-1"
+                        v-if="UserAdmin === 'Admin'"
+                        :value="Data.CachCourse_Video"
+                      />
+                      <span v-else>{{ Data.CachCourse_Video }}</span>
+                      <span>جنية</span>
+                    </div>
+                  </div>
+                  <div
+                    class="px-2.5 py-1 border-1 border-[--main-color] cursor-pointer rounded hover-0 pay w-100 text-left mt-2 text-center"
+                  >
+                    شراء
                   </div>
                 </div>
-                <div class="w-100 text-left mt-2">
-                  <span
-                    class="px-2.5 py-1 border-1 border-[--main-color] cursor-pointer rounded hover-0 pay"
-                    >شراء</span
-                  >
-                </div>
-              </div>
-              <div class="pdf1 bg-[#fafafa] p-2.5 rounded box">
-                <div class="flex justify-between">
-                  <div class="title text-xl BillName">المذكرات</div>
-                  <div class="price text-sm">
-                    <input
-                      type="number"
-                      class="w-10 p-1 rounded input6 pointer-events-none text-center ml-1"
-                      v-if="UserAdmin === 'Admin'"
-                      :value="Data.CachCourse_PdfPrice_1"
+                <div
+                  class="pdf1 p-2.5 box border-1 border-[#857155] flex flex-col items-center justify-center gap-2.5 p-2.5 rounded w-32"
+                >
+                  <div class="flex flex-col">
+                    <font-awesome-icon
+                      :icon="['fas', 'book-open-reader']"
+                      class="text-[#857155] text-2xl"
                     />
-                    <span v-else>{{ Data.CachCourse_PdfPrice_1 }}</span>
-                    <span>جنية مصري</span>
+                    <div
+                      class="title text-xl BillName text-base text-[#857155] mt-2.5"
+                    >
+                      المذكرات
+                    </div>
+                    <div
+                      class="price text-sm text-center flex gap-1.5 font-bold text-lg items-center"
+                    >
+                      <input
+                        type="number"
+                        class="w-10 p-1 rounded input6 pointer-events-none text-center ml-1"
+                        v-if="UserAdmin === 'Admin'"
+                        :value="Data.CachCourse_PdfPrice_1"
+                      />
+                      <span v-else>{{ Data.CachCourse_PdfPrice_1 }}</span>
+                      <span>جنية </span>
+                    </div>
+                  </div>
+                  <div
+                    class="px-2.5 py-1 border-1 border-[--main-color] cursor-pointer rounded hover-0 pay w-100 text-left mt-2 text-center"
+                  >
+                    شراء
                   </div>
                 </div>
-                <div class="w-100 text-left mt-2">
-                  <span
-                    class="px-2.5 py-1 border-1 border-[--main-color] cursor-pointer rounded hover-0 pay"
-                    >شراء</span
-                  >
-                </div>
-              </div>
-              <div class="pdf2 bg-[#fafafa] p-2.5 rounded box">
-                <div class="flex justify-between">
-                  <div class="title text-xl BillName">بنك الأسئلة</div>
-                  <div class="price text-sm">
-                    <input
-                      type="number"
-                      class="w-10 p-1 rounded input7 pointer-events-none text-center ml-1"
-                      v-if="UserAdmin === 'Admin'"
-                      :value="Data.CachCourse_PdfPrice_2"
+                <div
+                  class="pdf2 p-2.5 box border-1 border-[dimgrey] flex flex-col items-center justify-center gap-2.5 p-2.5 rounded w-32"
+                >
+                  <div class="flex flex-col">
+                    <font-awesome-icon
+                      :icon="['fas', 'clipboard-question']"
+                      class="text-[dimgrey] text-2xl"
                     />
-                    <span v-else>{{ Data.CachCourse_PdfPrice_2 }}</span>
-                    <span>جنية مصري</span>
+                    <div
+                      class="title text-xl BillName text-base text-[dimgrey] mt-2.5"
+                    >
+                      بنك الأسئلة
+                    </div>
+                    <div
+                      class="price text-sm text-center flex gap-1.5 font-bold text-lg items-center"
+                    >
+                      <input
+                        type="number"
+                        class="w-10 p-1 rounded input7 pointer-events-none text-center ml-1"
+                        v-if="UserAdmin === 'Admin'"
+                        :value="Data.CachCourse_PdfPrice_2"
+                      />
+                      <span v-else>{{ Data.CachCourse_PdfPrice_2 }}</span>
+                      <span>جنية </span>
+                    </div>
+                  </div>
+                  <div
+                    class="px-2.5 py-1 border-1 border-[--main-color] cursor-pointer rounded hover-0 pay w-100 text-left mt-2 text-center"
+                  >
+                    شراء
                   </div>
                 </div>
-                <div class="w-100 text-left mt-2">
-                  <span
-                    class="px-2.5 py-1 border-1 border-[--main-color] cursor-pointer rounded hover-0 pay"
-                    >شراء</span
-                  >
-                </div>
               </div>
-              <div class="AllCourse bg-[#fafafa] p-2.5 rounded box">
-                <div class="flex justify-between">
+              <div
+                class="AllCourse p-2.5 box border-1 border-[--main-color] flex flex-col gap-2.5 p-2.5 rounded"
+              >
+                <div class="flex-col">
                   <div class="title text-xl BillName">الكورس كامل</div>
-                  <div class="line-through">
+                </div>
+                <div class="price text-sm text-left flex flex-col gap-2.5">
+                  <div class="line-through flex justify-end">
                     <span class="ml-1">{{
                       +Data.CachCourse_Video +
                         +Data.CachCourse_PdfPrice_1 +
@@ -261,35 +306,31 @@
                     }}</span>
                     <span>جنية مصري</span>
                   </div>
-                </div>
-                <div class="price text-sm text-left">
-                  <input
-                    type="number"
-                    class="w-10 p-1 rounded input8 pointer-events-none text-center ml-1"
-                    v-if="UserAdmin === 'Admin'"
-                    :value="Data.AllCourse"
-                  />
-                  <span v-else>{{ Data.AllCourse }}</span>
-                  <span>جنية مصري</span>
+                  <div class="flex gap-1.5 justify-end">
+                    <input
+                      type="number"
+                      class="w-10 p-1 rounded input8 pointer-events-none text-center ml-1"
+                      v-if="UserAdmin === 'Admin'"
+                      :value="Data.AllCourse"
+                    />
+
+                    <span v-else>{{ Data.AllCourse }}</span>
+                    <span>جنية مصري</span>
+                  </div>
                 </div>
                 <div class="w-100 flex justify-between items-center mt-2">
-                  <span>
-                    خصم :
-                    <span> 10 % </span>
-                  </span>
+                  <div class="flex items-center gap-2.5">
+                    <img
+                      src="../assets/free-discount-icon-9685-thumb.png"
+                      style="width: 40px"
+                    />
+                    <span> خصم 10% في حالة شراء الكورس كاملا </span>
+                  </div>
                   <span
                     class="px-2.5 py-1 border-1 border-[--main-color] cursor-pointer rounded hover-0 pay"
                     >شراء</span
                   >
                 </div>
-              </div>
-              <div class="test shadow p-2.5">
-                <router-link
-                  to="/Main_Testing"
-                  class="button bg-[--main-color] text-white p-2.5 rounded cursor-pointer text-center w-100"
-                >
-                  الإختبارات
-                </router-link>
               </div>
             </div>
           </div>
@@ -299,54 +340,83 @@
       <div
         class="popup rounded p-2.5 bg-white fixed -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 overflow-auto h-1/2 z-20 w-1/2"
         v-if="Close"
+        style="height: 387px"
       >
-        <div class="header flex justify-between items-center">
-          <span>فاتورة</span>
+        <div class="header flex justify-between items-center p-2.5">
+          <div class="flex items-center gap-2.5">
+            <font-awesome-icon :icon="['fas', 'file-invoice-dollar']" />
+            <span>فاتورة</span>
+          </div>
           <font-awesome-icon :icon="['fas', 'xmark']" @click="Close = false" />
         </div>
         <div class="body">
-          <div class="flex items-center gap-2.5">
-            <div class="w-24 text-center">الدراسة</div>
-            <span>:</span>
-            <strong>{{ BillType }}</strong>
+          <div class="flex items-center justify-center">
+            <div class="w-24 text-center table_1">الدراسة</div>
+
+            <strong class="table_2">{{ BillType }}</strong>
           </div>
-          <div class="flex items-center gap-2.5">
-            <div class="w-24 text-center">القسم</div>
-            <span>:</span>
-            <strong>{{ BillLang }}</strong>
+          <div class="flex items-center justify-center">
+            <div class="w-24 text-center table_1">القسم</div>
+            <strong class="table_2">{{ BillLang }}</strong>
           </div>
-          <div class="flex items-center gap-2.5">
-            <div class="w-24 text-center">الفرقة</div>
-            <span>:</span>
-            <strong>{{ BillClass }}</strong>
+          <div class="flex items-center justify-center">
+            <div class="w-24 text-center table_1">الفرقة</div>
+            <strong class="table_2">{{ BillClass }}</strong>
           </div>
-          <div class="flex items-center gap-2.5">
-            <div class="w-24 text-center">الصنف</div>
-            <span>:</span>
-            <strong>{{ BillName }}</strong>
+          <div class="flex items-center justify-center">
+            <div class="w-24 text-center table_1">الصنف</div>
+
+            <strong class="table_2">{{ BillName }}</strong>
           </div>
-          <div class="flex items-center gap-2.5">
-            <div class="w-24 text-center">السعر</div>
-            <span>:</span>
-            <strong>{{ BillPrice || 0 }} <span>جنية مصري</span></strong>
+          <div class="flex items-center justify-center">
+            <div class="w-24 text-center table_1">السعر</div>
+
+            <strong class="table_2 flex gap-2.5"
+              >{{ BillPrice || 0 }} <span>جنية مصري</span></strong
+            >
           </div>
-          <div class="flex items-center gap-2.5">
-            <div class="w-24 text-center">المادة</div>
-            <span>:</span>
-            <strong>{{ SubName }}</strong>
+          <div class="flex items-center justify-center">
+            <div class="w-24 text-center table_1">المادة</div>
+
+            <strong class="table_2">{{ SubName }}</strong>
           </div>
+          <table>
+            <tbody>
+              <tr>
+                <td>الدراسة</td>
+                <td>{{ BillType }}</td>
+              </tr>
+              <tr>
+                <td>القسم</td>
+                <td>{{ BillLang }}</td>
+              </tr>
+              <tr>
+                <td>الفرقة</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+              </tr>
+              <!-- Add more rows as needed -->
+            </tbody>
+          </table>
         </div>
-        <div
-          class="pay bg-[--main-color] p-2.5 cursor-pointer text-white text-center mt-2.5"
-          @click="pay1"
-        >
-          أدفع بالكارت
-        </div>
-        <div
-          class="pay bg-[--main-color] p-2.5 cursor-pointer text-white text-center mt-2.5"
-          @click="pay_1"
-        >
-          أدفع بفودافون كاش
+        <div class="footer flex justify-between">
+          <div
+            class="pay bg-[--main-color] p-2.5 cursor-pointer text-white text-center mt-2.5 w-48"
+            @click="pay1"
+          >
+            <font-awesome-icon :icon="['fas', 'credit-card']" />
+            <span> أدفع بالكارت </span>
+          </div>
+          <div
+            class="pay bg-[--main-color] p-2.5 cursor-pointer text-white text-center mt-2.5 w-48"
+            @click="pay_1"
+          >
+            <font-awesome-icon :icon="['fas', 'money-bill']" />
+            <span> أدفع بفودافون كاش </span>
+          </div>
         </div>
       </div>
     </div>
@@ -404,7 +474,7 @@ export default {
       CachCourse_PdfPrice_1: 0,
       CachCourse_PdfPrice_2: 0,
       AllCourse: "",
-      Close: null,
+      Close: false,
       BillVedio: "",
       BillName: "",
       BillPrice: "",
@@ -418,6 +488,7 @@ export default {
       )} ${localStorage.getItem("username_3")}
        
        `,
+      // UserAdmin: "Admin",
     };
   },
   props: ["Main_Id"],
@@ -427,6 +498,11 @@ export default {
     AddSub,
   },
   mounted() {
+    console.log("UserAdmin", this.UserAdmin);
+    console.log(
+      'localStorage.getItem("setUserAdmin")',
+      localStorage.getItem("setUserAdmin")
+    );
     setTimeout(() => {
       this.getvalues();
     }, 10);
@@ -882,7 +958,38 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.box > svg {
+section {
+  div {
+    border: 1px solid var(--main-color);
+    background: #fff;
+    border-radius: 5px;
+    font-size: 21px;
+    color: var(--main-color);
+    transition: 0.3s;
+    &:hover {
+      background: var(--main-color);
+      color: #fff;
+    }
+  }
+}
+nav {
+  background: #fafafa;
+  padding: 10px;
+  border-radius: 5px;
+  nav ol.breadcrumb {
+    margin: 0 !important;
+    li {
+      transition: 0.3s;
+      font-weight: bold;
+      &:hover {
+        color: var(--main-color) !important;
+      }
+    }
+    li.breadcrumb-item.active {
+      font-weight: bold;
+      color: var(--main-color);
+    }
+  }
 }
 .border-[--main-color] {
   border: 1px solid var(--main-color) !important;
@@ -899,18 +1006,58 @@ export default {
 .hover-0:hover span {
   color: #fff;
 }
+.table_1 {
+  height: 35px;
+  border: 1px solid var(--main-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  border-bottom: none;
+  &:last-child {
+    border: 1px solid var(--main-color);
+  }
+}
+.table_2 {
+  border: 1px solid var(--main-color);
+  height: 35px;
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: none;
+  border-top: none;
+
+  &:last-child {
+    border-top: 1px solid var(--main-color);
+  }
+}
+
 @media (min-width: 1200px) {
 }
 
 @media (min-width: 768px) and (max-width: 1199px) {
-  .body .main_box {
-    width: 100% !important;
-  }
+  // .body .main_box {
+  //   width: 100% !important;
+  // }
 }
 
 @media (max-width: 767px) {
   .body .main_box {
     width: 100% !important;
+  }
+  section {
+    flex-direction: column;
+    & > div {
+      width: 100%;
+    }
+  }
+  .nav_1 {
+    flex-direction: column;
+    align-items: stretch;
+    & > div {
+      justify-content: center;
+    }
   }
 }
 </style>

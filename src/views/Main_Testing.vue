@@ -1,5 +1,5 @@
 <template>
-  <div class="Main_Testing">
+  <div class="Main_Testing CC pt-2.5">
     <div class="container">
       <AddTest
         @Close="CloseAndOpenAddTest"
@@ -36,7 +36,7 @@
 
         <!-- @click="CloseAndOpenAddSub" -->
       </nav>
-      <div class="data flex flex-col gap-2.5">
+      <div class="data flex flex-wrap gap-2.5 justify-between">
         <img
           src="../assets/animation_lolk2w1w_small.gif"
           alt="animation"
@@ -45,24 +45,89 @@
         />
         <div v-if="ShowMsg" class="text-center">{{ MsgEmpty }}</div>
         <div
-          class="box border p-2.5 rounded"
+          class="box border p-2.5 rounded w-32"
           v-for="(test, index) in AllTest"
           :key="index"
         >
-          <div class="number">
-            اختبار رقم (<span>{{ index + 1 }}</span
-            >)
+          <div class="flex justify-between">
+            <div
+              class="number"
+              style="
+                font-size: 21px;
+                font-weight: bold;
+                font-family: system-ui;
+                color: var(--main-color);
+              "
+            >
+              اختبار رقم (<span>{{ index + 1 }}</span
+              >)
+            </div>
+            <div style="display: flex; gap: 10px; align-items: center">
+              <!-- <div v-if="test.Type === 'مجاني'">
+                <font-awesome-icon :icon="['fas', 'file-circle-check']" />
+              </div>
+              <div v-if="test.Type === 'مدفوع'">
+                <font-awesome-icon :icon="['fas', 'file-invoice-dollar']" />
+              </div> -->
+              <div
+                style="
+                  font-size: 14px;
+                  font-weight: bold;
+                  font-family: system-ui;
+                  color: var(--main-color);
+                "
+              >
+                {{ test.Type }}
+              </div>
+            </div>
           </div>
-          <h3>{{ test.Type }}</h3>
-          <div class="flex gap-2.5 items-center">
+          <div
+            class="flex gap-2.5 items-center"
+            style="
+              ackground: #fafafa;
+              padding: 10px;
+              border-radius: 5px;
+              font-weight: bold;
+              font-family: system-ui;
+              margin-bottom: 10px;
+            "
+          >
             <font-awesome-icon :icon="['fas', 'clock']" />
             <p class="Time">{{ test.Time }}</p>
           </div>
-          <div class="flex gap-2.5 items-center">
+          <div
+            class="flex gap-2.5 items-center"
+            style="
+              ackground: #fafafa;
+              padding: 10px;
+              border-radius: 5px;
+              font-weight: bold;
+              font-family: system-ui;
+              margin-bottom: 10px;
+            "
+          >
             <font-awesome-icon :icon="['fas', 'calendar-days']" />
             <p class="Date">{{ test.Date }}</p>
           </div>
-          <div class="btn" @click="CheckTimeAndData(index)">أختبر نفسك</div>
+          <div
+            class="btn"
+            style="
+              color: var(--main-color);
+              font-size: 15px;
+              border: 1px solid var(--main-color);
+              padding: 0;
+              height: 35px;
+              width: 100px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-weight: bold;
+              cursor: pointer;
+            "
+            @click="CheckTimeAndData(index)"
+          >
+            أختبر نفسك
+          </div>
         </div>
       </div>
     </div>
@@ -294,3 +359,99 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+nav {
+  background: #fafafa;
+  padding: 10px;
+  border-radius: 5px;
+  nav ol.breadcrumb {
+    margin: 0 !important;
+    li {
+      transition: 0.3s;
+      font-weight: bold;
+      &:hover {
+        color: var(--main-color) !important;
+      }
+    }
+    li.breadcrumb-item.active {
+      font-weight: bold;
+      color: var(--main-color);
+    }
+  }
+}
+.border-[--main-color] {
+  border: 1px solid var(--main-color) !important;
+}
+
+.hover-0 {
+  transition: 0.3s;
+}
+.hover-0:hover {
+  background: var(--main-color);
+  color: #fff;
+}
+.hover-0:hover svg,
+.hover-0:hover span {
+  color: #fff;
+}
+.table_1 {
+  height: 35px;
+  border: 1px solid var(--main-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  border-bottom: none;
+  &:last-child {
+    border: 1px solid var(--main-color);
+  }
+}
+.table_2 {
+  border: 1px solid var(--main-color);
+  height: 35px;
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: none;
+  border-top: none;
+
+  &:last-child {
+    border-top: 1px solid var(--main-color);
+  }
+}
+
+@media (min-width: 1200px) {
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+  // .body .main_box {
+  //   width: 100% !important;
+  // }
+}
+
+@media (max-width: 767px) {
+  .data {
+    flex-direction: column;
+    > div {
+      width: 100%;
+    }
+  }
+  .body .main_box {
+    width: 100% !important;
+  }
+  section {
+    flex-direction: column;
+    & > div {
+      width: 100%;
+    }
+  }
+  .nav_1 {
+    flex-direction: column;
+    align-items: stretch;
+    & > div {
+      justify-content: center;
+    }
+  }
+}
+</style>

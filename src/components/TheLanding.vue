@@ -1,23 +1,109 @@
 <template>
   <div class="TheLanding">
-    <div class="container flex justify-center items-center">
-      <div class="right w-1/2">
-        <!-- <img class="h-72" src="../assets/elemam_logo.png" alt="" /> -->
-
-        <div class="animated-border">
-          <img src="../assets/elemam_logo.png" alt="صورة" :style="imageStyle" />
-          <div class="border-overlay"></div>
-        </div>
+    <div class="container relative mt-0">
+      <div class="flex justify-end w-100 absolute bottom-10 left-0 icon">
+        <img
+          src="../assets/Animation - 1701644199286.gif"
+          alt=""
+          width="50px"
+          class="law"
+        />
       </div>
-      <div class="left w-1/2">
-        <div class="title">أكاديمية الإمام هي :</div>
-        <p>
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cupiditate
-          ut consectetur tempore at quod enim? Dolor sint aliquam perferendis
-          culpa id sunt beatae dignissimos expedita necessitatibus rem molestiae
-          velit iure consequatur possimus et, exercitationem odio minus quas
-          veritatis iste illum!
-        </p>
+      <div class="flex justify-end w-100 absolute bottom-14 left-0">
+        <img
+          src="../assets/Animation - 1701642743520.gif"
+          alt=""
+          width="50px"
+          class="law"
+        />
+      </div>
+      <div class="flex justify-center items-center h-80 contain">
+        <div class="right w-1/2">
+          <img
+            src="../assets/WhatsApp Image 2023-12-03 at 11.57.38 PM.jpeg"
+            alt=""
+            class="m-auto"
+          />
+        </div>
+        <div class="left w-1/2 flex flex-col justify-center gap-2.5">
+          <h2 class="title">د /</h2>
+          <h1 class="title_2">محمد الإمام</h1>
+          <div class="title_3">
+            منصة الإمام منصة متخصصة في تدريس المواد القانونية
+          </div>
+          <div style="width: fit-content">
+            <v-dialog v-model="dialog">
+              <template v-slot:activator="{ props }">
+                <v-btn v-bind="props" class="button_2">
+                  <font-awesome-icon :icon="['fas', 'scale-balanced']" />
+                  <span>مجالات العمل بعد التخرج</span>
+                </v-btn>
+              </template>
+              <v-card>
+                <div class="flex justify-between items-center p-2.5">
+                  <v-card-title>
+                    <div class="title_1_1 flex items-center gap-2.5">
+                      <font-awesome-icon :icon="['fas', 'scale-balanced']" />
+                      <span>مجالات العمل بعد التخرج </span>
+                    </div>
+                  </v-card-title>
+
+                  <v-btn variant="text" @click="dialog = false">
+                    <font-awesome-icon
+                      class="text-2xl text-[--main-color]"
+                      :icon="['fas', 'xmark']"
+                    />
+                  </v-btn>
+                </div>
+                <v-card-text>
+                  <div class="text-left text-[--main-color] mb-2.5 font-bold">
+                    ({{ data_1.length }}) مجال
+                  </div>
+                  <div v-for="(data, index) in data_1" :key="data" class="feat">
+                    <span>{{ index + 1 }}</span>
+                    <div>{{ data }}</div>
+                  </div>
+                </v-card-text>
+              </v-card>
+            </v-dialog>
+          </div>
+          <div style="width: fit-content">
+            <v-btn class="button_1">
+              <font-awesome-icon :icon="['fas', 'circle-question']" />
+              <span>لماذا تختار كلية الشريعة و القانون</span>
+
+              <v-dialog v-model="dialog2" activator="parent" width="auto">
+                <v-card>
+                  <div class="flex justify-between items-center p-2.5">
+                    <v-card-title style="padding: 10px !important">
+                      <div class="title_1_1 flex items-center gap-2.5">
+                        <font-awesome-icon :icon="['fas', 'scale-balanced']" />
+                        <span>لماذا كلية الشريعة و القانون</span>
+                      </div>
+                    </v-card-title>
+
+                    <v-btn variant="text" @click="dialog2 = false">
+                      <font-awesome-icon
+                        class="text-2xl text-[--main-color]"
+                        :icon="['fas', 'xmark']"
+                      />
+                    </v-btn>
+                  </div>
+                  <v-card-text style="font-family: system-ui; line-height: 2">
+                    كلية الشريعة والقانون هي من الكليات ذات الشأن العالى والرفعه
+                    في مصر، وهي إحدى أقدم وأعرق كليات جامعة الأزهر وهي كلية خاصة
+                    بدراسة العلوم الشرعية (الفقه والفقه المقارن وأصول الفقه)
+                    إضافة إلى مواد العلوم القانونية (القانون الجنائي والقانون
+                    الدستوري والقانون المدني والقانون الدولي... إلخ)والتي تماثل
+                    تلك المواد التي يتم تدريسها في كليات الحقوق مما أكسب هذه
+                    الكلية ميزةَ الجمع بين العلوم الدينية " المتمثلة في المواد
+                    الشرعية. والعلوم الدنيوية " المتمثله في المواد القانونية.
+                  </v-card-text>
+                </v-card>
+              </v-dialog>
+            </v-btn>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -27,96 +113,111 @@ export default {
   name: "TheLanding",
   data() {
     return {
-      imageStyle: {
-        borderRadius: "0",
-        animation: "floatAnimation 5s infinite, glowAnimation 3s infinite",
-      },
-      imageSrc: "رابط-الصورة",
+      dialog: false,
+      dialog2: false,
+      data_1: [
+        "معيدا بكليه (يعني دكتور جامعي )",
+        "الهيئات القضائية",
+        "مجلس الدوله",
+        "النيابه العامه",
+        "النيابه الاداريه",
+        "هيئه قضايا الدوله",
+        "الالتحاق بكليه الشرطه(ضباط متخصصين )",
+        "الكليه الحربيه النيابه العسكريه",
+        "مأذون شرعي",
+        "وزاره الخارجيه (سفير )",
+        "وزاره التموين والتجارة الداخلية",
+        "الرقابه الإدارية",
+        "الجهاز المركزي للمحاسبات",
+        "مصلحة الضرائب",
+        "الشئون القانونية",
+        "المحاماه",
+        "وظائف اخري بقطاعات العامه والخاصه",
+        "وزارة الأوقاف",
+        "وزير",
+      ],
     };
   },
-  methods: {
-    animateBorder() {
-      this.intervalId = setInterval(() => {
-        this.borderStyle = {
-          borderLeftColor: getRandomColor(),
-          transition: "border-left-color 0.5s ease-in-out",
-        };
-
-        this.imageStyle = {
-          borderRadius: getRandomBorderRadius(),
-          transition: "border-radius 0.5s ease-in-out",
-        };
-      }, 3000); // تحديث كل 3 ثوانٍ
-    },
-    resetBorder() {
-      clearInterval(this.intervalId);
-      this.borderStyle = {
-        borderLeftColor: "transparent",
-        transition: "border-left-color 0.5s ease-in-out",
-      };
-
-      this.imageStyle = {
-        borderRadius: "0",
-        transition: "border-radius 0.5s ease-in-out",
-      };
-    },
-  },
+  methods: {},
 };
-
-function getRandomColor() {
-  const letters = "0123456789ABCDEF";
-  let color = "#";
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
-}
-
-function getRandomBorderRadius() {
-  return Math.floor(Math.random() * 50) + "px";
-}
 </script>
 <style lang="scss" scoped>
-@keyframes floatAnimation {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
+.TheLanding {
+  background-image: url("../assets/WhatsApp Image 2023-12-04 at 11.00.58 PM.jpeg");
+  background-size: cover;
+  background-position: center top;
+}
+.icon {
+  bottom: 403px;
+  left: 140px;
+}
+img {
+  width: 300px;
+  border-radius: 5px;
+}
+.law {
+  width: 75px;
+  filter: grayscale(1);
+}
+.title_1_1 {
+  color: var(--main-color) !important;
+  font-weight: bold;
+  font-size: 25px;
+}
+.feat {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid var(--main-color);
+  margin-bottom: 10px;
+  span {
+    width: 30px;
+    background: var(--main-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    border-radius: 5px;
   }
 }
-
-@keyframes glowAnimation {
-  0%,
-  100% {
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+.left {
+  font-family: system-ui;
+  h1 {
+    font-weight: bold;
   }
-  50% {
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.9);
+  h2,
+  .title_3 {
+    color: #ef4444;
+    font-weight: bold;
   }
-}
-
-.animated-border {
-  position: relative;
-  display: inline-block;
-  overflow: hidden;
-}
-
-.animated-border img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-.border-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-  border: 4px solid transparent;
+  .title_3 {
+    font-size: 23px;
+  }
+  .title_2 {
+    color: var(--main-color);
+  }
+  .button_1,
+  .button_2 {
+    width: fit-content;
+    border: 1px solid var(--main-color) !important;
+    padding: 15px !important;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px !important;
+    font-weight: bold;
+    color: var(--main-color) !important;
+    cursor: pointer;
+    transition: 0.3s;
+    svg {
+      font-size: 19px;
+    }
+    &:hover {
+      background: var(--main-color) !important;
+      color: #fff !important;
+    }
+  }
 }
 @media (min-width: 1200px) {
 }
@@ -125,6 +226,20 @@ function getRandomBorderRadius() {
 }
 
 @media (max-width: 767px) {
+  .contain {
+    flex-direction: column;
+    gap: 10px;
+    > div {
+      width: 100%;
+    }
+  }
+  img.m-auto {
+    width: 145px;
+  }
+  .icon {
+    bottom: 378px;
+    left: 288px;
+  }
   .container {
     flex-direction: column;
     & > div {

@@ -1,11 +1,12 @@
 <template>
   <div class="ShowTest">
-    <div class="main_Overlay z-10"></div>
+    <div class="main_Overlay z-10" style="z-index: 101"></div>
     <div
       class="container rounded p-2.5 bg-white fixed -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 overflow-auto h-4/5 z-20"
+      style="z-index: 101"
     >
       <div
-        class="header flex justify-between border-b border-[#eee] mb-2.5 p-2.5 rounded"
+        class="header flex justify-between border-b border-[#eee] mb-2.5 p-2.5 rounded items-center"
       >
         <span>اختبار رقم ({{ TestIndex + 1 }})</span>
         <font-awesome-icon
@@ -24,13 +25,6 @@
           <span class="btn" @click="Close">نعم</span>
           <span class="btn" @click="CloseCheck">لا</span>
         </div>
-      </div>
-      <div
-        class="border p-2.5 text-center cursor-pointer"
-        @click="ShowQuFunction"
-        v-if="UserAdmin === 'Admin'"
-      >
-        اضف سؤال
       </div>
       <div class="form" v-if="ShowQu">
         <div class="rounded p-2.5">
@@ -89,34 +83,62 @@
           </div>
         </div>
       </div>
-      <div class="Notes" v-if="TestState">
-        <h3>ملاحظات هامة</h3>
-        <div class="flex items-center gap-2.5 mt-2.5">
-          <font-awesome-icon :icon="['fas', 'clock']" />
-          <span
-            >الإختبار بوقت محدد بمعدل دقيقة و نصف لكل سؤال وقت الإختبار ({{
-              this.Qu.length * 1.5 || 0
-            }}
-            دقيقة )</span
-          >
-        </div>
-        <div class="flex items-center gap-2.5 mt-2.5">
-          <font-awesome-icon :icon="['fas', 'square-poll-vertical']" />
-          <span>يتم حساب نتيجة أول أختبار فقط</span>
-        </div>
-        <div class="flex items-center gap-2.5 mt-2.5">
-          <font-awesome-icon :icon="['fas', 'thumbs-up']" />
-          <span
-            >بمجرد ضغطك علي زر البدأ يتم احتساب النتيجة حتي لو اغلقت
-            الإختبار</span
-          >
-        </div>
+      <div class="Notes">
         <div
-          class="button border p-3 text-center cursor-pointer mt-2.5"
-          @click="StarTest"
+          class="border p-2.5 text-center cursor-pointer w-fit mr-auto rounded"
+          @click="ShowQuFunction"
+          v-if="UserAdmin === 'Admin'"
         >
-          ابدأ الإختبار
+          <font-awesome-icon :icon="['fas', 'plus']" />
+          <span> اضف سؤال </span>
         </div>
+        <div v-if="TestState">
+          <h3>ملاحظات هامة قبل بدأ الإختبار :</h3>
+          <div class="countain py-2.5 flex flex-col gap-2.5">
+            <div class="flex items-center gap-2.5">
+              <font-awesome-icon
+                :icon="['fas', 'clock']"
+                class="text-[--main-color]"
+              />
+              <span
+                >الإختبار بوقت محدد بمعدل دقيقة و نصف لكل سؤال وقت الإختبار ({{
+                  this.Qu.length * 1.5 || 0
+                }}
+                دقيقة )</span
+              >
+            </div>
+            <div class="flex items-center gap-2.5">
+              <font-awesome-icon
+                :icon="['fas', 'square-poll-vertical']"
+                class="text-[--main-color]"
+              />
+              <span>يتم حساب نتيجة أول أختبار فقط</span>
+            </div>
+            <div class="flex items-center gap-2.5">
+              <font-awesome-icon
+                :icon="['fas', 'thumbs-up']"
+                class="text-[--main-color]"
+              />
+              <span
+                >بمجرد ضغطك علي زر البدأ يتم احتساب النتيجة حتي لو اغلقت
+                الإختبار</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="button border p-3 text-center cursor-pointer mt-2.5"
+        @click="StarTest"
+        style="
+          border: 1px solid var(--main-color) !important;
+          border-radius: 5px;
+          color: var(--main-color);
+          font-size: 17px;
+          font-weight: bold;
+        "
+      >
+        ابدأ الإختبار
       </div>
       <div class="body mt-2.5" v-if="StarTestState">
         <div class="flex items-center p-2.5 bg-[#eee] justify-between">
@@ -567,6 +589,29 @@ export default {
 }
 .Check {
   animation: Check 0.3s 1;
+}
+h3 {
+  font-size: 35px;
+  font-family: system-ui;
+  color: red;
+}
+.header {
+  span {
+    font-family: system-ui;
+    font-size: 20px;
+    color: var(--main-color);
+    font-weight: bold;
+  }
+}
+.countain {
+  > div {
+    flex-direction: column;
+    align-items: flex-start;
+    /* border: 1px solid #ddd; */
+    background: #fafafa;
+    padding: 7px 10px;
+    border-radius: 5px;
+  }
 }
 @keyframes Check {
   0% {

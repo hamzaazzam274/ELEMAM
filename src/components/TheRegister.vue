@@ -1,7 +1,8 @@
 <template>
-  <div class="main_Overlay" @click="close_2"></div>
+  <div class="main_Overlay" @click="close_2" style="z-index: 101"></div>
   <div
     class="container bg-white fixed z-10 rounded p-2.5 -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 max-h-90 overflow-auto"
+    style="z-index: 101"
   >
     <section>
       <div class="header flex justify-between items-center">
@@ -11,7 +12,7 @@
       <form action="POST">
         <div>يرجي كتابة الإسم باللغة العربية</div>
         <div class="small_container">
-          <div class="flex justify-between flex-wrap">
+          <div class="flex justify-between flex-wrap TheName">
             <div class="w-32">
               <div class="input-group mb-3">
                 <div class="form-floating">
@@ -99,7 +100,7 @@
                     الأمر</label
                   >
                   <div
-                    class="absolute -translate-x-1/2 -translate-y-1/2 left-10 top-1/2"
+                    class="absolute -translate-x-1/2 -translate-y-1/2 left-10 top-1/2 select"
                   >
                     اختياري
                   </div>
@@ -816,6 +817,36 @@ input {
     font-size: 18px;
     cursor: pointer;
     padding: 6px 12px;
+  }
+}
+@media (min-width: 1200px) {
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+}
+
+@media (max-width: 767px) {
+  .select {
+    top: 12px !important;
+    left: 26px !important;
+  }
+  .content > div {
+    flex-direction: column;
+    & > span {
+      width: 100%;
+    }
+  }
+  .selecte_3 > div {
+    width: 100%;
+    & > span {
+      flex-direction: column;
+    }
+  }
+  .TheName {
+    flex-direction: column;
+    > div {
+      width: 100%;
+    }
   }
 }
 </style>
