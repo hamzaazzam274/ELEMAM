@@ -6,7 +6,7 @@
       top: 0;
       left: 0;
       width: 100%;
-      background: #fff;
+      background: transparent;
       z-index: 100;
     "
   >
@@ -16,7 +16,7 @@
           <img
             src="../assets/elemam_logo.png"
             alt="أكاديمية الإمام القانونية"
-            class="h-24"
+            class="h-24 rounded-full"
           />
           <span class="text-xl">أكاديمية الإمام القانونية</span>
         </router-link>
@@ -24,9 +24,9 @@
       <div class="left flex items-center gap-2.5 flex-wrap">
         <div class="links relative hidden">
           <div class="all_links flex gap-2.5 rounded p-2.5">
-            <span class="cursor-pointer border-b border-gray-300 pb-2.5"
+            <!-- <span class="cursor-pointer border-b border-gray-300 pb-2.5"
               >أحدث الأخبار</span
-            >
+            > -->
             <span class="cursor-pointer border-b border-gray-300 pb-2.5"
               >الفرق الدراسية</span
             >
@@ -38,6 +38,7 @@
         </div>
 
         <!-- <font-awesome-icon :icon="['fas', 'magnifying-glass']" /> -->
+
         <div
           class="login flex gap-2.5 items-center cursor-pointer bg-[#eee] p-2.5 rounded-md"
           v-if="!UserState"
@@ -48,53 +49,117 @@
           <span>تسجيل دخول</span>
         </div>
 
-        <div class="Sign_In">
-          <div v-if="UserState" style="position: relative">
-            <div
-              class="User_Logo bg-[--main-color] h-10 w-10 text-white rounded-full flex justify-center items-center cursor-pointer"
-              @click="State"
-            >
-              {{ firstLetters }}
-            </div>
-            <div
-              style="
-                position: absolute;
-                width: 143px;
-border:1px solid #eee
-                top: 53px;
-                padding: 10px;
-              "
-              class="user"
-              v-if="state"
-            >
-              <div style="background: #fafafa; padding: 5px">
-                أهلا {{ thetype }} {{ UserName }}
+        <div v-if="UserState" class="Sign_In">
+          <v-menu transition="slide-y-transition">
+            <template v-slot:activator="{ props }">
+              <div v-bind="props">
+                <div
+                  class="User_Logo bg-[--main-color] h-10 w-10 text-white rounded-full flex justify-center items-center cursor-pointer"
+                  @click="State"
+                >
+                  {{ firstLetters }}
+                </div>
               </div>
-              <div
-                style="background: #fafafa; padding: 5px"
-                class="add"
-                v-if="UserAdmin === 'User'"
-              >
-                <router-link to="/TheUser"> حسابي </router-link>
-              </div>
-              <div
-                style="background: #fafafa; padding: 5px"
-                class="add"
-                v-if="UserAdmin === 'Admin'"
-              >
-                <router-link to="/AdminPage"> الإشراف </router-link>
-              </div>
-              <div style="background: #fafafa; padding: 5px" @click="SignOut">
-                <font-awesome-icon :icon="['fas', 'arrow-right-to-bracket']" />
-                <span>تسجيل خروج</span>
-              </div>
-            </div>
-            <div
-              class="main_popup bg-transparent"
-              v-if="state"
-              @click="State"
-            ></div>
-          </div>
+            </template>
+            <v-list>
+              <v-list-item>
+                <div style="position: relative">
+                  <div class="user" v-if="state">
+                    <div
+                      style="
+                        background: #fff;
+                        color: var(--main-color);
+                        padding: 10px;
+                        border-radius: 5px;
+                        margin-bottom: 5px;
+                        border: 1px solid var(--main-color);
+                      "
+                      class="hover-0"
+                    >
+                      <v-list-item-title class="flex align-center gap-1.5">
+                        <span>👋🏻</span>
+                        <span> أهلا {{ thetype }} {{ UserName }} </span>
+                      </v-list-item-title>
+                    </div>
+                    <div
+                      style="
+                        background: #fff;
+                        color: var(--main-color);
+                        padding: 10px;
+                        border-radius: 5px;
+                        margin-bottom: 5px;
+                        border: 1px solid var(--main-color);
+                        cursor: pointer;
+                      "
+                      class="hover-0"
+                      v-if="UserAdmin === 'User'"
+                    >
+                      <router-link to="/TheUser">
+                        <v-list-item-title
+                          class="flex align-center gap-1.5"
+                          style="color: var(--main-color)"
+                        >
+                          <font-awesome-icon :icon="['fas', 'id-card']" />
+                          <span> حسابي </span>
+                        </v-list-item-title></router-link
+                      >
+                    </div>
+                    <div
+                      style="
+                        background: #fff;
+                        color: var(--main-color);
+                        padding: 10px;
+                        border-radius: 5px;
+                        margin-bottom: 5px;
+                        border: 1px solid var(--main-color);
+                        cursor: pointer;
+                      "
+                      class="hover-0"
+                      v-if="UserAdmin === 'Admin'"
+                    >
+                      <router-link to="/AdminPage"
+                        ><v-list-item-title
+                          class="flex align-center gap-1.5"
+                          style="color: var(--main-color)"
+                        >
+                          <font-awesome-icon :icon="['fas', 'user-tie']" />
+                          <span> الإشراف </span>
+                        </v-list-item-title></router-link
+                      >
+                    </div>
+                    <div
+                      style="
+                        background: #fff;
+                        color: var(--main-color);
+                        padding: 10px;
+                        border-radius: 5px;
+                        margin-bottom: 5px;
+                        border: 1px solid var(--main-color);
+                        cursor: pointer;
+                      "
+                      @click="SignOut"
+                      class="hover-0"
+                    >
+                      <v-list-item-title
+                        class="flex align-center gap-1.5"
+                        style="color: var(--main-color)"
+                      >
+                        <font-awesome-icon
+                          :icon="['fas', 'arrow-right-to-bracket']"
+                        />
+                        <span class="cursor-pointer"> تسجيل خروج </span>
+                      </v-list-item-title>
+                    </div>
+                  </div>
+                  <div
+                    class="main_popup bg-transparent"
+                    v-if="state"
+                    @click="State"
+                  ></div>
+                </div>
+              </v-list-item>
+            </v-list>
+          </v-menu>
         </div>
 
         <div
@@ -113,9 +178,37 @@ border:1px solid #eee
             </div>
           </template>
           <v-list>
+            <v-list-item-title class="mobile">
+              <div
+                class="registr flex gap-2.5 items-center cursor-pointer bg-[#eee] p-2.5 rounded-md"
+                style="
+                  border: 1px solid var(--main-color);
+                  color: var(--main-color);
+                "
+                v-if="!UserState"
+                @click="close_2"
+              >
+                <font-awesome-icon :icon="['fas', 'user-plus']" />
+                <span>حساب جديد</span>
+              </div>
+            </v-list-item-title>
+            <v-list-item-title class="mobile">
+              <div
+                class="login flex gap-2.5 items-center cursor-pointer bg-[#eee] p-2.5 rounded-md"
+                v-if="!UserState"
+                @click="close_1"
+                style="
+                  border: 1px solid var(--main-color);
+                  color: var(--main-color);
+                "
+              >
+                <font-awesome-icon :icon="['fas', 'user-lock']" />
+                <span>تسجيل دخول</span>
+              </div>
+            </v-list-item-title>
             <v-list-item v-for="(item, i) in items" :key="i">
               <a href="#"
-                ><v-list-item-title>{{ item.title }}</v-list-item-title>
+                ><v-list-item-title>{{ item.title }} </v-list-item-title>
               </a>
             </v-list-item>
           </v-list>
@@ -153,6 +246,7 @@ export default {
   emits: ["State"],
   mounted() {
     this.UserStateFunction();
+    this.Header();
   },
   data() {
     return {
@@ -167,7 +261,7 @@ export default {
       thetype: "",
       visitorCount: null,
       items: [
-        { title: "أحدث الأخبار" },
+        // { title: "أحدث الأخبار" },
         { title: "الفرق الدراسية" },
         { title: "معرض الصور" },
         { title: "تواصل معنا" },
@@ -184,6 +278,15 @@ export default {
     },
   },
   methods: {
+    Header() {
+      window.onscroll = () => {
+        if (window.scrollY === 0) {
+          document.querySelector(".Header").style.background = "transparent";
+        } else {
+          document.querySelector(".Header").style.background = "#fff";
+        }
+      };
+    },
     async TheState() {
       try {
         const q_Admin = query(
@@ -270,12 +373,13 @@ export default {
       if (this.UserState) {
         var words = this.UserName.split(" ");
         console.log(words.slice(0, -1));
-        this.firstLetters = words
-          .slice(0, -1)
-          .map(function (word) {
-            return word.charAt(0) || "";
-          })
-          .join(" ");
+        // this.firstLetters = words
+        //   .slice(0, -3)
+        //   .map(function (word) {
+        //     return word.charAt(0) || "";
+        //   })
+        //   .join(" ");
+        this.firstLetters = words[0].charAt(0) + " " + words[1].charAt(0);
         console.log(this.firstLetters);
       }
     },
@@ -283,6 +387,15 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.Header {
+  transition: 0.5s;
+}
+.hover-0:hover .v-list-item-title {
+  color: #fff !important;
+}
+// .mobile {
+//   display: none;
+// }
 @media (min-width: 1200px) {
 }
 
@@ -291,12 +404,18 @@ export default {
 
 @media (max-width: 767px) {
   .container {
-    flex-direction: column;
+    flex-direction: row;
     .logo {
-      width: 100%;
+      width: fit-content;
+      img {
+        height: 65px;
+      }
+      span {
+        display: none;
+      }
     }
     .left {
-      width: 100%;
+      width: fit-content;
       justify-content: space-between;
       .links {
         width: 90%;
@@ -304,6 +423,9 @@ export default {
           justify-content: space-between;
         }
       }
+    }
+    .mobile {
+      display: flex;
     }
   }
 }

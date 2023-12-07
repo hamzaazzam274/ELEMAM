@@ -1,14 +1,9 @@
 <template>
-  <div class="TheLanding p-2.5">
-    <div class="container relative mt-0">
-      <div class="flex justify-end w-100 absolute bottom-10 left-0 icon">
-        <img
-          src="../assets/Animation - 1701644199286.gif"
-          alt=""
-          width="50px"
-          class="law"
-        />
-      </div>
+  <div
+    class="TheLanding p-2.5"
+    style="margin: 0; min-height: 122vh; padding-bottom: 50px"
+  >
+    <div class="container relative" style="margin-top: 140px">
       <div class="flex justify-end w-100 absolute bottom-14 left-0">
         <img
           src="../assets/Animation - 1701642743520.gif"
@@ -18,12 +13,16 @@
         />
       </div>
       <div class="flex justify-center items-center h-80 contain">
-        <div class="right w-1/2">
-          <img
-            src="../assets/WhatsApp Image 2023-12-03 at 11.57.38 PM.jpeg"
-            alt=""
-            class="m-auto"
-          />
+        <div class="right w-1/2 relative">
+          <img src="../assets/الامام.png" alt="" class="m-auto" />
+          <div class="absolute -bottom-2.5">
+            <img
+              src="../assets/Animation - 1701644199286.gif"
+              alt=""
+              width="50px"
+              class="law"
+            />
+          </div>
         </div>
         <div class="left w-1/2 flex flex-col justify-center gap-2.5">
           <h2 class="title" style="font-size: 35px">د /</h2>
@@ -68,7 +67,7 @@
             </v-dialog>
           </div>
           <div style="width: fit-content">
-            <v-btn class="button_1">
+            <v-btn class="button_1" style="background: transparent">
               <font-awesome-icon :icon="['fas', 'circle-question']" />
               <span>لماذا تختار كلية الشريعة و القانون</span>
 
@@ -76,7 +75,10 @@
                 <v-card>
                   <div class="flex justify-between items-center p-2.5">
                     <v-card-title style="padding: 0px !important">
-                      <div class="title_1_1 flex items-center gap-2.5">
+                      <div
+                        class="title_1_1 flex items-center gap-2.5"
+                        style="background: transparent"
+                      >
                         <font-awesome-icon :icon="['fas', 'scale-balanced']" />
                         <span>لماذا كلية الشريعة و القانون</span>
                       </div>
@@ -152,7 +154,7 @@ export default {
   left: 140px;
 }
 img {
-  width: 300px;
+  width: 400px;
   border-radius: 5px;
 }
 .law {
@@ -234,7 +236,7 @@ img {
     }
   }
   img.m-auto {
-    width: 145px;
+    // width: 145px;
   }
   .icon {
     bottom: 378px;

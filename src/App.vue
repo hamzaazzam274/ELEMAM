@@ -1,6 +1,6 @@
 <template>
   <TheHeader />
-  <router-view class="CC" />
+  <router-view />
   <ContactUs />
 </template>
 <script>
@@ -103,7 +103,13 @@ p {
 .bcolor {
   background: var(--main-color);
 }
-
+.hover-0 {
+  transition: 0.3s;
+}
+.hover-0:hover {
+  background: var(--main-color) !important;
+  color: #fff !important;
+}
 .main_title {
   color: var(--main-color);
   text-align: center;

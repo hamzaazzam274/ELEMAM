@@ -423,6 +423,7 @@
         </div>
       </div>
     </div>
+    <div @click="ThePay">ThePay</div>
   </div>
 </template>
 
@@ -514,6 +515,105 @@ export default {
     }, 100);
   },
   methods: {
+    GetToken() {},
+    // async ThePay() {
+    //   // https://elemam.vercel.app/TheUser
+    //   const axios = require("axios");
+
+    //   const myData = [];
+    //   // Merchant details
+    //   myData["merchant_id"] = "10000100";
+    //   myData["merchant_key"] = "46f0cd694581a";
+    //   myData["return_url"] = "http://www.yourdomain.co.za/return_url";
+    //   myData["cancel_url"] = "http://www.yourdomain.co.za/cancel_url";
+    //   myData["notify_url"] = "http://www.yourdomain.co.za/notify_url";
+    //   // Buyer details
+    //   myData["name_first"] = "First Name";
+    //   myData["name_last"] = "Last Name";
+    //   myData["email_address"] = "test@test.com";
+    //   // Transaction details
+    //   myData["m_payment_id"] = "1234";
+    //   myData["amount"] = "10.00";
+    //   myData["item_name"] = "Order#123";
+
+    //   // Generate signature
+    //   const myPassphrase = "jt7NOE43FZPn";
+    //   myData["signature"] = generateSignature(myData, myPassphrase);
+
+    //   // let htmlForm = `<form action="https://${pfHost}/eng/process" method="post">`;
+    //   // for (let key in myData) {
+    //   //   if (myData.hasOwnProperty(key)) {
+    //   //     value = myData[key];
+    //   //     if (value !== "") {
+    //   //       htmlForm += `<input name="${key}" type="hidden" value="${value.trim()}" />`;
+    //   //     }
+    //   //   }
+    //   // }
+    //   console.lod(myData);
+    //   // htmlForm += '<input type="submit" value="Pay Now" /></form>';
+
+    //   const dataToString = (dataArray) => {
+    //     // Convert your data array to a string
+    //     let pfParamString = "";
+    //     for (let key in dataArray) {
+    //       if (dataArray.hasOwnProperty(key)) {
+    //         pfParamString += `${key}=${encodeURIComponent(
+    //           dataArray[key].trim()
+    //         ).replace(/%20/g, "+")}&`;
+    //       }
+    //     }
+    //     // Remove last ampersand
+    //     return pfParamString.slice(0, -1);
+    //   };
+
+    //   const generatePaymentIdentifier = async (pfParamString) => {
+    //     const result = await axios
+    //       .post(`https://www.payfast.co.za/onsite/process`, pfParamString)
+    //       .then((res) => {
+    //         return res.data.uuid || null;
+    //       })
+    //       .catch((error) => {
+    //         console.error(error);
+    //       });
+    //     console.log("res.data", result);
+    //     return result;
+    //   };
+
+    //   const crypto = require("crypto");
+
+    //   const generateSignature = (data, passPhrase = null) => {
+    //     // Create parameter string
+    //     let pfOutput = "";
+    //     for (let key in data) {
+    //       if (data.hasOwnProperty(key)) {
+    //         if (data[key] !== "") {
+    //           pfOutput += `${key}=${encodeURIComponent(
+    //             data[key].trim()
+    //           ).replace(/%20/g, "+")}&`;
+    //         }
+    //       }
+    //     }
+
+    //     // Remove last ampersand
+    //     let getString = pfOutput.slice(0, -1);
+    //     if (passPhrase !== null) {
+    //       getString += `&passphrase=${encodeURIComponent(
+    //         passPhrase.trim()
+    //       ).replace(/%20/g, "+")}`;
+    //     }
+
+    //     return crypto.createHash("md5").update(getString).digest("hex");
+    //   };
+    //   // Generate signature (see Custom Integration -> Step 2)
+    //   myData["signature"] = generateSignature(myData, passPhrase);
+
+    //   // Convert the data array to a string
+    //   const pfParamString = dataToString(myData);
+
+    //   // Generate payment identifier
+    //   const identifier = await generatePaymentIdentifier(pfParamString);
+    //   console.log(identifier);
+    // },
     AllTest() {
       this.SubName = `جميع اختبارات ${this.Class}`;
       this.BillPrice = 100;

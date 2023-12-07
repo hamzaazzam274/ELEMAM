@@ -1,7 +1,6 @@
-const path = require("path");
-
 module.exports = {
-  // ... other configurations
+  // ... أعدادات webpack الأخرى
+
   resolve: {
     fallback: {
       crypto: require.resolve("crypto-browserify"),

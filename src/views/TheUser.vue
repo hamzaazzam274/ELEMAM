@@ -1,32 +1,93 @@
 <template>
-  <div class="container">
+  <div class="container" style="margin-top: 175px">
+    <div
+      class="title flex items-center gap-2.5 mb-5"
+      style="
+        font-size: 30px;
+        color: var(--main-color);
+        font-weight: bold;
+        font-family: system-ui;
+      "
+    >
+      <font-awesome-icon :icon="['fas', 'id-card']" />
+      <span>حسابي</span>
+    </div>
     <div class="User_file flex items-center">
-      <div class="data w-1/2 flex flex-col gap-2.5">
-        <div class="name">
+      <div
+        class="data w-1/2 flex flex-col gap-2.5"
+        style="background: #fafafa; padding: 10px; border-radius: 5px"
+      >
+        <img
+          src="../assets/animation_lolk2w1w_small.gif"
+          alt=""
+          style="width: 100px; margin: auto"
+          v-if="ShowImg"
+        />
+        <div
+          class="name"
+          style="
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            background: #fff;
+          "
+        >
           <font-awesome-icon :icon="['fas', 'user-graduate']" />
           <span>
             {{ AllName }}
           </span>
         </div>
-        <div class="phone flex items-center gap-2.5">
+        <div
+          class="phone flex items-center gap-2.5"
+          style="
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            background: #fff;
+          "
+        >
           <font-awesome-icon icon="fa-solid fa-phone" />
           <span>{{ phone }}</span>
         </div>
-        <div class="phone flex items-center gap-2.5">
+        <div
+          class="phone flex items-center gap-2.5"
+          style="
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            background: #fff;
+          "
+        >
           <font-awesome-icon :icon="['fas', 'at']" />
           <span>{{ email }}</span>
         </div>
-        <div class="location flex items-center gap-2.5">
+        <div
+          class="location flex items-center gap-2.5"
+          style="
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            background: #fff;
+          "
+        >
           <font-awesome-icon :icon="['fas', 'location-dot']" />
           <span>{{ college_place }}</span>
         </div>
-        <div class="class flex items-center gap-2.5">
+        <div
+          class="class flex items-center gap-2.5"
+          style="
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            background: #fff;
+          "
+        >
           <font-awesome-icon :icon="['fas', 'chalkboard-user']" />
           <span>{{ Class }} - {{ Lang }}</span>
         </div>
       </div>
       <div class="result w-1/2 flex items-center justify-center flex-col">
-        <div>{{ TotalResult }}%</div>
+        <div>{{ TotalResult || 0 }}%</div>
         <div>{{ Appreciations }}</div>
         <div>{{ Ranking }}</div>
       </div>
@@ -111,6 +172,7 @@ export default {
       Ranking: "",
       TypeOfClass: "",
       User: "",
+      ShowImg: true,
     };
   },
   methods: {
@@ -123,10 +185,10 @@ export default {
       const studentsCollection = collection(db, "الطلاب");
       const querySnapshot = await getDocs(studentsCollection);
       const documentRef = doc(db, "الطلاب", localStorage.getItem("userid"));
-
+      this.ShowImg = false;
       // تحديث الوثيقة
       await updateDoc(documentRef, {
-        AllResults: `${Data}`,
+        AllResults: `${Data || 0}`,
       });
       let array = [];
       querySnapshot.forEach((doc) => {
