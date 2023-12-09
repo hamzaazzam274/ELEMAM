@@ -1,5 +1,5 @@
 <template>
-  <div class="TheGallary">
+  <div class="TheGallary animate__backInDown" id="TheGallary">
     <div class="container">
       <div class="main_title">معرض الصور</div>
       <div class="buttons">
@@ -8,33 +8,35 @@
         <div>في الأكاديمية</div>
       </div>
       <div class="box flex justify-between gap-2.5 flex-wrap">
+        <div class="img1">
+          <img
+            class="image1"
+            src="../assets/370163562_754495903355628_2280858242050324458_n.jpg"
+            alt=""
+          />
+        </div>
         <img
-          class=""
+          class="img2"
           src="../assets/370163562_754495903355628_2280858242050324458_n.jpg"
           alt=""
         />
         <img
-          class=""
+          class="img3"
           src="../assets/370163562_754495903355628_2280858242050324458_n.jpg"
           alt=""
         />
         <img
-          class=""
+          class="img4"
           src="../assets/370163562_754495903355628_2280858242050324458_n.jpg"
           alt=""
         />
         <img
-          class=""
+          class="img5"
           src="../assets/370163562_754495903355628_2280858242050324458_n.jpg"
           alt=""
         />
         <img
-          class=""
-          src="../assets/370163562_754495903355628_2280858242050324458_n.jpg"
-          alt=""
-        />
-        <img
-          class=""
+          class="img6"
           src="../assets/370163562_754495903355628_2280858242050324458_n.jpg"
           alt=""
         />
@@ -102,5 +104,49 @@ img {
       width: 48%;
     }
   }
+}
+.img1 {
+  display: grid;
+  place-items: center;
+  transition: 0.7s ease;
+  border-radius: px;
+  --border-size: 5px;
+  --border-angle: 0turn;
+  width: 30%;
+  background-image: conic-gradient(
+      from var(--border-angle),
+      #213,
+      #112 50%,
+      #213
+    ),
+    conic-gradient(from var(--border-angle), transparent 20%, #08f, #f03);
+  background-size: calc(100% - (var(--border-size) * 2))
+      calc(100% - (var(--border-size) * 2)),
+    cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+
+  animation: bg-spin 3s linear infinite;
+  @keyframes bg-spin {
+    to {
+      --border-angle: 1turn;
+    }
+  }
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+@property --border-angle {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 0turn;
+}
+.image1 {
+  width: 98%;
+  height: 98%;
+  border-radius: 0px;
+  //padding: 1px 0 0 1px;
 }
 </style>

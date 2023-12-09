@@ -1,10 +1,10 @@
 <template>
-  <div class="ContactUs bg-[#fafafa] mt-20">
+  <div id="ContactUs" class="ContactUs mt-20">
     <div class="container flex flex-col justify-center items-center">
       <div class="Feat_1 flex w-100 justify-between">
         <a
           href="https://www.facebook.com/groups/546417753365502/?ref=share"
-          class="feat flex flex-col gap-2.5 p-2.5 rounded w-24"
+          class="feat flex flex-col gap-2.5 p-2.5 rounded w-24 hover:bg-[#33d1d6ef]"
         >
           <font-awesome-icon
             :icon="['fab', 'facebook']"
@@ -14,7 +14,7 @@
         </a>
         <a
           href="https://www.youtube.com/channel/UCOB7iG7oVlpsYfI5BwK_i8w"
-          class="feat flex flex-col gap-2.5 p-2.5 rounded w-24"
+          class="feat flex flex-col gap-2.5 p-2.5 rounded w-24 hover:bg-[#33d1d6ef]"
         >
           <font-awesome-icon
             :icon="['fab', 'youtube']"
@@ -24,7 +24,7 @@
         </a>
         <a
           href="https://www.facebook.com/Dr-Mohamed-El-Emam-101533221382032/"
-          class="feat flex flex-col gap-2.5 p-2.5 rounded w-24"
+          class="feat flex flex-col gap-2.5 p-2.5 rounded w-24 hover:bg-[#33d1d6ef]"
         >
           <font-awesome-icon
             :icon="['fab', 'facebook']"
@@ -32,7 +32,9 @@
           />
           <div class="text">د / محمد الإمام</div>
         </a>
-        <a class="feat flex flex-col gap-2.5 p-2.5 rounded w-24">
+        <a
+          class="feat flex flex-col gap-2.5 p-2.5 rounded w-24 hover:bg-[#33d1d6ef]"
+        >
           <font-awesome-icon
             :icon="['fas', 'phone']"
             class="text-4xl text-[#25d366]"
@@ -46,8 +48,8 @@
       </div>
       <div class="Feat_2">
         <div class="text-center Copyright">
-          <div>
-            <p>
+          <div id="#Us">
+            <p style="font-family: 'Noto Kufi Arabic', sans-serif">
               تصميم وتطوير بواسطة
               <a href="https://www.facebook.com/profile.php?id=61551365201853">
                 <strong>سالم تيم</strong>
@@ -189,5 +191,8 @@ export default {
       width: 100%;
     }
   }
+}
+#ContactUs {
+  border-top: 3px var(--main-color) solid;
 }
 </style>

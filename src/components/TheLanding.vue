@@ -1,6 +1,6 @@
 <template>
   <div
-    class="TheLanding p-2.5"
+    class="TheLanding p-2.5 animate__backInDown"
     style="margin: 0; min-height: 122vh; padding-bottom: 50px"
   >
     <div class="container relative" style="margin-top: 140px">
@@ -39,7 +39,9 @@
                 </div>
               </template>
               <v-card>
-                <div class="flex justify-between items-center p-2.5">
+                <div
+                  class="flex justify-between items-center p-2.5 text-center"
+                >
                   <v-card-title>
                     <div class="title_1_1 flex items-center gap-2.5">
                       <font-awesome-icon :icon="['fas', 'scale-balanced']" />
@@ -55,12 +57,18 @@
                   </v-btn>
                 </div>
                 <v-card-text>
-                  <div class="text-left text-[--main-color] mb-2.5 font-bold">
+                  <div class="text-right text-[--main-color] mb-2.5 font-bold">
                     ({{ data_1.length }}) مجال
                   </div>
-                  <div v-for="(data, index) in data_1" :key="data" class="feat">
+                  <div
+                    v-for="(data, index) in data_1"
+                    :key="data"
+                    class="feat hover:bg-emerald-700 hover:text-[white]"
+                  >
                     <span>{{ index + 1 }}</span>
-                    <div>{{ data }}</div>
+                    <div>
+                      {{ data }}
+                    </div>
                   </div>
                 </v-card-text>
               </v-card>
@@ -91,7 +99,13 @@
                       />
                     </v-btn>
                   </div>
-                  <v-card-text style="font-family: system-ui; line-height: 2">
+                  <v-card-text
+                    style="
+                      font-family: system-ui;
+                      line-height: 2;
+                      font-family: 'Noto Kufi Arabic', sans-serif;
+                    "
+                  >
                     كلية الشريعة والقانون هي من الكليات ذات الشأن العالى والرفعه
                     في مصر، وهي إحدى أقدم وأعرق كليات جامعة الأزهر وهي كلية خاصة
                     بدراسة العلوم الشرعية (الفقه والفقه المقارن وأصول الفقه)
@@ -218,6 +232,7 @@ img {
     &:hover {
       background: var(--main-color) !important;
       color: #fff !important;
+      animation: bounce-top 0.9s steps(2, start) both;
     }
   }
 }
@@ -248,5 +263,27 @@ img {
       width: 100%;
     }
   }
+}
+.button_2 {
+  transition: 0.5s ease;
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+.button_1 {
+  transition: 0.5s ease;
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+.right {
+  transition: 0.5s ease;
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+.abc {
+  display: grid;
+  place-items: center;
 }
 </style>

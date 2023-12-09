@@ -41,21 +41,21 @@
         <div class="content">
           <div class="selecte_1 flex justify-center gap-2.5 flex-wrap mb-2.5">
             <span
-              class="border-gray-300 border rounded flex justify-center items-center p-10 cursor-pointer hover_color_border w-5/12"
+              class="abc border-gray-300 border rounded flex justify-center items-center p-10 cursor-pointer hover_color_border w-5/12"
               >كلية الشريعة و القانون</span
             >
             <span
-              class="border-gray-300 border rounded flex justify-center items-center p-10 cursor-pointer hover_color_border w-5/12"
+              class="abc border-gray-300 border rounded flex justify-center items-center p-10 cursor-pointer hover_color_border w-5/12"
               >معهد أعوان القضاء</span
             >
           </div>
           <div class="selecte_2 hidden flex justify-center gap-2.5 flex-wrap">
             <span
-              class="border-gray-300 border rounded flex justify-center items-center p-10 cursor-pointer hover_color_border w-5/12"
+              class="abc border-gray-300 border rounded flex justify-center items-center p-10 cursor-pointer hover_color_border w-5/12"
               >عربي</span
             >
             <span
-              class="border-gray-300 border rounded flex justify-center items-center p-10 cursor-pointer hover_color_border w-5/12"
+              class="abc border-gray-300 border rounded flex justify-center items-center p-10 cursor-pointer hover_color_border w-5/12"
               >English</span
             >
             <div class="button w-85 mb-2.5">
@@ -193,5 +193,9 @@ export default {
       flex-direction: column;
     }
   }
+}
+.abc:hover {
+  background-color: var(--main-color);
+  color: white;
 }
 </style>

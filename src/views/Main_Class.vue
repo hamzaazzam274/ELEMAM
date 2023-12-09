@@ -1,5 +1,5 @@
 <template>
-  <div class="Main_Class pt-2.5">
+  <div class="Main_Class">
     <div class="container">
       <AddSub
         v-if="showAddSub"
@@ -39,7 +39,7 @@
         </div>
       </section>
       <div style="min-height: 58vh" class="mt-2.5">
-        <div class="text-left my-2.5 p-2.5 text-[--main-color]">
+        <div class="text-right my-2.5 p-2.5 text-[--main-color]">
           ({{ AllData.length }}) مادة
         </div>
         <div
@@ -1163,5 +1163,8 @@ nav {
       justify-content: center;
     }
   }
+}
+.Main_Class {
+  margin-top: 300px;
 }
 </style>
