@@ -1,6 +1,6 @@
 <template>
   <div
-    class="TheLanding p-2.5 animate__backInDown"
+    class="TheLanding p-2.5"
     style="margin: 0; min-height: 122vh; padding-bottom: 50px"
   >
     <div class="container relative" style="margin-top: 140px">
@@ -12,7 +12,10 @@
           class="law"
         />
       </div>
-      <div class="flex justify-center items-center h-80 contain">
+      <div
+        data-aos="fade-right"
+        class="flex justify-center items-center h-80 contain"
+      >
         <div class="right w-1/2 relative">
           <img src="../assets/الامام.png" alt="" class="m-auto" />
           <div class="absolute -bottom-2.5">
